@@ -2,8 +2,8 @@
 
 namespace WizardGame {
 
-Player::Player(Vec2 starting_position)
-    : Entity(starting_position)
+Player::Player(Collider collider)
+    : Entity(collider)
 {
 }
 

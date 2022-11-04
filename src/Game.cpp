@@ -7,7 +7,7 @@
 namespace WizardGame {
 
 Game::Game()
-    : m_player(Vec2 { 300, 300 })
+    : m_player(Collider { 300, 300, 50, 50 })
     , m_window(nullptr)
     , m_renderer(nullptr)
 {
