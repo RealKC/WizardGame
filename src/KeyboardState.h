@@ -4,6 +4,8 @@
 
 namespace WizardGame {
 
+/// Clasa asta este pentru movement-ul player-ului, adica lucruri pe care vrei sa le faci cat timp
+/// o tasta e apasata
 class KeyboardState {
 public:
     KeyboardState();
