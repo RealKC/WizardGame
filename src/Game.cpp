@@ -54,7 +54,10 @@ int Game::run()
         SDL_RenderClear(m_renderer);
         SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(m_renderer);
+        render_bullets();
         render_entities();
+
+        update_bullet_positions();
     }
 }
 
@@ -66,12 +69,34 @@ void Game::render_entities()
     SDL_RenderPresent(m_renderer);
 }
 
+void Game::render_bullets()
+{
+    for (auto& bullet : m_bullets) {
+        SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
+        SDL_SetRenderDrawColor(m_renderer, 0x00, 0xff, 0x00, 0xff);
+        SDL_RenderFillRect(m_renderer, &rect);
+        SDL_RenderPresent(m_renderer);
+    }
+}
+
+void Game::update_bullet_positions()
+{
+    for (auto& bullet : m_bullets) {
+        bullet.move();
+    }
+}
+
 void Game::handle_keyboard_event(SDL_KeyboardEvent keyboard_event)
 {
 
     int delta_x = 0;
     int delta_y = 0;
     auto key = keyboard_event.keysym.sym;
+
+    if (key == SDLK_x) {
+        m_bullets.push_back(Bullet::radial(Vec2 { 400, 400 }, Size { 25, 25 }, 3, M_PI / 2));
+        info() << "Spawned a bullet" << std::endl;
+    }
 }
 
 void Game::handle_player_movement()

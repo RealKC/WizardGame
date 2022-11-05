@@ -13,6 +13,8 @@ public:
 
     int x() const { return m_x; }
     int y() const { return m_y; }
+    int w() const { return m_w; }
+    int h() const { return m_h; }
 
 private:
     int m_x;
