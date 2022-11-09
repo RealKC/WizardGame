@@ -18,6 +18,7 @@ public:
 private:
     int initialize_sdl();
 
+    void event_loop();
     void handle_keyboard_event(SDL_KeyboardEvent);
     void handle_player_movement();
 
@@ -29,6 +30,7 @@ private:
     // Game state
     Player m_player;
     std::vector<Bullet> m_bullets;
+    bool m_quit;
 
     // Render state
     SDL_Window* m_window;

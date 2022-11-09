@@ -8,6 +8,7 @@ namespace WizardGame {
 
 Game::Game()
     : m_player(Collider { 300, 300, 50, 50 })
+    , m_quit(false)
     , m_window(nullptr)
     , m_renderer(nullptr)
 {
@@ -30,15 +31,47 @@ int Game::run()
         return rc;
     }
 
-    while (true) {
+    while (!m_quit) {
         SDL_Event event;
-        SDL_WaitEvent(&event);
+        uint32_t start_ticks = SDL_GetTicks();
 
+        event_loop();
+        handle_player_movement();
+
+        SDL_RenderClear(m_renderer);
+        SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
+        SDL_RenderClear(m_renderer);
+        render_bullets();
+        render_entities();
+        SDL_RenderPresent(m_renderer);
+
+        update_bullet_positions();
+
+        uint32_t end_ticks = SDL_GetTicks();
+
+        uint32_t passed_time = end_ticks - start_ticks;
+        if (passed_time > 16) {
+            // we're lagging, don't do anything
+            error() << "WE'RE LAGGING!!!!\n";
+        } else {
+            // Lock the framerate to 60fps
+            SDL_Delay(16 - passed_time);
+        }
+    }
+
+    return 0;
+}
+
+void Game::event_loop()
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_QUIT:
             info() << "Quitting...";
             SDL_Quit();
-            return 0;
+            m_quit = true;
+            break;
         case SDL_KEYDOWN:
             handle_keyboard_event(event.key);
             break;
@@ -48,16 +81,6 @@ int Game::run()
             info() << "Unhandled event type: " << event.type << std::endl;
             break;
         }
-
-        handle_player_movement();
-
-        SDL_RenderClear(m_renderer);
-        SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
-        SDL_RenderClear(m_renderer);
-        render_bullets();
-        render_entities();
-
-        update_bullet_positions();
     }
 }
 
@@ -66,7 +89,6 @@ void Game::render_entities()
     SDL_SetRenderDrawColor(m_renderer, 0xff, 0x00, 0x00, 0xff);
     SDL_Rect player_rect { m_player.position().x, m_player.position().y, 50, 50 };
     SDL_RenderFillRect(m_renderer, &player_rect);
-    SDL_RenderPresent(m_renderer);
 }
 
 void Game::render_bullets()
@@ -75,7 +97,6 @@ void Game::render_bullets()
         SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
         SDL_SetRenderDrawColor(m_renderer, 0x00, 0xff, 0x00, 0xff);
         SDL_RenderFillRect(m_renderer, &rect);
-        SDL_RenderPresent(m_renderer);
     }
 }
 
@@ -94,7 +115,8 @@ void Game::handle_keyboard_event(SDL_KeyboardEvent keyboard_event)
     auto key = keyboard_event.keysym.sym;
 
     if (key == SDLK_x) {
-        m_bullets.push_back(Bullet::radial(Vec2 { 400, 400 }, Size { 25, 25 }, 3, M_PI / 2));
+        //        m_bullets.push_back(Bullet::radial(Vec2 { 400, 400 }, Size { 25, 25 }, 3, M_PI / 2));
+        m_bullets.push_back(Bullet::vertical(Vec2 { 400, 400 }, Size { 25, 25 }));
         info() << "Spawned a bullet" << std::endl;
     }
 }
