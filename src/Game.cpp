@@ -154,7 +154,12 @@ int Game::initialize_sdl()
         return 1;
     }
 
-    m_window = SDL_CreateWindow("Wizard Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
+    m_window = SDL_CreateWindow(
+        "Wizard Game",
+        SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,
+        WINDOW_WIDTH, WINDOW_HEIGHT,
+
+        SDL_WINDOW_SHOWN);
     if (!m_window) {
         error() << "Failed to create SDL window: " << SDL_GetError() << std::endl;
         return 2;

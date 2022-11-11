@@ -10,6 +10,9 @@ namespace WizardGame {
 
 class Game {
 public:
+    static constexpr int WINDOW_WIDTH = 640;
+    static constexpr int WINDOW_HEIGHT = 480;
+
     Game();
     ~Game();
 

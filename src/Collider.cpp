@@ -1,4 +1,5 @@
 #include "Collider.h"
+#include "Game.h"
 
 namespace WizardGame {
 
@@ -55,8 +56,12 @@ bool Collider::check_collision_with(Collider const& other) const
 
 void Collider::apply_position_delta(int delta_x, int delta_y)
 {
-    m_x += delta_x;
-    m_y += delta_y;
+    int new_x = m_x + delta_x;
+    int new_y = m_y + delta_y;
+    if (new_x >= 0 && new_x + m_w <= Game::WINDOW_WIDTH)
+        m_x += delta_x;
+    if (new_y >= 0 && new_y + m_h <= Game::WINDOW_HEIGHT)
+        m_y += delta_y;
 }
 
 }
