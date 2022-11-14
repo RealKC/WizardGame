@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Collider.h"
+#include "Size.h"
 #include "Vec2.h"
 
 namespace WizardGame {
@@ -15,6 +16,8 @@ public:
 
 protected:
     Entity(Collider);
+
+    Size size() const { return Size { m_collider.w(), m_collider.h() }; }
 
 private:
     Collider m_collider;
