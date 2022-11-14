@@ -11,7 +11,7 @@ Player::~Player()
 {
 }
 
-Bullet Player::shoot() const
+Bullet Player::make_bullet() const
 {
     constexpr Size BULLET_SIZE = Size { 40, 40 };
     auto bullet_coords = position() - Vec2 { 0, BULLET_SIZE.width };

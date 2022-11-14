@@ -29,10 +29,12 @@ private:
     void render_bullets();
 
     void update_bullet_positions();
+    void check_collisions();
 
     // Game state
     Player m_player;
-    std::vector<Bullet> m_bullets;
+    std::vector<Bullet> m_player_bullets;
+    std::vector<Bullet> m_enemy_bullets;
     bool m_quit;
 
     // Render state

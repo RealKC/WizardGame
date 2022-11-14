@@ -93,7 +93,7 @@ void Game::render_entities()
 
 void Game::render_bullets()
 {
-    for (auto& bullet : m_bullets) {
+    for (auto& bullet : m_player_bullets) {
         SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
         SDL_SetRenderDrawColor(m_renderer, 0x00, 0xff, 0x00, 0xff);
         SDL_RenderFillRect(m_renderer, &rect);
@@ -102,9 +102,23 @@ void Game::render_bullets()
 
 void Game::update_bullet_positions()
 {
-    for (auto& bullet : m_bullets) {
-        bullet.move();
+    int i = 0;
+    while (i < m_player_bullets.size()) {
+        auto has_hit_wall = m_player_bullets[i].move();
+        if (has_hit_wall == HasHitWall::Yes) {
+            std::swap(m_player_bullets[i], m_player_bullets.back());
+            m_player_bullets.pop_back();
+        } else {
+            ++i;
+        }
     }
+}
+
+void Game::check_collisions()
+{
+    // Check if player bullets hit an enemy
+
+    // Check if enemy bullets hit the player
 }
 
 void Game::handle_keyboard_event(SDL_KeyboardEvent keyboard_event)
@@ -115,9 +129,7 @@ void Game::handle_keyboard_event(SDL_KeyboardEvent keyboard_event)
     auto key = keyboard_event.keysym.sym;
 
     if (key == SDLK_x) {
-        //        m_bullets.push_back(Bullet::radial(Vec2 { 400, 400 }, Size { 25, 25 }, 3, M_PI / 2));
-        //        m_bullets.push_back(Bullet::liniar(Vec2 { 400, 400 }, Size { 25, 25 }, Direction::Up));
-        m_bullets.push_back(m_player.shoot());
+        m_player_bullets.push_back(m_player.make_bullet());
         info() << "Spawned a bullet" << std::endl;
     }
 }

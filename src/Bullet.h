@@ -20,7 +20,7 @@ public:
 
     ~Bullet();
 
-    void move();
+    HasHitWall move();
 
     Vec2 position() const;
     Size size() const;

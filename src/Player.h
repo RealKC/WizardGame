@@ -11,7 +11,7 @@ public:
     Player(Collider);
     ~Player() override;
 
-    Bullet shoot() const;
+    Bullet make_bullet() const;
 
 private:
 };

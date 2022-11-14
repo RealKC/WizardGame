@@ -54,19 +54,27 @@ bool Collider::check_collision_with(Collider const& other) const
     return true;
 }
 
-void Collider::apply_position_delta(int delta_x, int delta_y)
+HasHitWall Collider::apply_position_delta(int delta_x, int delta_y)
 {
+    auto has_hit_wall = HasHitWall::No;
+
     int new_x = m_x + delta_x;
     int new_y = m_y + delta_y;
+
     if (new_x >= 0 && new_x + m_w <= Game::WINDOW_WIDTH)
         m_x += delta_x;
+    else
+        has_hit_wall = HasHitWall::Yes;
     if (new_y >= 0 && new_y + m_h <= Game::WINDOW_HEIGHT)
         m_y += delta_y;
+    else has_hit_wall = HasHitWall::Yes;
+
+    return has_hit_wall;
 }
 
-void Collider::move_to(int x, int y)
+HasHitWall Collider::move_to(int x, int y)
 {
-    apply_position_delta(x - m_x, y - m_y);
+    return apply_position_delta(x - m_x, y - m_y);
 }
 
 }

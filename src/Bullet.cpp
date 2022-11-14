@@ -46,7 +46,7 @@ Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction)
     return radial(starting_position, size, 3, angle);
 }
 
-void Bullet::move()
+HasHitWall Bullet::move()
 {
     auto new_radius = 1 + m_distance;
     auto new_x = m_origin.x + new_radius * cos(m_angle);
@@ -54,7 +54,7 @@ void Bullet::move()
 
     m_distance = new_radius;
 
-    m_collider.move_to(new_x, new_y);
+    return m_collider.move_to(new_x, new_y);
 }
 
 Vec2 Bullet::position() const
