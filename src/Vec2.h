@@ -31,4 +31,8 @@ inline Vec2 operator-(Vec2 lhs, Vec2 rhs)
     };
 }
 
+inline bool operator==(Vec2 lhs, Vec2 rhs) {
+    return lhs.x == rhs.x && lhs.y == rhs.y;
+}
+
 }

@@ -18,13 +18,19 @@ public:
     virtual void tick(uint32_t current_time) = 0;
 
 protected:
-    Enemy(Collider collider)
-        : Entity(collider)
-    {
-    }
+    Enemy(Collider collider, Vec2 target_position);
+
+    /// Enemies spawn outside the screen and go towards a specific position on the screen
+    /// This function implements the logic for that, but it still needs to be called manually
+    /// in subclasses.
+    void move_to_target_position();
+
+private:
+    Vec2 m_target_position;
+    int m_cooldown;
 };
 
-std::unique_ptr<Enemy> make_enemy(Vec2 starting_position, Enemy::Type = Enemy::Type::Basic);
+std::unique_ptr<Enemy> make_enemy(Vec2 starting_position, Vec2 target_position, Enemy::Type = Enemy::Type::Basic);
 
 class BasicEnemy : public Enemy {
 public:
@@ -32,13 +38,13 @@ public:
     virtual void tick(uint32_t current_time) override;
 
     // ^Entity
-    virtual void render(SDL_Renderer*) override {}
+    virtual void render(SDL_Renderer*) override { }
 
 private:
-    friend std::unique_ptr<Enemy> make_enemy(Vec2, Type);
+    friend std::unique_ptr<Enemy> make_enemy(Vec2, Vec2, Type);
 
-    BasicEnemy(Collider collider)
-        : Enemy(collider)
+    BasicEnemy(Collider collider, Vec2 target_position)
+        : Enemy(collider, target_position)
     {
     }
 };
@@ -49,13 +55,13 @@ public:
     virtual void tick(uint32_t current_time) override;
 
     // ^Entity
-    virtual void render(SDL_Renderer*) override {}
+    virtual void render(SDL_Renderer*) override { }
 
 private:
-    friend std::unique_ptr<Enemy> make_enemy(Vec2, Type);
+    friend std::unique_ptr<Enemy> make_enemy(Vec2, Vec2, Type);
 
-    AdrianEnemy(Collider collider, int phase)
-        : Enemy(collider)
+    AdrianEnemy(Collider collider, Vec2 target_position, int phase)
+        : Enemy(collider, target_position)
         , m_phase(phase)
     {
     }
