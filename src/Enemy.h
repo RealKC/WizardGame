@@ -10,12 +10,10 @@ namespace WizardGame {
 class Enemy : public Entity {
 public:
     enum class Type {
-        Basic,
+        Basic = 0,
         Adrian1,
         Adrian2,
     };
-
-    std::unique_ptr<Enemy> spawn(Vec2 starting_position, Type = Type::Basic);
 
     virtual void tick(uint32_t current_time) = 0;
 
@@ -26,12 +24,14 @@ protected:
     }
 };
 
+std::unique_ptr<Enemy> make_enemy(Vec2 starting_position, Enemy::Type = Enemy::Type::Basic);
+
 class BasicEnemy : public Enemy {
 public:
     virtual void tick(uint32_t current_time) override;
 
 private:
-    friend std::unique_ptr<Enemy> Enemy::spawn(Vec2, Type);
+    friend std::unique_ptr<Enemy> make_enemy(Vec2, Type);
 
     BasicEnemy(Collider collider)
         : Enemy(collider)
@@ -44,7 +44,7 @@ public:
     virtual void tick(uint32_t current_time) override;
 
 private:
-    friend std::unique_ptr<Enemy> Enemy::spawn(Vec2, Type);
+    friend std::unique_ptr<Enemy> make_enemy(Vec2, Type);
 
     AdrianEnemy(Collider collider, int phase)
         : Enemy(collider)

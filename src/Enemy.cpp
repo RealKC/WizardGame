@@ -4,14 +4,14 @@
 
 namespace WizardGame {
 
-std::unique_ptr<Enemy> Enemy::spawn(Vec2 starting_position, Type type)
+std::unique_ptr<Enemy> make_enemy(Vec2 starting_position, Enemy::Type type)
 {
     switch (type) {
-    case Type::Basic:
+    case Enemy::Type::Basic:
         return std::unique_ptr<Enemy>(new BasicEnemy(Collider(0, 0, 0, 0)));
-    case Type::Adrian1:
+    case Enemy::Type::Adrian1:
         return std::unique_ptr<Enemy>(new AdrianEnemy(Collider(0, 0, 0, 0), 1));
-    case Type::Adrian2:
+    case Enemy::Type::Adrian2:
         return std::unique_ptr<Enemy>(new AdrianEnemy(Collider(0, 0, 0, 0), 2));
     default:
         error() << "Unknown enemy type: " << (int)type << "\n";
