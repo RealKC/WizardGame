@@ -24,8 +24,7 @@ private:
     int initialize_sdl();
 
     void event_loop();
-    void handle_keyboard_event(SDL_KeyboardEvent);
-    void handle_player_movement();
+    void handle_player_keypresses(uint32_t current_time);
 
     void render_entities();
     void render_bullets();
@@ -36,6 +35,8 @@ private:
 
     // Game state
     Player m_player;
+    uint32_t m_last_bullet_shot_time;
+
     std::vector<Bullet> m_player_bullets;
     std::vector<Bullet> m_enemy_bullets;
     std::vector<std::unique_ptr<Enemy>> m_enemies;

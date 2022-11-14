@@ -8,6 +8,7 @@ namespace WizardGame {
 
 Game::Game()
     : m_player(Collider { 300, 300, 50, 50 })
+    , m_last_bullet_shot_time(0)
     , m_quit(false)
     , m_window(nullptr)
     , m_renderer(nullptr)
@@ -37,7 +38,7 @@ int Game::run()
 
         event_loop();
 
-        handle_player_movement();
+        handle_player_keypresses(start_ticks);
         update_bullet_positions();
         tick_enemies(start_ticks);
         check_collisions();
@@ -74,13 +75,7 @@ void Game::event_loop()
             SDL_Quit();
             m_quit = true;
             break;
-        case SDL_KEYDOWN:
-            handle_keyboard_event(event.key);
-            break;
-        case SDL_KEYUP:
-            break;
         default:
-            info() << "Unhandled event type: " << event.type << std::endl;
             break;
         }
     }
@@ -130,20 +125,7 @@ void Game::check_collisions()
     // Check if enemy bullets hit the player
 }
 
-void Game::handle_keyboard_event(SDL_KeyboardEvent keyboard_event)
-{
-
-    int delta_x = 0;
-    int delta_y = 0;
-    auto key = keyboard_event.keysym.sym;
-
-    if (key == SDLK_x) {
-        m_player_bullets.push_back(m_player.make_bullet());
-        info() << "Spawned a bullet" << std::endl;
-    }
-}
-
-void Game::handle_player_movement()
+void Game::handle_player_keypresses(uint32_t current_time)
 {
     constexpr int STEP = 2;
 
@@ -167,6 +149,15 @@ void Game::handle_player_movement()
     }
 
     m_player.move_by(delta_x, delta_y);
+
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_X)) {
+        constexpr uint32_t ATTACK_COOLDOWN = 350;
+        if (current_time - m_last_bullet_shot_time >= ATTACK_COOLDOWN) {
+            // Allow the player to shoot a bullet
+            m_player_bullets.push_back(m_player.make_bullet());
+            m_last_bullet_shot_time = current_time;
+        }
+    }
 }
 
 int Game::initialize_sdl()
