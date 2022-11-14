@@ -103,7 +103,7 @@ void Game::render_bullets()
 void Game::update_bullet_positions()
 {
     for (auto& bullet : m_bullets) {
-        bullet.move();
+//        bullet.move();
     }
 }
 
@@ -116,7 +116,8 @@ void Game::handle_keyboard_event(SDL_KeyboardEvent keyboard_event)
 
     if (key == SDLK_x) {
         //        m_bullets.push_back(Bullet::radial(Vec2 { 400, 400 }, Size { 25, 25 }, 3, M_PI / 2));
-        m_bullets.push_back(Bullet::vertical(Vec2 { 400, 400 }, Size { 25, 25 }));
+//        m_bullets.push_back(Bullet::liniar(Vec2 { 400, 400 }, Size { 25, 25 }, Direction::Up));
+        m_bullets.push_back(m_player.shoot());
         info() << "Spawned a bullet" << std::endl;
     }
 }
@@ -156,7 +157,7 @@ int Game::initialize_sdl()
 
     m_window = SDL_CreateWindow(
         "Wizard Game",
-        SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         WINDOW_WIDTH, WINDOW_HEIGHT,
 
         SDL_WINDOW_SHOWN);

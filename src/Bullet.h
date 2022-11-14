@@ -6,12 +6,18 @@
 
 namespace WizardGame {
 
+enum class Direction {
+    Left,
+    Right,
+    Up,
+    Down,
+};
+
 class Bullet {
 public:
     static Bullet radial(Vec2 starting_position, Size size, int distance, float angle);
-    static Bullet horizontal(Vec2 starting_position, Size size);
-    static Bullet vertical(Vec2 starting_position, Size size);
-    
+    static Bullet liniar(Vec2 starting_position, Size, Direction direction);
+
     ~Bullet();
 
     void move();
@@ -20,17 +26,9 @@ public:
     Size size() const;
 
 private:
-    enum class Type {
-        Radial,
-        Horizontal,
-        Vertical,
-    };
+    Bullet(Collider);
 
-    Bullet(Collider, Type);
-
-    Type m_type;
     Collider m_collider;
-    // Au valoare doar daca m_type == Type::Radial
     int m_distance;
     float m_angle;
 };
