@@ -64,4 +64,9 @@ void Collider::apply_position_delta(int delta_x, int delta_y)
         m_y += delta_y;
 }
 
+void Collider::move_to(int x, int y)
+{
+    apply_position_delta(x - m_x, y - m_y);
+}
+
 }

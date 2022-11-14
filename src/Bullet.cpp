@@ -21,6 +21,7 @@ Bullet Bullet::radial(Vec2 starting_position, Size size, int distance, float ang
     auto bullet = Bullet { Collider { starting_position.x, starting_position.y, size.width, size.height } };
     bullet.m_distance = distance;
     bullet.m_angle = angle;
+    bullet.m_origin = starting_position;
 
     return bullet;
 }
@@ -30,13 +31,13 @@ Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction)
     float angle = 0;
     switch (direction) {
     case Direction::Down:
-        angle = M_PI;
-        break;
-    case Direction::Up:
         angle = M_PI_2;
         break;
-    case Direction::Left:
+    case Direction::Up:
         angle = 3 * M_PI_2;
+        break;
+    case Direction::Left:
+        angle = M_PI;
         break;
     case Direction::Right:
         angle = 0;
@@ -47,16 +48,13 @@ Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction)
 
 void Bullet::move()
 {
-    auto old_x = m_collider.x();
-    auto old_y = m_collider.y();
+    auto new_radius = 1 + m_distance;
+    auto new_x = m_origin.x + new_radius * cos(m_angle);
+    auto new_y = m_origin.y + new_radius * sin(m_angle);
 
-    auto new_radius = 0.1 + m_distance;
-    auto new_x = new_radius * cos(m_angle);
-    auto new_y = new_radius * sin(m_angle);
+    m_distance = new_radius;
 
-    info() << new_x - old_x << ' ' << new_y << std::endl;
-
-    m_collider.apply_position_delta(new_x - old_x, new_y - old_y);
+    m_collider.move_to(new_x, new_y);
 }
 
 Vec2 Bullet::position() const

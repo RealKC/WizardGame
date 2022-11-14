@@ -29,6 +29,7 @@ private:
     Bullet(Collider);
 
     Collider m_collider;
+    Vec2 m_origin;
     int m_distance;
     float m_angle;
 };
