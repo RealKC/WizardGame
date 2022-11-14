@@ -83,9 +83,11 @@ void Game::event_loop()
 
 void Game::render_entities()
 {
-    SDL_SetRenderDrawColor(m_renderer, 0xff, 0x00, 0x00, 0xff);
-    SDL_Rect player_rect { m_player.position().x, m_player.position().y, 50, 50 };
-    SDL_RenderFillRect(m_renderer, &player_rect);
+    m_player.render(m_renderer);
+
+    for (auto& enemy : m_enemies) {
+        enemy->render(m_renderer);
+    }
 }
 
 void Game::render_bullets()

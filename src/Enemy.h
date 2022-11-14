@@ -28,7 +28,11 @@ std::unique_ptr<Enemy> make_enemy(Vec2 starting_position, Enemy::Type = Enemy::T
 
 class BasicEnemy : public Enemy {
 public:
+    // ^Enemy
     virtual void tick(uint32_t current_time) override;
+
+    // ^Entity
+    virtual void render(SDL_Renderer*) override {}
 
 private:
     friend std::unique_ptr<Enemy> make_enemy(Vec2, Type);
@@ -41,7 +45,11 @@ private:
 
 class AdrianEnemy : public Enemy {
 public:
+    // ^Enemy
     virtual void tick(uint32_t current_time) override;
+
+    // ^Entity
+    virtual void render(SDL_Renderer*) override {}
 
 private:
     friend std::unique_ptr<Enemy> make_enemy(Vec2, Type);

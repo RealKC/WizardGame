@@ -19,4 +19,11 @@ Bullet Player::make_bullet() const
     return Bullet::liniar(bullet_coords, BULLET_SIZE, Direction::Up);
 }
 
+void Player::render(SDL_Renderer* renderer)
+{
+    SDL_SetRenderDrawColor(renderer, 0xff, 0x00, 0x00, 0xff);
+    SDL_Rect player_rect { position().x, position().y, size().width, size().height };
+    SDL_RenderFillRect(renderer, &player_rect);
+}
+
 }

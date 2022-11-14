@@ -13,6 +13,7 @@ public:
 
     Bullet make_bullet() const;
 
+    virtual void render(SDL_Renderer*);
 private:
 };
 
