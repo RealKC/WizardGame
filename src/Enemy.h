@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Vec2.h"
 #include <memory>
+#include <stdint.h>
 
 namespace WizardGame {
 
@@ -16,7 +17,7 @@ public:
 
     std::unique_ptr<Enemy> spawn(Vec2 starting_position, Type = Type::Basic);
 
-    virtual void tick() = 0;
+    virtual void tick(uint32_t current_time) = 0;
 
 protected:
     Enemy(Collider collider)
@@ -27,7 +28,7 @@ protected:
 
 class BasicEnemy : public Enemy {
 public:
-    virtual void tick() override;
+    virtual void tick(uint32_t current_time) override;
 
 private:
     friend std::unique_ptr<Enemy> Enemy::spawn(Vec2, Type);
@@ -40,7 +41,7 @@ private:
 
 class AdrianEnemy : public Enemy {
 public:
-    virtual void tick() override;
+    virtual void tick(uint32_t current_time) override;
 
 private:
     friend std::unique_ptr<Enemy> Enemy::spawn(Vec2, Type);

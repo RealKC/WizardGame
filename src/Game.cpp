@@ -36,7 +36,11 @@ int Game::run()
         uint32_t start_ticks = SDL_GetTicks();
 
         event_loop();
+
         handle_player_movement();
+        update_bullet_positions();
+        tick_enemies(start_ticks);
+        check_collisions();
 
         SDL_RenderClear(m_renderer);
         SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
@@ -44,8 +48,6 @@ int Game::run()
         render_bullets();
         render_entities();
         SDL_RenderPresent(m_renderer);
-
-        update_bullet_positions();
 
         uint32_t end_ticks = SDL_GetTicks();
 
@@ -111,6 +113,13 @@ void Game::update_bullet_positions()
         } else {
             ++i;
         }
+    }
+}
+
+void Game::tick_enemies(uint32_t current_time)
+{
+    for (auto& enemy : m_enemies) {
+        enemy->tick(current_time);
     }
 }
 

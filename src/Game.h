@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Bullet.h"
+#include "Enemy.h"
 #include "KeyboardState.h"
 #include "Player.h"
 #include <SDL2/SDL.h>
+#include <memory>
 #include <vector>
 
 namespace WizardGame {
@@ -30,11 +32,13 @@ private:
 
     void update_bullet_positions();
     void check_collisions();
+    void tick_enemies(uint32_t current_time);
 
     // Game state
     Player m_player;
     std::vector<Bullet> m_player_bullets;
     std::vector<Bullet> m_enemy_bullets;
+    std::vector<std::unique_ptr<Enemy>> m_enemies;
     bool m_quit;
 
     // Render state

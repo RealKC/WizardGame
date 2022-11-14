@@ -18,8 +18,8 @@ std::unique_ptr<Enemy> Enemy::spawn(Vec2 starting_position, Type type)
     }
 }
 
-void BasicEnemy::tick() { }
+void BasicEnemy::tick(uint32_t current_time) { }
 
-void AdrianEnemy::tick() { }
+void AdrianEnemy::tick(uint32_t current_time) { }
 
 }
