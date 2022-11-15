@@ -14,7 +14,7 @@ add_executable(WizardGame
         src/KeyboardState.cpp src/KeyboardState.h
         src/Collider.cpp src/Collider.h
         src/Bullet.cpp src/Bullet.h
-        src/Enemy.cpp src/Enemy.h)
+        src/Enemy.cpp src/Enemy.h src/GenericTypes.h)
 
 find_package(SDL2 REQUIRED)
 message(STATUS ${SDL2_INCLUDE_DIRS})

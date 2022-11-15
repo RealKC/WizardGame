@@ -15,7 +15,7 @@ std::unique_ptr<Enemy> make_enemy(Vec2 starting_position, Vec2 target_position, 
 {
     switch (type) {
     case Enemy::Type::Basic:
-        return std::unique_ptr<Enemy>(new BasicEnemy(Collider(0, 0, 0, 0), target_position));
+        return std::unique_ptr<Enemy>(new BasicEnemy(Collider(starting_position.x, starting_position.y, 50, 50), target_position));
     case Enemy::Type::Adrian1:
         return std::unique_ptr<Enemy>(new AdrianEnemy(Collider(0, 0, 0, 0), target_position, 1));
     case Enemy::Type::Adrian2:
@@ -31,7 +31,7 @@ void Enemy::move_to_target_position()
         return;
 
     if (m_cooldown == 0) {
-        m_cooldown = 5;
+        m_cooldown = 3;
         move_by(0, -1);
         return;
     }
@@ -39,12 +39,21 @@ void Enemy::move_to_target_position()
     --m_cooldown;
 }
 
-void BasicEnemy::tick(uint32_t current_time)
+void BasicEnemy::tick(std::vector<Bullet>& bullets, uint32_t current_time)
 {
     move_to_target_position();
+
+    bullets.push_back(Bullet::radial(position_for_bullet({ 40, 40 }, Direction::Left), { 40, 40 }, 1, M_PI));
 }
 
-void AdrianEnemy::tick(uint32_t current_time)
+void BasicEnemy::render(SDL_Renderer* renderer)
+{
+    SDL_Rect rect { position().x, position().y, size().width, size().height };
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+    SDL_RenderFillRect(renderer, &rect);
+}
+
+void AdrianEnemy::tick(std::vector<Bullet>& bullets, uint32_t current_time)
 {
     move_to_target_position();
 }

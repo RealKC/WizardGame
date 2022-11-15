@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Bullet.h"
 #include "Entity.h"
 #include "Vec2.h"
 #include <memory>
 #include <stdint.h>
+#include <vector>
 
 namespace WizardGame {
 
@@ -15,7 +17,7 @@ public:
         Adrian2,
     };
 
-    virtual void tick(uint32_t current_time) = 0;
+    virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) = 0;
 
 protected:
     Enemy(Collider collider, Vec2 target_position);
@@ -35,10 +37,10 @@ std::unique_ptr<Enemy> make_enemy(Vec2 starting_position, Vec2 target_position, 
 class BasicEnemy : public Enemy {
 public:
     // ^Enemy
-    virtual void tick(uint32_t current_time) override;
+    virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) override;
 
     // ^Entity
-    virtual void render(SDL_Renderer*) override { }
+    virtual void render(SDL_Renderer*) override;
 
 private:
     friend std::unique_ptr<Enemy> make_enemy(Vec2, Vec2, Type);
@@ -52,7 +54,7 @@ private:
 class AdrianEnemy : public Enemy {
 public:
     // ^Enemy
-    virtual void tick(uint32_t current_time) override;
+    virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) override;
 
     // ^Entity
     virtual void render(SDL_Renderer*) override { }

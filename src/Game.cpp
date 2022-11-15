@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <stdlib.h>
 
 namespace WizardGame {
 
@@ -31,6 +32,8 @@ int Game::run()
     if (auto rc = initialize_sdl(); rc != 0) {
         return rc;
     }
+
+    srand((unsigned int)(uintptr_t)m_renderer);
 
     while (!m_quit) {
         SDL_Event event;
@@ -97,6 +100,12 @@ void Game::render_bullets()
         SDL_SetRenderDrawColor(m_renderer, 0x00, 0xff, 0x00, 0xff);
         SDL_RenderFillRect(m_renderer, &rect);
     }
+
+    for (auto& bullet : m_enemy_bullets) {
+        SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
+        SDL_SetRenderDrawColor(m_renderer, 0x80, 0xff, 0x00, 0xff);
+        SDL_RenderFillRect(m_renderer, &rect);
+    }
 }
 
 void Game::update_bullet_positions()
@@ -111,12 +120,23 @@ void Game::update_bullet_positions()
             ++i;
         }
     }
+
+    i = 0;
+    while (i < m_enemy_bullets.size()) {
+        auto has_hit_wall = m_enemy_bullets[i].move();
+        if (has_hit_wall == HasHitWall::Yes) {
+            std::swap(m_enemy_bullets[i], m_enemy_bullets.back());
+            m_enemy_bullets.pop_back();
+        } else {
+            ++i;
+        }
+    }
 }
 
 void Game::tick_enemies(uint32_t current_time)
 {
     for (auto& enemy : m_enemies) {
-        enemy->tick(current_time);
+        enemy->tick(m_enemy_bullets, current_time);
     }
 }
 
@@ -159,6 +179,11 @@ void Game::handle_player_keypresses(uint32_t current_time)
             m_player_bullets.push_back(m_player.make_bullet());
             m_last_bullet_shot_time = current_time;
         }
+    }
+
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_7)) {
+        auto position = Vec2 { rand() % WINDOW_WIDTH, rand() % WINDOW_HEIGHT };
+        m_enemies.push_back(make_enemy(position, position + Vec2 { 50, 50 }));
     }
 }
 

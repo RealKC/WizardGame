@@ -1,17 +1,11 @@
 #pragma once
 
 #include "Collider.h"
+#include "GenericTypes.h"
 #include "Size.h"
 #include "Vec2.h"
 
 namespace WizardGame {
-
-enum class Direction {
-    Left,
-    Right,
-    Up,
-    Down,
-};
 
 class Bullet {
 public:

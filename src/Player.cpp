@@ -14,9 +14,9 @@ Player::~Player()
 Bullet Player::make_bullet() const
 {
     constexpr Size BULLET_SIZE = Size { 20, 20 };
-    auto bullet_coords = Vec2 { position().x + size().width / 2 - BULLET_SIZE.width / 2, position().y - BULLET_SIZE.width };
+    constexpr Direction DIRECTION = Direction::Up;
 
-    return Bullet::liniar(bullet_coords, BULLET_SIZE, Direction::Up);
+    return Bullet::liniar(position_for_bullet(BULLET_SIZE, DIRECTION), BULLET_SIZE, DIRECTION);
 }
 
 void Player::render(SDL_Renderer* renderer)
