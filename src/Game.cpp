@@ -7,6 +7,26 @@
 
 namespace WizardGame {
 
+enum class ShouldRemove {
+    Yes,
+    No,
+};
+
+template<typename Item, typename Callback>
+void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
+{
+    int i = 0;
+    while (i < items.size()) {
+        auto should_remove = cb(items[i]);
+        if (should_remove == ShouldRemove::Yes) {
+            std::swap(items[i], items.back());
+            items.pop_back();
+        } else {
+            ++i;
+        }
+    }
+}
+
 Game::Game()
     : m_player(Collider { 300, 300, 50, 50 })
     , m_last_bullet_shot_time(0)
@@ -110,27 +130,23 @@ void Game::render_bullets()
 
 void Game::update_bullet_positions()
 {
-    int i = 0;
-    while (i < m_player_bullets.size()) {
-        auto has_hit_wall = m_player_bullets[i].move();
+    iterate_vector_for_removing(m_player_bullets, [](auto& bullet) {
+        auto has_hit_wall = bullet.move();
         if (has_hit_wall == HasHitWall::Yes) {
-            std::swap(m_player_bullets[i], m_player_bullets.back());
-            m_player_bullets.pop_back();
+            return ShouldRemove::Yes;
         } else {
-            ++i;
+            return ShouldRemove::No;
         }
-    }
+    });
 
-    i = 0;
-    while (i < m_enemy_bullets.size()) {
-        auto has_hit_wall = m_enemy_bullets[i].move();
+    iterate_vector_for_removing(m_enemy_bullets, [](auto& bullet) {
+        auto has_hit_wall = bullet.move();
         if (has_hit_wall == HasHitWall::Yes) {
-            std::swap(m_enemy_bullets[i], m_enemy_bullets.back());
-            m_enemy_bullets.pop_back();
+            return ShouldRemove::Yes;
         } else {
-            ++i;
+            return ShouldRemove::No;
         }
-    }
+    });
 }
 
 void Game::tick_enemies(uint32_t current_time)
