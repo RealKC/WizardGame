@@ -165,8 +165,14 @@ void Game::tick_enemies(uint32_t current_time)
 
 void Game::check_collisions()
 {
-    // Check if player bullets hit an enemy
+    // Check if the player hit an enemy
+    for (auto& enemy : m_enemies) {
+        if (m_player.collides_with(*enemy)) {
+            info() << "You just lost a life" << std::endl;
+        }
+    }
 
+    // Check if player bullets hit an enemy
     iterate_vector_for_removing(m_player_bullets, [&](auto& bullet) {
         bool bullet_is_to_be_removed = false;
         info() << "Checking collisions\n";
