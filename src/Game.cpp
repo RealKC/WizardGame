@@ -193,6 +193,14 @@ void Game::check_collisions()
     });
 
     // Check if enemy bullets hit the player
+    iterate_vector_for_removing(m_enemy_bullets, [&](auto& bullet) {
+        if (m_player.collides_with(bullet)) {
+            info() << "You just lost a life" << std::endl;
+            return ShouldRemove::Yes;
+        }
+
+        return ShouldRemove::No;
+    });
 }
 
 void Game::handle_player_keypresses(uint32_t current_time)
