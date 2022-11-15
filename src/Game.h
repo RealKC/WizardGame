@@ -33,6 +33,8 @@ private:
     void check_collisions();
     void tick_enemies(uint32_t current_time);
 
+    void kill_player();
+
     // Game state
     Player m_player;
     uint32_t m_last_bullet_shot_time;

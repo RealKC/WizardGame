@@ -59,6 +59,7 @@ int Game::run()
         SDL_Event event;
         uint32_t start_ticks = SDL_GetTicks();
 
+        info() << "[FRAME]" << std::endl;
         event_loop();
 
         handle_player_keypresses(start_ticks);
@@ -168,14 +169,14 @@ void Game::check_collisions()
     // Check if the player hit an enemy
     for (auto& enemy : m_enemies) {
         if (m_player.collides_with(*enemy)) {
-            info() << "You just lost a life" << std::endl;
+            kill_player();
+            break;
         }
     }
 
     // Check if player bullets hit an enemy
     iterate_vector_for_removing(m_player_bullets, [&](auto& bullet) {
         bool bullet_is_to_be_removed = false;
-        info() << "Checking collisions\n";
         iterate_vector_for_removing(m_enemies, [&](auto& enemy) {
             info() << enemy->collides_with(bullet) << std::endl;
             if (enemy->collides_with(bullet)) {
@@ -195,7 +196,7 @@ void Game::check_collisions()
     // Check if enemy bullets hit the player
     iterate_vector_for_removing(m_enemy_bullets, [&](auto& bullet) {
         if (m_player.collides_with(bullet)) {
-            info() << "You just lost a life" << std::endl;
+            kill_player();
             return ShouldRemove::Yes;
         }
 
@@ -235,6 +236,15 @@ void Game::handle_player_keypresses(uint32_t current_time)
             m_player_bullets.push_back(m_player.make_bullet());
             m_last_bullet_shot_time = current_time;
         }
+    }
+}
+
+void Game::kill_player()
+{
+    auto lost_final_life = m_player.die();
+
+    if (lost_final_life == LostFinalLife::Yes) {
+        info() << "Ha, you lost\n";
     }
 }
 

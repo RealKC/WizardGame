@@ -45,4 +45,9 @@ bool Entity::collides_with(Entity const& entity) const
     return m_collider.check_collision_with(entity.m_collider);
 }
 
+void Entity::move_to(int x, int y)
+{
+    m_collider.move_to(x, y);
+}
+
 }

@@ -4,6 +4,8 @@ namespace WizardGame {
 
 Player::Player(Collider collider)
     : Entity(collider)
+    , m_spawn_location { collider.x(), collider.y() }
+    , m_lives(5)
 {
 }
 
@@ -17,6 +19,17 @@ Bullet Player::make_bullet() const
     constexpr Direction DIRECTION = Direction::Up;
 
     return Bullet::liniar(position_for_bullet(BULLET_SIZE, DIRECTION), BULLET_SIZE, DIRECTION);
+}
+
+LostFinalLife Player::die()
+{
+    --m_lives;
+    if (m_lives == 0) {
+        return LostFinalLife::Yes;
+    }
+
+    move_to(m_spawn_location.x, m_spawn_location.y);
+    return LostFinalLife::No;
 }
 
 void Player::render(SDL_Renderer* renderer)
