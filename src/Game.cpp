@@ -60,10 +60,8 @@ int Game::run()
     srand((unsigned int)(uintptr_t)m_renderer);
 
     while (!m_quit) {
-        SDL_Event event;
         uint32_t start_ticks = SDL_GetTicks();
 
-        info() << "[FRAME]" << std::endl;
         event_loop();
 
         handle_player_keypresses(start_ticks);
