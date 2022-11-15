@@ -98,6 +98,13 @@ void Game::event_loop()
             SDL_Quit();
             m_quit = true;
             break;
+        case SDL_KEYDOWN: {
+            if (event.key.keysym.sym != SDLK_7)
+                return;
+            auto position = Vec2 { rand() % WINDOW_WIDTH, rand() % WINDOW_HEIGHT };
+            m_enemies.push_back(make_enemy(position, position + Vec2 { 50, 50 }));
+            break;
+        }
         default:
             break;
         }
@@ -214,11 +221,6 @@ void Game::handle_player_keypresses(uint32_t current_time)
             m_player_bullets.push_back(m_player.make_bullet());
             m_last_bullet_shot_time = current_time;
         }
-    }
-
-    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_7)) {
-        auto position = Vec2 { rand() % WINDOW_WIDTH, rand() % WINDOW_HEIGHT };
-        m_enemies.push_back(make_enemy(position, position + Vec2 { 50, 50 }));
     }
 }
 
