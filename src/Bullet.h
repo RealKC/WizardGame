@@ -18,6 +18,7 @@ public:
 
     Vec2 position() const;
     Size size() const;
+    Collider collider() const { return m_collider; }
 
 private:
     Bullet(Collider);

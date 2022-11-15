@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Bullet.h"
 #include "Utils.h"
 
 namespace WizardGame {
@@ -32,6 +33,11 @@ Vec2 Entity::position_for_bullet(Size bullet_size, Direction direction) const
 
     error() << "Unknown direction: " << (int)direction << std::endl;
     abort();
+}
+
+bool Entity::collides_with(Bullet const& bullet) const
+{
+    return m_collider.check_collision_with(bullet.collider());
 }
 
 }

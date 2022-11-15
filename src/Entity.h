@@ -8,6 +8,8 @@
 
 namespace WizardGame {
 
+class Bullet;
+
 class Entity {
 public:
     virtual ~Entity();
@@ -17,6 +19,8 @@ public:
     void move_by(int delta_x, int delta_y);
 
     virtual void render(SDL_Renderer*) = 0;
+
+    bool collides_with(Bullet const&) const;
 
 protected:
     Entity(Collider);
