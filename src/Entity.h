@@ -21,6 +21,7 @@ public:
     virtual void render(SDL_Renderer*) = 0;
 
     bool collides_with(Bullet const&) const;
+    bool collides_with(Entity const&) const;
 
 protected:
     Entity(Collider);

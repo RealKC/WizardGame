@@ -40,4 +40,9 @@ bool Entity::collides_with(Bullet const& bullet) const
     return m_collider.check_collision_with(bullet.collider());
 }
 
+bool Entity::collides_with(Entity const& entity) const
+{
+    return m_collider.check_collision_with(entity.m_collider);
+}
+
 }
