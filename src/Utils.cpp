@@ -6,12 +6,12 @@ namespace WizardGame {
 
 std::ostream& error()
 {
-    return std::cerr << "[ERROR] ";
+    return std::cerr << std::boolalpha << "[ERROR] ";
 }
 
 std::ostream& info()
 {
-    return std::cerr << "[INFO] ";
+    return std::cerr << std::boolalpha << "[INFO] ";
 }
 
 }
