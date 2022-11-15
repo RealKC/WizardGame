@@ -22,13 +22,13 @@ bool Collider::check_collision_with(Collider const& other) const
 
     int left_a = m_x;
     int right_a = m_x + m_w;
-    int bottom_a = m_y;
-    int top_a = m_y + m_h;
+    int bottom_a = m_y + m_h;
+    int top_a = m_y;
 
     int left_b = other.m_x;
     int right_b = other.m_x + other.m_w;
-    int bottom_b = other.m_y;
-    int top_b = other.m_y + other.m_h;
+    int bottom_b = other.m_y + other.m_h;
+    int top_b = other.m_y;
 
     if (bottom_a <= top_b) {
         // Obiectul A se afla sub Obiectul B
@@ -67,7 +67,8 @@ HasHitWall Collider::apply_position_delta(int delta_x, int delta_y)
         has_hit_wall = HasHitWall::Yes;
     if (new_y >= 0 && new_y + m_h <= Game::WINDOW_HEIGHT)
         m_y += delta_y;
-    else has_hit_wall = HasHitWall::Yes;
+    else
+        has_hit_wall = HasHitWall::Yes;
 
     return has_hit_wall;
 }
