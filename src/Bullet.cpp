@@ -1,6 +1,7 @@
 #include "Bullet.h"
 #include "Utils.h"
 
+#define _USE_MATH_DEFINES // For constants like M_PI etc
 #include <cmath>
 
 namespace WizardGame {
