@@ -34,41 +34,7 @@ private:
 
 std::unique_ptr<Enemy> make_enemy(Vec2 starting_position, Vec2 target_position, Enemy::Type = Enemy::Type::Basic);
 
-class BasicEnemy : public Enemy {
-public:
-    // ^Enemy
-    virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) override;
 
-    // ^Entity
-    virtual void render(SDL_Renderer*) override;
 
-private:
-    friend std::unique_ptr<Enemy> make_enemy(Vec2, Vec2, Type);
-
-    BasicEnemy(Collider collider, Vec2 target_position)
-        : Enemy(collider, target_position)
-    {
-    }
-};
-
-class AdrianEnemy : public Enemy {
-public:
-    // ^Enemy
-    virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) override;
-
-    // ^Entity
-    virtual void render(SDL_Renderer*) override { }
-
-private:
-    friend std::unique_ptr<Enemy> make_enemy(Vec2, Vec2, Type);
-
-    AdrianEnemy(Collider collider, Vec2 target_position, int phase)
-        : Enemy(collider, target_position)
-        , m_phase(phase)
-    {
-    }
-
-    int m_phase;
-};
 
 } // WizardGame
