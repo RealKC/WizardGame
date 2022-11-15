@@ -34,6 +34,10 @@ Game::Game()
     , m_window(nullptr)
     , m_renderer(nullptr)
 {
+    // Reserve some memory to hopefully avoid some allocations during frame code
+    m_enemies.reserve(128);
+    m_player_bullets.reserve(512);
+    m_enemy_bullets.reserve(512);
 }
 
 Game::~Game()
