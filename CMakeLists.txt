@@ -18,7 +18,8 @@ add_executable(WizardGame
         src/Enemies/Basic.cpp src/Enemies/Basic.h
         src/Enemies/Adrian.cpp src/Enemies/Adrian.h
         src/Enemies/EnemyManager.cpp src/Enemies/EnemyManager.h
-        src/Enemies/Attack.h)
+        src/Enemies/Attack.h
+        src/LevelManager.h src/LevelManager.cpp)
 
 find_package(SDL2 REQUIRED)
 message(STATUS ${SDL2_INCLUDE_DIRS})

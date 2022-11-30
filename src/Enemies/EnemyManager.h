@@ -14,7 +14,7 @@ class Manager {
 public:
     Manager(std::string const& path);
 
-    std::unique_ptr<Enemy> adrian() const;
+    std::unique_ptr<Enemy> adrian(Collider, Vec2 position, int phase) const;
     std::unique_ptr<Enemy> basic(Collider, Vec2 position) const;
 
 private:

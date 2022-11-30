@@ -38,6 +38,10 @@ std::unique_ptr<Enemy> Manager::basic(Collider collider, Vec2 position) const
     auto attack = m_basic_enemies_attacks[rand() % m_basic_enemies_attacks.size()];
     return std::make_unique<Basic>(collider, position, std::vector { attack });
 }
+std::unique_ptr<Enemy> Manager::adrian(Collider collider, Vec2 position, int phase) const
+{
+    return std::make_unique<Adrian>(collider, position);
+}
 
 }
 }

@@ -32,6 +32,7 @@ Game::Game()
     : m_player(Collider { 300, 300, 50, 50 })
     , m_last_bullet_shot_time(0)
     , m_enemy_manager("resources/attacks.txt")
+    , m_level_manager(m_enemy_manager)
     , m_quit(false)
     , m_window(nullptr)
     , m_renderer(nullptr)
@@ -65,6 +66,10 @@ int Game::run()
         uint32_t start_ticks = SDL_GetTicks();
 
         event_loop();
+
+        if (m_enemies.empty()) {
+            m_level_manager.spawn_wave(m_enemies);
+        }
 
         handle_player_keypresses(start_ticks);
         update_bullet_positions();
@@ -107,9 +112,9 @@ void Game::event_loop()
             if (event.key.keysym.sym != SDLK_7)
                 return;
             auto position = Vec2 { rand() % WINDOW_WIDTH, rand() % WINDOW_HEIGHT };
-//            m_enemies.push_back(std::make_unique<Enemies::Basic>(Collider { position.x, position.y, 50, 50 }, position + Vec2 { 50, 50 }));
-            m_enemies.push_back(m_enemy_manager.basic(Collider { position.x, position.y, 50, 50 }, position + Vec2 { 50, 50 }))
-            ;break;
+            //            m_enemies.push_back(std::make_unique<Enemies::Basic>(Collider { position.x, position.y, 50, 50 }, position + Vec2 { 50, 50 }));
+            m_enemies.push_back(m_enemy_manager.basic(Collider { position.x, position.y, 50, 50 }, position + Vec2 { 50, 50 }));
+            break;
         }
         default:
             break;
@@ -250,6 +255,9 @@ void Game::kill_player()
 
     if (lost_final_life == LostFinalLife::Yes) {
         info() << "Ha, you lost\n";
+        m_level_manager.reset_wave();
+    } else {
+        m_level_manager.previous_wave();
     }
 }
 
