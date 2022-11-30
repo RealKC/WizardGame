@@ -7,6 +7,12 @@ namespace Enemies {
 
 class Adrian : public Enemy {
 public:
+    Adrian(Collider collider, Vec2 target_position, int phase)
+        : Enemy(collider, target_position)
+        , m_phase(phase)
+    {
+    }
+
     // ^Enemy
     virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) override;
 
@@ -14,14 +20,6 @@ public:
     virtual void render(SDL_Renderer*) override { }
 
 private:
-    friend std::unique_ptr<Enemy> WizardGame::make_enemy(Vec2, Vec2, Type);
-
-    Adrian(Collider collider, Vec2 target_position, int phase)
-        : Enemy(collider, target_position)
-        , m_phase(phase)
-    {
-    }
-
     int m_phase;
 };
 

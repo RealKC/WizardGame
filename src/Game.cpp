@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#include "Enemies/Basic.h"
 #include "Utils.h"
 #include <SDL2/SDL.h>
 #include <iostream>
@@ -105,7 +106,7 @@ void Game::event_loop()
             if (event.key.keysym.sym != SDLK_7)
                 return;
             auto position = Vec2 { rand() % WINDOW_WIDTH, rand() % WINDOW_HEIGHT };
-            m_enemies.push_back(make_enemy(position, position + Vec2 { 50, 50 }));
+            m_enemies.push_back(std::make_unique<Enemies::Basic>(Collider { position.x, position.y, 50, 50 }, position + Vec2 { 50, 50 }));
             break;
         }
         default:

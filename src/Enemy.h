@@ -11,12 +11,6 @@ namespace WizardGame {
 
 class Enemy : public Entity {
 public:
-    enum class Type {
-        Basic = 0,
-        Adrian1,
-        Adrian2,
-    };
-
     virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) = 0;
 
 protected:
@@ -31,10 +25,5 @@ private:
     Vec2 m_target_position;
     int m_cooldown;
 };
-
-std::unique_ptr<Enemy> make_enemy(Vec2 starting_position, Vec2 target_position, Enemy::Type = Enemy::Type::Basic);
-
-
-
 
 } // WizardGame
