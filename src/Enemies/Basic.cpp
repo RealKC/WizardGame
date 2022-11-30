@@ -6,8 +6,9 @@ namespace Enemies {
 void Basic::tick(std::vector<Bullet>& bullets, uint32_t current_time)
 {
     move_to_target_position();
+    fire_attacks(current_time, bullets);
 
-    bullets.push_back(Bullet::radial(position_for_bullet({ 40, 40 }, Direction::Left), { 40, 40 }, 1, M_PI));
+    // bullets.push_back(Bullet::radial(position_for_bullet({ 40, 40 }, Direction::Left), { 40, 40 }, 1, M_PI));
 }
 
 void Basic::render(SDL_Renderer* renderer)

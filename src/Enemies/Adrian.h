@@ -8,7 +8,7 @@ namespace Enemies {
 class Adrian : public Enemy {
 public:
     Adrian(Collider collider, Vec2 target_position, int phase)
-        : Enemy(collider, target_position)
+        : Enemy(collider, target_position, {})
         , m_phase(phase)
     {
     }

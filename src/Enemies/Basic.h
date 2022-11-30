@@ -7,8 +7,8 @@ namespace Enemies {
 
 class Basic : public Enemy {
 public:
-    Basic(Collider collider, Vec2 target_position)
-        : Enemy(collider, target_position)
+    Basic(Collider collider, Vec2 target_position, std::vector<Attack> attacks)
+        : Enemy(collider, target_position, attacks)
     {
     }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Bullet.h"
+#include "Enemies/Attack.h"
 #include "Entity.h"
 #include "Vec2.h"
 #include <memory>
@@ -14,16 +15,20 @@ public:
     virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) = 0;
 
 protected:
-    Enemy(Collider collider, Vec2 target_position);
+    Enemy(Collider collider, Vec2 target_position, std::vector<Enemies::Attack> attacks);
 
     /// Enemies spawn outside the screen and go towards a specific position on the screen
     /// This function implements the logic for that, but it still needs to be called manually
     /// in subclasses.
     void move_to_target_position();
 
+    void fire_attacks(uint32_t current_time, std::vector<Bullet>& bullets);
+
 private:
+    std::vector<Enemies::Attack> m_attacks;
+
     Vec2 m_target_position;
-    int m_cooldown;
+    int m_movement_cooldown;
 };
 
 } // WizardGame

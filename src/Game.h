@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "KeyboardState.h"
 #include "Player.h"
+#include "Enemies/EnemyManager.h"
 #include <SDL2/SDL.h>
 #include <memory>
 #include <vector>
@@ -38,6 +39,8 @@ private:
     // Game state
     Player m_player;
     uint32_t m_last_bullet_shot_time;
+
+    Enemies::Manager m_enemy_manager;
 
     std::vector<Bullet> m_player_bullets;
     std::vector<Bullet> m_enemy_bullets;
