@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Bullet.h"
-#include "Enemies/EnemyManager.h"
 #include "Enemy.h"
 #include "KeyboardState.h"
 #include "LevelManager.h"
@@ -41,7 +40,6 @@ private:
     Player m_player;
     uint32_t m_last_bullet_shot_time;
 
-    Enemies::Manager m_enemy_manager;
     LevelManager m_level_manager;
 
     std::vector<Bullet> m_player_bullets;

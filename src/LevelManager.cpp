@@ -1,7 +1,9 @@
 #include "LevelManager.h"
 
-#include "Utils.h"
+#include "Enemies/Adrian.h"
 #include "Enemies/Attack.h"
+#include "Enemies/Basic.h"
+#include "Utils.h"
 #include <fstream>
 #include <sstream>
 
@@ -21,9 +23,8 @@ static Attack::Type parse_attack(char ch)
     }
 }
 
-LevelManager::LevelManager(Enemies::Manager& enemy_manager)
-    : m_enemy_manager(enemy_manager)
-    , m_level_id(0)
+LevelManager::LevelManager()
+    : m_level_id(0)
     , m_wave(0)
 {
 }

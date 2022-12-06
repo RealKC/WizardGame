@@ -17,7 +17,6 @@ add_executable(WizardGame
         src/Enemy.cpp src/Enemy.h
         src/Enemies/Basic.cpp src/Enemies/Basic.h
         src/Enemies/Adrian.cpp src/Enemies/Adrian.h
-        src/Enemies/EnemyManager.cpp src/Enemies/EnemyManager.h
         src/Enemies/Attack.h
         src/LevelManager.h src/LevelManager.cpp)
 

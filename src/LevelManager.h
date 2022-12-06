@@ -1,7 +1,10 @@
 #pragma once
 
+#include "Collider.h"
 #include "Enemies/Attack.h"
-#include "Enemies/EnemyManager.h"
+#include "Enemy.h"
+#include "Vec2.h"
+#include <memory>
 #include <stdlib.h>
 #include <vector>
 
@@ -9,7 +12,7 @@ namespace WizardGame {
 
 class LevelManager {
 public:
-    LevelManager(Enemies::Manager&);
+    LevelManager();
 
     void load(std::string const& path);
     void unload();
@@ -23,8 +26,6 @@ public:
     // TODO: Level background
 
 private:
-    Enemies::Manager& m_enemy_manager;
-
     struct EnemyData {
         size_t wave;
         Collider collider;

@@ -31,8 +31,7 @@ void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
 Game::Game()
     : m_player(Collider { 300, 300, 50, 50 })
     , m_last_bullet_shot_time(0)
-    , m_enemy_manager("resources/attacks.txt")
-    , m_level_manager(m_enemy_manager)
+    , m_level_manager()
     , m_quit(false)
     , m_window(nullptr)
     , m_renderer(nullptr)
@@ -113,11 +112,6 @@ void Game::event_loop()
             m_quit = true;
             break;
         case SDL_KEYDOWN: {
-            if (event.key.keysym.sym != SDLK_7)
-                return;
-            auto position = Vec2 { rand() % WINDOW_WIDTH, rand() % WINDOW_HEIGHT };
-            //            m_enemies.push_back(std::make_unique<Enemies::Basic>(Collider { position.x, position.y, 50, 50 }, position + Vec2 { 50, 50 }));
-            m_enemies.push_back(m_enemy_manager.basic(Collider { position.x, position.y, 50, 50 }, position + Vec2 { 50, 50 }));
             break;
         }
         default:
