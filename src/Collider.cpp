@@ -1,5 +1,7 @@
 #include "Collider.h"
+
 #include "Game.h"
+#include <sstream>
 
 namespace WizardGame {
 
@@ -76,6 +78,12 @@ HasHitWall Collider::apply_position_delta(int delta_x, int delta_y)
 HasHitWall Collider::move_to(int x, int y)
 {
     return apply_position_delta(x - m_x, y - m_y);
+}
+
+std::string Collider::to_string() const  {
+    std::stringstream str;
+    str << "[ " << x() << ", " << y() << "; " << w() << ", " << h() << " ]";
+    return str.str();
 }
 
 }

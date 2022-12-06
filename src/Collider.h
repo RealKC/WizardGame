@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <strstream>
 
 namespace WizardGame {
 
@@ -25,12 +24,7 @@ public:
     int w() const { return m_w; }
     int h() const { return m_h; }
 
-    std::string to_string() const {
-        std::strstream str;
-        str << "[ " << x() << ", " << y() << "; " << w() << ", " << h() << " ]";
-        return str.str();
-    }
-
+    std::string to_string() const;
 private:
     int m_x;
     int m_y;
