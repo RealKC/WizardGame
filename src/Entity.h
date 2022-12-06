@@ -31,7 +31,7 @@ protected:
     Vec2 position_for_bullet(Size bullet_size, Direction) const;
 
     void move_to(int x, int y);
-    
+
 private:
     Collider m_collider;
 };
