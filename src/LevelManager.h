@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Enemies/Attack.h"
 #include "Enemies/EnemyManager.h"
 #include <stdlib.h>
 #include <vector>
@@ -13,9 +14,12 @@ public:
     void load(std::string const& path);
     void unload();
 
+    void dump() const;
+
     void spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies);
     void reset_wave() { m_wave = 0; }
     void previous_wave() { m_wave--; }
+    void next_wave() { m_wave++; }
     // TODO: Level background
 
 private:
@@ -25,6 +29,7 @@ private:
         size_t wave;
         Collider collider;
         Vec2 target_position;
+        Enemies::Attack::Type attack;
         bool is_basic;
     };
 

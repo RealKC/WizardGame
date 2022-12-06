@@ -40,7 +40,8 @@ std::unique_ptr<Enemy> Manager::basic(Collider collider, Vec2 position) const
 }
 std::unique_ptr<Enemy> Manager::adrian(Collider collider, Vec2 position, int phase) const
 {
-    return std::make_unique<Adrian>(collider, position);
+    return nullptr;
+//    return std::make_unique<Adrian>(collider, position);
 }
 
 }

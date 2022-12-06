@@ -1,10 +1,19 @@
 #pragma once
 
+#include <string>
+#include <strstream>
+
 namespace WizardGame {
 
 struct Vec2 {
     int x;
     int y;
+
+    std::string to_string() const {
+        std::strstream str;
+        str << "{ " << x << ", " << y << " }";
+        return str.str();
+    }
 };
 
 inline Vec2 operator/(Vec2 lhs, int rhs)

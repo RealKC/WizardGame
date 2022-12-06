@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <strstream>
+
 namespace WizardGame {
 
 enum class HasHitWall {
@@ -21,6 +24,12 @@ public:
     int y() const { return m_y; }
     int w() const { return m_w; }
     int h() const { return m_h; }
+
+    std::string to_string() const {
+        std::strstream str;
+        str << "[ " << x() << ", " << y() << "; " << w() << ", " << h() << " ]";
+        return str.str();
+    }
 
 private:
     int m_x;

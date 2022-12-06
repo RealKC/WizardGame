@@ -62,12 +62,16 @@ int Game::run()
 
     srand((unsigned int)(uintptr_t)m_renderer);
 
+    m_level_manager.load("resources/level1.txt");
+    m_level_manager.dump();
+
     while (!m_quit) {
         uint32_t start_ticks = SDL_GetTicks();
 
         event_loop();
 
         if (m_enemies.empty()) {
+            m_level_manager.next_wave();
             m_level_manager.spawn_wave(m_enemies);
         }
 
