@@ -29,7 +29,7 @@ void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
 }
 
 Game::Game()
-    : m_player(Collider { 300, 300, 50, 50 })
+    : m_player(Collider { 300, 300, 10, 10 }, Size {50, 50})
     , m_last_bullet_shot_time(0)
     , m_level_manager()
     , m_quit(false)

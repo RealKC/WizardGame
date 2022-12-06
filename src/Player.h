@@ -13,7 +13,7 @@ enum class LostFinalLife {
 
 class Player : public Entity {
 public:
-    Player(Collider);
+    Player(Collider, Size render_size);
     ~Player() override;
 
     Bullet make_bullet() const;
@@ -23,6 +23,7 @@ public:
     virtual void render(SDL_Renderer*);
 private:
     Vec2 m_spawn_location;
+    Size m_render_size;
     unsigned m_lives;
 };
 

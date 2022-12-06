@@ -2,10 +2,11 @@
 
 namespace WizardGame {
 
-Player::Player(Collider collider)
+Player::Player(Collider collider, Size size)
     : Entity(collider)
     , m_spawn_location { collider.x(), collider.y() }
     , m_lives(5)
+    , m_render_size(size)
 {
 }
 
@@ -35,7 +36,7 @@ LostFinalLife Player::die()
 void Player::render(SDL_Renderer* renderer)
 {
     SDL_SetRenderDrawColor(renderer, 0xff, 0x00, 0x00, 0xff);
-    SDL_Rect player_rect { position().x, position().y, size().width, size().height };
+    SDL_Rect player_rect { position().x - m_render_size.width / 2, position().y - m_render_size.height / 2, m_render_size.width, m_render_size.height };
     SDL_RenderFillRect(renderer, &player_rect);
 }
 
