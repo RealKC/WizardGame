@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(WizardGame
         src/main.cpp
         src/GenericTypes.h
-        src/Vec2.h src/Size.h
+        src/Size.h
+        src/Vec2.h src/Vec2.cpp
         src/Game.cpp src/Game.h
         src/Utils.cpp src/Utils.h
         src/Entity.cpp src/Entity.h
