@@ -19,8 +19,11 @@ add_executable(WizardGame
         src/Enemies/Basic.cpp src/Enemies/Basic.h
         src/Enemies/Adrian.cpp src/Enemies/Adrian.h
         src/Enemies/Attack.h
-        src/LevelManager.h src/LevelManager.cpp)
+        src/LevelManager.h src/LevelManager.cpp src/SpriteManager.cpp src/SpriteManager.h)
 
 find_package(SDL2 REQUIRED)
-message(STATUS ${SDL2_INCLUDE_DIRS})
-target_link_libraries(WizardGame SDL2::SDL2)
+find_package(SDL2_image REQUIRED)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+target_link_libraries(WizardGame SDL2::SDL2 SDL2_image::SDL2_image)

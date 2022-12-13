@@ -35,6 +35,7 @@ Game::Game()
     , m_quit(false)
     , m_window(nullptr)
     , m_renderer(nullptr)
+
 {
     // Reserve some memory to hopefully avoid some allocations during frame code
     m_enemies.reserve(128);
@@ -56,6 +57,10 @@ Game::~Game()
 int Game::run()
 {
     if (auto rc = initialize_sdl(); rc != RES_OK) {
+        return rc;
+    }
+
+    if (auto rc = m_sprite_manager.initialize(m_renderer); rc != RES_OK) {
         return rc;
     }
 
@@ -83,6 +88,7 @@ int Game::run()
         SDL_RenderClear(m_renderer);
         SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
         SDL_RenderClear(m_renderer);
+        m_sprite_manager.render_sprite_for_id_at_position();
         render_bullets();
         render_entities();
         SDL_RenderPresent(m_renderer);

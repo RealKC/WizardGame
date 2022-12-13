@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "KeyboardState.h"
 #include "LevelManager.h"
+#include "SpriteManager.h"
 #include "Player.h"
 #include <SDL2/SDL.h>
 #include <memory>
@@ -51,6 +52,7 @@ private:
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
     KeyboardState m_keyboard_state;
+    SpriteManager m_sprite_manager;
 };
 
 }
