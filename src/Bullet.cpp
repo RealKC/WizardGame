@@ -49,7 +49,7 @@ Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction)
 
 HasHitWall Bullet::move()
 {
-    auto new_radius = 1 + m_distance;
+    auto new_radius = 2 + m_distance;
     auto new_x = m_origin.x + new_radius * cos(m_angle);
     auto new_y = m_origin.y + new_radius * sin(m_angle);
 
