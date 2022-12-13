@@ -51,7 +51,7 @@ void LevelManager::load(std::string const& path)
 
             stream >> x >> y;
             Vec2 target_position { x, y };
-            info() << "Target position is: " <<target_position.to_string() << std::endl;
+            info() << "Target position is: " << target_position.to_string() << std::endl;
 
             m_enemies.push_back(EnemyData {
                 wave,
@@ -68,7 +68,8 @@ void LevelManager::load(std::string const& path)
     }
 }
 
-void LevelManager::dump() const {
+void LevelManager::dump() const
+{
     info() << "m_level_id: " << m_level_id << std::endl;
     info() << "m_wave: " << m_wave << std::endl;
 
@@ -90,7 +91,7 @@ void LevelManager::spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies)
     for (auto& enemy : m_enemies) {
         if (m_wave == enemy.wave) {
             if (enemy.is_basic) {
-                Attack attack {enemy.attack, 2400, 0};
+                Attack attack { enemy.attack, 1200, 0 };
                 enemies.push_back(std::make_unique<Enemies::Basic>(enemy.collider, enemy.target_position, std::vector { attack }));
             } else {
                 int phase = m_level_id;
@@ -99,7 +100,7 @@ void LevelManager::spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies)
                 if (phase > 2)
                     phase = 2;
 
-//                enemies.push_back(m_enemy_manager.adrian(enemy.collider, enemy.target_position, phase));
+                //                enemies.push_back(m_enemy_manager.adrian(enemy.collider, enemy.target_position, phase));
             }
         }
     }
