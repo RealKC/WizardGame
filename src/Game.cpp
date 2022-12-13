@@ -55,7 +55,7 @@ Game::~Game()
 
 int Game::run()
 {
-    if (auto rc = initialize_sdl(); rc != 0) {
+    if (auto rc = initialize_sdl(); rc != RES_OK) {
         return rc;
     }
 
@@ -289,7 +289,7 @@ int Game::initialize_sdl()
         return 3;
     }
 
-    return 0;
+    return RES_OK;
 }
 
 }
