@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include "Utils.h"
+
 namespace WizardGame {
 
 Player::Player(Collider collider, Size size)
@@ -7,6 +9,7 @@ Player::Player(Collider collider, Size size)
     , m_spawn_location { collider.x(), collider.y() }
     , m_lives(5)
     , m_render_size(size)
+    , m_iframes(0)
 {
 }
 
@@ -22,6 +25,25 @@ Bullet Player::make_bullet() const
     return Bullet::liniar(position_for_bullet(BULLET_SIZE, DIRECTION), BULLET_SIZE, DIRECTION);
 }
 
+bool Player::has_iframes() const
+{
+    info() << "Has " << m_iframes << " iframes left.\n";
+    if (m_iframes == 0) {
+        return false;
+    }
+
+    return true;
+}
+
+void Player::decrease_iframes()
+{
+    if (m_iframes) {
+        info() << "Decreased iframes" << std::endl;
+        // Avoid unsigned overflow
+        --m_iframes;
+    }
+}
+
 LostFinalLife Player::die()
 {
     --m_lives;
@@ -29,6 +51,7 @@ LostFinalLife Player::die()
         return LostFinalLife::Yes;
     }
 
+    m_iframes = 30;
     move_to(m_spawn_location.x, m_spawn_location.y);
     return LostFinalLife::No;
 }

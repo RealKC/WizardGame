@@ -29,7 +29,7 @@ void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
 }
 
 Game::Game()
-    : m_player(Collider { 300, 300, 10, 10 }, Size {50, 50})
+    : m_player(Collider { 300, 300, 10, 10 }, Size { 50, 50 })
     , m_last_bullet_shot_time(0)
     , m_level_manager()
     , m_quit(false)
@@ -78,6 +78,7 @@ int Game::run()
         update_bullet_positions();
         tick_enemies(start_ticks);
         check_collisions();
+        m_player.decrease_iframes();
 
         SDL_RenderClear(m_renderer);
         SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
@@ -249,6 +250,11 @@ void Game::handle_player_keypresses(uint32_t current_time)
 
 void Game::kill_player()
 {
+    if (m_player.has_iframes()) {
+        info() << "Player has iframes\n";
+        return;
+    }
+
     auto lost_final_life = m_player.die();
 
     if (lost_final_life == LostFinalLife::Yes) {
