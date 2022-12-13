@@ -2,6 +2,9 @@
 
 #include "Utils.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 namespace WizardGame {
 
 static constexpr int STEP = 1;
@@ -50,15 +53,21 @@ void Enemy::fire_attacks(uint32_t current_time, std::vector<Bullet>& bullets)
             attack.last_fired_at = current_time;
             using Enemies::Attack;
             switch (attack.type) {
-            case Attack::Type::Circle:
-                //                info() << "Circle\n";
+            case Attack::Type::Circle: {
+                float angle = M_PI / 5;
+                for (int i = 1; i < 6; ++i) {
+                    bullets.push_back(Bullet::radial(position_for_bullet({ 20, 20 }, Direction::Left), { 20, 20 }, 10, angle * i));
+                }
                 break;
+            }
             case Attack::Type::Line:
-                //                info() << "line\n";
-                bullets.push_back(Bullet::liniar(position_for_bullet({ 40, 40 }, Direction::Down), { 40, 40 }, Direction::Down));
+                bullets.push_back(Bullet::liniar(position_for_bullet({ 10, 10 }, Direction::Down), { 10, 10 }, Direction::Down));
                 break;
             case Attack::Type::ThreeAtOnce:
-                //                info() << "three\n";
+                bullets.push_back(Bullet::liniar(position_for_bullet({ 10, 10 }, Direction::Down) - Vec2 { 10, 0 }, { 10, 10 }, Direction::Down));
+                bullets.push_back(Bullet::liniar(position_for_bullet({ 10, 10 }, Direction::Down), { 10, 10 }, Direction::Down));
+                bullets.push_back(Bullet::liniar(position_for_bullet({ 10, 10 }, Direction::Down) + Vec2 { 10, 0 }, { 10, 10 }, Direction::Down));
+
                 break;
             }
         }
