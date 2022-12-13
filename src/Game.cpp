@@ -220,26 +220,26 @@ void Game::handle_player_keypresses(uint32_t current_time)
     int delta_x = 0;
     int delta_y = 0;
 
-    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_W)) {
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_W) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_UP)) {
         delta_y -= STEP;
     }
 
-    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_S)) {
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_S) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_DOWN)) {
         delta_y += STEP;
     }
 
-    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_A)) {
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_A) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_LEFT)) {
         delta_x -= STEP;
     }
 
-    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_D)) {
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_D) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_RIGHT)) {
         delta_x += STEP;
     }
 
     m_player.move_by(delta_x, delta_y);
 
     if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_X)) {
-        constexpr uint32_t ATTACK_COOLDOWN = 350;
+        constexpr uint32_t ATTACK_COOLDOWN = 150;
         if (current_time - m_last_bullet_shot_time >= ATTACK_COOLDOWN) {
             // Allow the player to shoot a bullet
             m_player_bullets.push_back(m_player.make_bullet());

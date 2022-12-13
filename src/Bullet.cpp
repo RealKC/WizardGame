@@ -6,10 +6,11 @@
 
 namespace WizardGame {
 
-Bullet::Bullet(Collider collider)
+Bullet::Bullet(Collider collider, float speed)
     : m_collider(collider)
     , m_distance(0)
     , m_angle(0.0f)
+    , m_speed(speed)
 {
 }
 
@@ -17,9 +18,9 @@ Bullet::~Bullet()
 {
 }
 
-Bullet Bullet::radial(Vec2 starting_position, Size size, int distance, float angle)
+Bullet Bullet::radial(Vec2 starting_position, Size size, int distance, float angle, float speed)
 {
-    auto bullet = Bullet { Collider { starting_position.x, starting_position.y, size.width, size.height } };
+    auto bullet = Bullet { Collider { starting_position.x, starting_position.y, size.width, size.height }, speed};
     bullet.m_distance = distance;
     bullet.m_angle = angle;
     bullet.m_origin = starting_position;
@@ -27,7 +28,7 @@ Bullet Bullet::radial(Vec2 starting_position, Size size, int distance, float ang
     return bullet;
 }
 
-Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction)
+Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction, float speed)
 {
     float angle = 0;
     switch (direction) {
@@ -44,12 +45,12 @@ Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction)
         angle = 0;
         break;
     }
-    return radial(starting_position, size, 3, angle);
+    return radial(starting_position, size, 3, angle, speed);
 }
 
 HasHitWall Bullet::move()
 {
-    auto new_radius = 2 + m_distance;
+    auto new_radius = m_speed + m_distance;
     auto new_x = m_origin.x + new_radius * cos(m_angle);
     auto new_y = m_origin.y + new_radius * sin(m_angle);
 

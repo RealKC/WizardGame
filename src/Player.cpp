@@ -22,7 +22,7 @@ Bullet Player::make_bullet() const
     constexpr Size BULLET_SIZE = Size { 20, 20 };
     constexpr Direction DIRECTION = Direction::Up;
 
-    return Bullet::liniar(position_for_bullet(BULLET_SIZE, DIRECTION), BULLET_SIZE, DIRECTION);
+    return Bullet::liniar(position_for_bullet(BULLET_SIZE, DIRECTION), BULLET_SIZE, DIRECTION, 1);
 }
 
 bool Player::has_iframes() const
