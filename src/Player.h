@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 
 #include "Bullet.h"
 #include "Collider.h"

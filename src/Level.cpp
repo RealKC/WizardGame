@@ -1,0 +1,303 @@
+#include "Level.h"
+
+#include "Enemies/Adrian.h"
+#include "Enemies/Attack.h"
+#include "Enemies/Basic.h"
+#include "Utils.h"
+#include <assert.h>
+#include <fstream>
+#include <sstream>
+
+namespace WizardGame {
+
+enum class ShouldRemove {
+    Yes,
+    No,
+};
+
+template<typename Item, typename Callback>
+static void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
+{
+    int i = 0;
+    while (i < items.size()) {
+        auto should_remove = cb(items[i]);
+        if (should_remove == ShouldRemove::Yes) {
+            std::swap(items[i], items.back());
+            items.pop_back();
+        } else {
+            ++i;
+        }
+    }
+}
+
+using Enemies::Attack;
+
+static Attack::Type parse_attack(char ch)
+{
+    switch (ch) {
+    case 'c':
+        return Attack::Type::Circle;
+    case 'l':
+        return Attack::Type::Line;
+    case 't':
+        return Attack::Type::ThreeAtOnce;
+    }
+
+    assert(false && "Nu ar trebui sa ajunga aici.");
+}
+
+Level::Level()
+    : m_level_id(0)
+    , m_wave(0)
+    , m_player(Collider { 300, 300, 10, 10 }, Size { 50, 50 })
+{
+    // Reserve some memory to hopefully avoid some allocations during frame code
+    m_enemies.reserve(128);
+    m_player_bullets.reserve(512);
+    m_enemy_bullets.reserve(512);
+}
+
+void Level::run_frame(uint32_t start_ticks)
+{
+    if (m_enemies.empty()) {
+        next_wave();
+        spawn_wave(m_enemies);
+    }
+
+    handle_player_keypresses(start_ticks);
+    update_bullet_positions();
+    tick_enemies(start_ticks);
+    check_collisions();
+    m_player.decrease_iframes();
+}
+
+void Level::render(SDL_Renderer* renderer)
+{
+    // TODO: Level background
+    
+    render_entities(renderer);
+    render_bullets(renderer);
+}
+
+void Level::render_entities(SDL_Renderer* renderer)
+{
+    m_player.render(renderer);
+
+    for (auto& enemy : m_enemies) {
+        enemy->render(renderer);
+    }
+}
+
+void Level::render_bullets(SDL_Renderer* renderer)
+{
+    for (auto& bullet : m_player_bullets) {
+        SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
+        SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0x00, 0xff);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+
+    for (auto& bullet : m_enemy_bullets) {
+        SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
+        SDL_SetRenderDrawColor(renderer, 0x80, 0xff, 0x00, 0xff);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+}
+
+void Level::update_bullet_positions()
+{
+    iterate_vector_for_removing(m_player_bullets, [](auto& bullet) {
+        auto has_hit_wall = bullet.move();
+        if (has_hit_wall == HasHitWall::Yes) {
+            return ShouldRemove::Yes;
+        } else {
+            return ShouldRemove::No;
+        }
+    });
+
+    iterate_vector_for_removing(m_enemy_bullets, [](auto& bullet) {
+        auto has_hit_wall = bullet.move();
+        if (has_hit_wall == HasHitWall::Yes) {
+            return ShouldRemove::Yes;
+        } else {
+            return ShouldRemove::No;
+        }
+    });
+}
+
+void Level::tick_enemies(uint32_t current_time)
+{
+    for (auto& enemy : m_enemies) {
+        enemy->tick(m_enemy_bullets, current_time);
+    }
+}
+
+void Level::check_collisions()
+{
+    // Check if the player hit an enemy
+    for (auto& enemy : m_enemies) {
+        if (m_player.collides_with(*enemy)) {
+            kill_player();
+            break;
+        }
+    }
+
+    // Check if player bullets hit an enemy
+    iterate_vector_for_removing(m_player_bullets, [&](auto& bullet) {
+        bool bullet_is_to_be_removed = false;
+        iterate_vector_for_removing(m_enemies, [&](auto& enemy) {
+            info() << enemy->collides_with(bullet) << std::endl;
+            if (enemy->collides_with(bullet)) {
+                bullet_is_to_be_removed = true;
+                return ShouldRemove::Yes;
+            }
+            return ShouldRemove::No;
+        });
+
+        if (bullet_is_to_be_removed) {
+            return ShouldRemove::Yes;
+        }
+
+        return ShouldRemove::No;
+    });
+
+    // Check if enemy bullets hit the player
+    iterate_vector_for_removing(m_enemy_bullets, [&](auto& bullet) {
+        if (m_player.collides_with(bullet)) {
+            kill_player();
+            return ShouldRemove::Yes;
+        }
+
+        return ShouldRemove::No;
+    });
+}
+
+void Level::handle_player_keypresses(uint32_t current_time)
+{
+    constexpr int STEP = 2;
+
+    int delta_x = 0;
+    int delta_y = 0;
+
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_W) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_UP)) {
+        delta_y -= STEP;
+    }
+
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_S) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_DOWN)) {
+        delta_y += STEP;
+    }
+
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_A) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_LEFT)) {
+        delta_x -= STEP;
+    }
+
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_D) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_RIGHT)) {
+        delta_x += STEP;
+    }
+
+    m_player.move_by(delta_x, delta_y);
+
+    if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_X)) {
+        constexpr uint32_t ATTACK_COOLDOWN = 150;
+        if (current_time - m_last_bullet_shot_time >= ATTACK_COOLDOWN) {
+            // Allow the player to shoot a bullet
+            m_player_bullets.push_back(m_player.make_bullet());
+            m_last_bullet_shot_time = current_time;
+        }
+    }
+}
+
+void Level::kill_player()
+{
+    if (m_player.has_iframes()) {
+        info() << "Player has iframes\n";
+        return;
+    }
+
+    auto lost_final_life = m_player.die();
+
+    if (lost_final_life == LostFinalLife::Yes) {
+        info() << "Ha, you lost\n";
+        reset_wave();
+    } else {
+        previous_wave();
+    }
+}
+
+void Level::load(std::string const& path)
+{
+    std::ifstream level(path);
+    std::string line;
+
+    size_t wave = 0;
+    while (std::getline(level, line)) {
+        if (line.find("wave") == 0) {
+            wave = atoi(line.c_str() + 4);
+        } else if (line.find("basic") == 0) {
+            std::stringstream stream(line.substr(strlen("basic")));
+
+            char attack_ch;
+            stream >> attack_ch;
+            Attack::Type attack = parse_attack(attack_ch);
+
+            int x, y, w, h;
+            stream >> x >> y >> w >> h;
+            Collider collider { x, y, w, h };
+
+            stream >> x >> y;
+            Vec2 target_position { x, y };
+            info() << "Target position is: " << target_position.to_string() << std::endl;
+
+            m_enemy_infos.push_back(EnemyData {
+                wave,
+                collider,
+                target_position,
+                attack,
+                true });
+        } else if (line.find("boss") == 0) {
+            // TODO: Parse adrian
+        } else {
+            error() << "Cannot parse line: '" << line << "'\n";
+        }
+    }
+}
+
+void Level::dump() const
+{
+    info() << "m_level_id: " << m_level_id << std::endl;
+    info() << "m_wave: " << m_wave << std::endl;
+
+    for (auto& enemy : m_enemy_infos) {
+        info() << "enemy: ->" << enemy.target_position.to_string() << ", " << enemy.collider.to_string() << ", basic? " << enemy.is_basic << " ";
+    }
+    info() << std::endl;
+}
+
+void Level::unload()
+{
+    m_level_id = 0;
+    m_wave = 0;
+    m_enemy_infos.clear();
+}
+
+void Level::spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies)
+{
+    for (auto& enemy : m_enemy_infos) {
+        if (m_wave == enemy.wave) {
+            if (enemy.is_basic) {
+                Attack attack { enemy.attack, 1200, 0 };
+                enemies.push_back(std::make_unique<Enemies::Basic>(enemy.collider, enemy.target_position, std::vector { attack }));
+            } else {
+                int phase = m_level_id;
+                if (phase < 1)
+                    phase = 1;
+                if (phase > 2)
+                    phase = 2;
+
+                //                enemies.push_back(m_enemy_manager.adrian(enemy.collider, enemy.target_position, phase));
+            }
+        }
+    }
+    ++m_wave;
+}
+
+}
