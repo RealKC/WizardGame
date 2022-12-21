@@ -82,6 +82,10 @@ int Game::run()
     return 0;
 }
 
+void Game::render_menu()
+{
+}
+
 void Game::event_loop()
 {
     SDL_Event event;
@@ -92,9 +96,16 @@ void Game::event_loop()
             SDL_Quit();
             m_quit = true;
             break;
-        case SDL_KEYDOWN: {
+        case SDL_KEYDOWN:
+            if (is_displaying_menu()) {
+                switch (event.key.keysym.sym) {
+                case SDLK_UP:
+                case SDLK_DOWN:
+                case SDLK_RETURN:
+                    break;
+                }
+            }
             break;
-        }
         default:
             break;
         }

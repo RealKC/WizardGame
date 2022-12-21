@@ -26,6 +26,9 @@ public:
 private:
     int initialize_sdl();
 
+    bool is_displaying_menu() const { return m_level != nullptr; }
+    void render_menu();
+
     void event_loop();
     // Game state
     std::unique_ptr<Level> m_level;

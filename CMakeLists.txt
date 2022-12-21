@@ -21,7 +21,7 @@ add_executable(WizardGame
         src/Enemies/Attack.h
         src/Level.h src/Level.cpp
         src/SpriteManager.cpp src/SpriteManager.h
-        src/TextRenderer.cpp src/TextRenderer.h)
+        src/TextRenderer.cpp src/TextRenderer.h src/Menu.cpp src/Menu.h)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
