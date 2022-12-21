@@ -12,12 +12,13 @@ Game::Game()
     : m_quit(false)
     , m_window(nullptr)
     , m_renderer(nullptr)
-
 {
 }
 
 Game::~Game()
 {
+    m_text_renderer.close_fonts();
+
     if (m_renderer) {
         SDL_DestroyRenderer(m_renderer);
     }
@@ -46,26 +47,23 @@ int Game::run()
 
     srand((unsigned int)(uintptr_t)m_renderer);
 
-    m_level = std::make_unique<Level>();
-    m_level->load("resources/level1.txt");
-    m_level->dump();
-
     while (!m_quit) {
         uint32_t start_ticks = SDL_GetTicks();
 
         event_loop();
 
+        SDL_RenderClear(m_renderer);
         if (m_level) {
             m_level->run_frame(start_ticks);
 
-            SDL_RenderClear(m_renderer);
             SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
             SDL_RenderClear(m_renderer);
             m_sprite_manager.render_sprite_for_id_at_position(SpriteId::Player, { 0, 0 });
             m_level->render(m_renderer);
-            m_text_renderer.render_text_at("Hello world", { 100, 100 });
-            SDL_RenderPresent(m_renderer);
+        } else {
+            m_menu.render(m_renderer, m_text_renderer);
         }
+        SDL_RenderPresent(m_renderer);
 
         uint32_t end_ticks = SDL_GetTicks();
 
@@ -82,10 +80,6 @@ int Game::run()
     return 0;
 }
 
-void Game::render_menu()
-{
-}
-
 void Game::event_loop()
 {
     SDL_Event event;
@@ -100,8 +94,43 @@ void Game::event_loop()
             if (is_displaying_menu()) {
                 switch (event.key.keysym.sym) {
                 case SDLK_UP:
+                case SDLK_LEFT:
+                    m_menu.select_previous_item();
+                    break;
                 case SDLK_DOWN:
-                case SDLK_RETURN:
+                case SDLK_RIGHT:
+                    m_menu.select_next_item();
+                    break;
+                case SDLK_RETURN: {
+                    auto result = m_menu.activate_current_selection();
+                    switch (result) {
+                    case UI::MainMenu::ActivationResult::Tutorial:
+                    case UI::MainMenu::ActivationResult::Level1:
+                        m_level = std::make_unique<Level>();
+                        m_level->load("resources/level1.txt");
+                        m_level->dump();
+                        break;
+                    case UI::MainMenu::ActivationResult::Level2:
+                        m_level = std::make_unique<Level>();
+                        m_level->load("resources/level2.txt");
+                        m_level->dump();
+                        break;
+                    case UI::MainMenu::ActivationResult::Level3:
+                        m_level = std::make_unique<Level>();
+                        m_level->load("resources/level3.txt");
+                        m_level->dump();
+                        break;
+                    case UI::MainMenu::ActivationResult::Quit:
+                        m_quit = true;
+                        break;
+                    case UI::MainMenu::ActivationResult::None:
+                    default:
+                        break;
+                    }
+                    break;
+                }
+                case SDLK_ESCAPE:
+                    m_menu.deactivate_current_selection();
                     break;
                 }
             }

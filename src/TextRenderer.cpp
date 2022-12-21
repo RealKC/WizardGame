@@ -5,14 +5,23 @@ namespace WizardGame {
 
 TextRenderer::TextRenderer()
     : m_renderer(nullptr)
-    , m_font(nullptr)
+    , m_regular_font(nullptr)
+    , m_big_font(nullptr)
 {
 }
 
 TextRenderer::~TextRenderer()
 {
-    if (m_font) {
-        TTF_CloseFont(m_font);
+}
+
+void TextRenderer::close_fonts()
+{
+    if (m_regular_font) {
+        TTF_CloseFont(m_regular_font);
+    }
+
+    if (m_big_font) {
+        TTF_CloseFont(m_big_font);
     }
 }
 
@@ -21,20 +30,35 @@ int TextRenderer::initialize(SDL_Renderer* renderer)
     static constexpr auto* FONT_NAME = "/usr/share/fonts/TTF/FiraCode-Medium.ttf";
 
     m_renderer = renderer;
-    m_font = TTF_OpenFont(FONT_NAME, 20);
+    m_regular_font = TTF_OpenFont(FONT_NAME, 20);
 
-    if (!m_font) {
-        error() << "Failed to load font '" << FONT_NAME << "': " << TTF_GetError() << std::endl;
+    if (!m_regular_font) {
+        error() << "Failed to load font '" << FONT_NAME << "' with size 20: " << TTF_GetError() << std::endl;
         return 50;
+    }
+
+    m_big_font = TTF_OpenFont(FONT_NAME, 40);
+
+    if (!m_big_font) {
+        error() << "Failed to load font '" << FONT_NAME << "' with size 40: " << TTF_GetError() << std::endl;
     }
 
     return RES_OK;
 }
 
-void TextRenderer::render_text_at(std::string const& text, Vec2 position)
+Size TextRenderer::render_regular_text_at(std::string const& text, Vec2 position, SDL_Color color)
 {
-    SDL_Color color { 255, 127, 200 };
-    SDL_Surface* rendered_text = TTF_RenderText_Solid(m_font, text.c_str(), color);
+    return render_text_at(m_regular_font, text, position, color);
+}
+
+Size TextRenderer::render_big_text_at(std::string const& text, Vec2 position, SDL_Color color)
+{
+    return render_text_at(m_big_font, text, position, color);
+}
+
+Size TextRenderer::render_text_at(TTF_Font* font, std::string const& text, Vec2 position, SDL_Color color)
+{
+    SDL_Surface* rendered_text = TTF_RenderText_Solid(font, text.c_str(), color);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, rendered_text);
 
     int text_width, text_height;
@@ -46,6 +70,8 @@ void TextRenderer::render_text_at(std::string const& text, Vec2 position)
 
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(rendered_text);
+
+    return Size { text_width, text_height };
 }
 
 }
