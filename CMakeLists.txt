@@ -23,7 +23,7 @@ add_executable(WizardGame
         src/SpriteManager.cpp src/SpriteManager.h
         src/TextRenderer.cpp src/TextRenderer.h
         src/UI/Menu.cpp src/UI/Menu.h
-        src/UI/MainMenu.cpp src/UI/MainMenu.h)
+        src/UI/MainMenu.cpp src/UI/MainMenu.h src/UI/PauseMenu.cpp src/UI/PauseMenu.h)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
