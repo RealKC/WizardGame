@@ -9,10 +9,8 @@ namespace WizardGame {
 
 class TextRenderer {
 public:
-    TextRenderer();
+    TextRenderer(SDL_Renderer*);
     ~TextRenderer();
-
-    int initialize(SDL_Renderer*);
 
     // These return the size of the rendered text, to be used in menus and such
     Size render_regular_text_at(std::string const& text, Vec2 position, SDL_Color color);

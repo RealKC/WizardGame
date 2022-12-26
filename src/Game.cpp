@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "Exceptions/InitError.h"
+#include "Exceptions/SDLObjectError.h"
 #include "Utils.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -8,10 +10,47 @@
 
 namespace WizardGame {
 
+static SDL_Window* create_window()
+{
+
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        throw InitError("SDL Video", SDL_GetError());
+    }
+
+    if (TTF_Init() < 0) {
+        throw InitError("SDL2_ttf", TTF_GetError());
+    }
+
+    auto* window = SDL_CreateWindow(
+        "Wizard Game",
+        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+        Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT,
+        SDL_WINDOW_SHOWN);
+
+    if (!window) {
+        throw SDLObjectError("Game/SDL_Window", FailureTo::Create);
+    }
+
+    return window;
+}
+
+static SDL_Renderer* create_renderer(SDL_Window* window)
+{
+    auto* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    if (!renderer) {
+        throw SDLObjectError("Game/SDL_Renderer", FailureTo::Create);
+    }
+
+    return renderer;
+}
+
 Game::Game()
     : m_quit(false)
-    , m_window(nullptr)
-    , m_renderer(nullptr)
+    , m_window(create_window())
+    , m_renderer(create_renderer(m_window))
+    , m_sprite_manager(m_renderer)
+    , m_text_renderer(m_renderer)
 {
 }
 
@@ -33,18 +72,6 @@ Game::~Game()
 
 int Game::run()
 {
-    if (auto rc = initialize_sdl(); rc != RES_OK) {
-        return rc;
-    }
-
-    if (auto rc = m_sprite_manager.initialize(m_renderer); rc != RES_OK) {
-        return rc;
-    }
-
-    if (auto rc = m_text_renderer.initialize(m_renderer); rc != RES_OK) {
-        return rc;
-    }
-
     srand((unsigned int)(uintptr_t)m_renderer);
 
     while (!m_quit) {
@@ -139,38 +166,6 @@ void Game::event_loop()
             break;
         }
     }
-}
-
-int Game::initialize_sdl()
-{
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        error() << "Failed to initialize video: " << SDL_GetError() << std::endl;
-        return 1;
-    }
-
-    if (TTF_Init() < 0) {
-        error() << "Failed to initialize SDL2_ttf: " << TTF_GetError() << std::endl;
-        return 1;
-    }
-
-    m_window = SDL_CreateWindow(
-        "Wizard Game",
-        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        WINDOW_WIDTH, WINDOW_HEIGHT,
-
-        SDL_WINDOW_SHOWN);
-    if (!m_window) {
-        error() << "Failed to create SDL window: " << SDL_GetError() << std::endl;
-        return 2;
-    }
-
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
-    if (!m_renderer) {
-        error() << "Failed to create SDL renderer: " << SDL_GetError() << std::endl;
-        return 3;
-    }
-
-    return RES_OK;
 }
 
 }

@@ -17,10 +17,8 @@ enum class SpriteId {
 
 class SpriteManager {
 public:
-    SpriteManager();
+    SpriteManager(SDL_Renderer*);
     ~SpriteManager();
-
-    int initialize(SDL_Renderer*);
 
     void render_sprite_for_id_at_position(SpriteId, Vec2 position);
 

@@ -1,13 +1,27 @@
 #include "SpriteManager.h"
 
+#include "Exceptions/SDLObjectError.h"
 #include "Utils.h"
 #include <SDL2/SDL_image.h>
 
 namespace WizardGame {
 
-SpriteManager::SpriteManager()
-    : m_renderer(nullptr)
+SpriteManager::SpriteManager(SDL_Renderer* renderer)
+    : m_renderer(renderer)
 {
+    SDL_Surface* surface = IMG_Load("resources/sprites/spritesheet.jpg");
+
+    if (!surface) {
+        throw SDLObjectError("SpriteManager/spritesheet", FailureTo::Load);
+    }
+
+    m_texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    if (!m_texture) {
+        error() << "Failed to create texture from surface " << SDL_GetError() << std::endl;
+        throw SDLObjectError("SpriteManager/texture", FailureTo::Create);
+    }
 }
 
 SpriteManager::~SpriteManager()
@@ -17,27 +31,6 @@ SpriteManager::~SpriteManager()
     }
 
     // We MUST NOT destroy the renderer here as we do not own it!!
-}
-
-int SpriteManager::initialize(SDL_Renderer* renderer)
-{
-    m_renderer = renderer;
-    SDL_Surface* surface = IMG_Load("resources/sprites/spritesheet.jpg");
-
-    if (surface) {
-        m_texture = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
-
-        if (!m_texture) {
-            error() << "Failed to create texture from surface " << SDL_GetError() << std::endl;
-            return 6;
-        }
-    } else {
-        error() << "Failed to load surface from image: " << SDL_GetError() << std::endl;
-        return 5;
-    }
-
-    return RES_OK;
 }
 
 void SpriteManager::render_sprite_for_id_at_position(SpriteId, Vec2)

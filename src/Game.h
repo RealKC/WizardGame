@@ -25,8 +25,6 @@ public:
     int run();
 
 private:
-    int initialize_sdl();
-
     bool is_displaying_menu() const { return m_level == nullptr; }
 
     void event_loop();

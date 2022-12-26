@@ -23,7 +23,12 @@ add_executable(WizardGame
         src/SpriteManager.cpp src/SpriteManager.h
         src/TextRenderer.cpp src/TextRenderer.h
         src/UI/Menu.cpp src/UI/Menu.h
-        src/UI/MainMenu.cpp src/UI/MainMenu.h src/UI/PauseMenu.cpp src/UI/PauseMenu.h)
+        src/UI/MainMenu.cpp src/UI/MainMenu.h
+        src/UI/PauseMenu.cpp src/UI/PauseMenu.h
+        src/Exceptions/Exception.cpp src/Exceptions/Exception.h
+        src/Exceptions/InitError.h
+        src/Exceptions/SDLObjectError.h
+        src/Exceptions/TTFObjectError.cpp src/Exceptions/TTFObjectError.h)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 

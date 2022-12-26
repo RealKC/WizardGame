@@ -1,12 +1,24 @@
 #include "TextRenderer.h"
+
+#include "Exceptions/TTFObjectError.h"
 #include "Utils.h"
 
 namespace WizardGame {
 
-TextRenderer::TextRenderer()
-    : m_renderer(nullptr)
-    , m_regular_font(nullptr)
-    , m_big_font(nullptr)
+static constexpr auto* FONT_NAME = "/usr/share/fonts/TTF/FiraCode-Medium.ttf";
+
+static TTF_Font* open_font(const char* font_name, int ptsize) {
+    auto* font = TTF_OpenFont(font_name, ptsize);
+    if (!font) {
+        throw TTFObjectError("TextRenderer", font_name, ptsize);
+    }
+    return font;
+}
+
+TextRenderer::TextRenderer(SDL_Renderer* renderer)
+    : m_renderer(renderer)
+    , m_regular_font(open_font(FONT_NAME, 20))
+    , m_big_font(open_font(FONT_NAME, 40))
 {
 }
 
@@ -23,27 +35,6 @@ void TextRenderer::close_fonts()
     if (m_big_font) {
         TTF_CloseFont(m_big_font);
     }
-}
-
-int TextRenderer::initialize(SDL_Renderer* renderer)
-{
-    static constexpr auto* FONT_NAME = "/usr/share/fonts/TTF/FiraCode-Medium.ttf";
-
-    m_renderer = renderer;
-    m_regular_font = TTF_OpenFont(FONT_NAME, 20);
-
-    if (!m_regular_font) {
-        error() << "Failed to load font '" << FONT_NAME << "' with size 20: " << TTF_GetError() << std::endl;
-        return 50;
-    }
-
-    m_big_font = TTF_OpenFont(FONT_NAME, 40);
-
-    if (!m_big_font) {
-        error() << "Failed to load font '" << FONT_NAME << "' with size 40: " << TTF_GetError() << std::endl;
-    }
-
-    return RES_OK;
 }
 
 Size TextRenderer::render_regular_text_at(std::string const& text, Vec2 position, SDL_Color color)
