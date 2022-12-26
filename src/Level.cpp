@@ -297,7 +297,6 @@ void Level::spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies)
             }
         }
     }
-    ++m_wave;
 }
 
 }
