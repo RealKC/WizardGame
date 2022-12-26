@@ -78,19 +78,7 @@ int Game::run()
         uint32_t start_ticks = SDL_GetTicks();
 
         event_loop();
-
-        SDL_RenderClear(m_renderer);
-        if (m_level) {
-            m_level->run_frame(start_ticks);
-
-            SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
-            SDL_RenderClear(m_renderer);
-            m_sprite_manager.render_sprite_for_id_at_position(SpriteId::Player, { 0, 0 });
-            m_level->render(m_renderer);
-        } else {
-            m_menu.render(m_renderer, m_text_renderer);
-        }
-        SDL_RenderPresent(m_renderer);
+        render(start_ticks);
 
         uint32_t end_ticks = SDL_GetTicks();
 
@@ -166,6 +154,21 @@ void Game::event_loop()
             break;
         }
     }
+}
+
+void Game::render(uint32_t start_ticks) {
+    SDL_RenderClear(m_renderer);
+    if (m_level) {
+        m_level->run_frame(start_ticks);
+
+        SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
+        SDL_RenderClear(m_renderer);
+        m_sprite_manager.render_sprite_for_id_at_position(SpriteId::Player, { 0, 0 });
+        m_level->render(m_renderer);
+    } else {
+        m_menu.render(m_renderer, m_text_renderer);
+    }
+    SDL_RenderPresent(m_renderer);
 }
 
 }

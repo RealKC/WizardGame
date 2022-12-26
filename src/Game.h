@@ -28,6 +28,7 @@ private:
     bool is_displaying_menu() const { return m_level == nullptr; }
 
     void event_loop();
+    void render(uint32_t start_ticks);
 
     UI::MainMenu m_menu;
 
