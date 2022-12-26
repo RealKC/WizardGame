@@ -12,7 +12,7 @@ SpriteManager::SpriteManager(SDL_Renderer* renderer)
     SDL_Surface* surface = IMG_Load("resources/sprites/spritesheet.jpg");
 
     if (!surface) {
-        throw SDLObjectError("SpriteManager/spritesheet", FailureTo::Load);
+        throw SDLObjectError("SpriteManager/spritesheet", FailureTo::Load, "image surface");
     }
 
     m_texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -20,7 +20,7 @@ SpriteManager::SpriteManager(SDL_Renderer* renderer)
 
     if (!m_texture) {
         error() << "Failed to create texture from surface " << SDL_GetError() << std::endl;
-        throw SDLObjectError("SpriteManager/texture", FailureTo::Create);
+        throw SDLObjectError("SpriteManager/texture", FailureTo::Create, "image texture");
     }
 }
 

@@ -12,7 +12,8 @@ enum class FailureTo {
 
 class SDLObjectError : public Exception {
 public:
-    SDLObjectError(char const* category, FailureTo type) : SDLObjectError(category, type, "", SDL_GetError())
+    SDLObjectError(char const* category, FailureTo type, char const* user_message)
+        : SDLObjectError(category, type, user_message, SDL_GetError())
     {
     }
 

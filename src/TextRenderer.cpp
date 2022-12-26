@@ -50,9 +50,18 @@ Size TextRenderer::render_big_text_at(std::string const& text, Vec2 position, SD
 Size TextRenderer::render_text_at(TTF_Font* font, std::string const& text, Vec2 position, SDL_Color color)
 {
     SDL_Surface* rendered_text = TTF_RenderText_Solid(font, text.c_str(), color);
+
+    if (!rendered_text) {
+        throw TTFObjectError("TextRenderer/render_text", "Failed to render text");
+    }
+
     SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, rendered_text);
 
-    int text_width, text_height;
+    if (!texture) {
+        throw SDLObjectError("TextRenderer/render_text", FailureTo::Create, "texture from rendered text");
+    }
+
+    int text_width = 0, text_height = 0;
     SDL_QueryTexture(texture, nullptr, nullptr, &text_width, &text_height);
 
     SDL_Rect dest { position.x, position.y, text_width, text_height };
