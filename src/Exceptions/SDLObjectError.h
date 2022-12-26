@@ -16,7 +16,7 @@ public:
     {
     }
 
-private:
+protected:
     SDLObjectError(char const* category, FailureTo type, char const* user_message, char const* error)
         : Exception(format_error_message(category, type == FailureTo::Load ? "Failure to load" : "Failure to create", user_message, error))
     {
