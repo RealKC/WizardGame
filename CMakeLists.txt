@@ -28,7 +28,8 @@ add_executable(WizardGame
         src/Exceptions/Exception.cpp src/Exceptions/Exception.h
         src/Exceptions/InitError.h
         src/Exceptions/SDLObjectError.h
-        src/Exceptions/TTFObjectError.cpp src/Exceptions/TTFObjectError.h)
+        src/Exceptions/TTFObjectError.cpp src/Exceptions/TTFObjectError.h
+        src/UserEvents.h)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 

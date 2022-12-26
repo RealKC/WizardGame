@@ -2,9 +2,11 @@
 
 #include "Exceptions/InitError.h"
 #include "Exceptions/SDLObjectError.h"
+#include "UserEvents.h"
 #include "Utils.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <assert.h>
 #include <iostream>
 #include <stdlib.h>
 
@@ -42,16 +44,20 @@ static SDL_Renderer* create_renderer(SDL_Window* window)
         throw SDLObjectError("Game/SDL_Renderer", FailureTo::Create, "SDL renderer");
     }
 
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
     return renderer;
 }
 
 Game::Game()
-    : m_quit(false)
+    : m_level_event(SDL_RegisterEvents(1))
+    , m_quit(false)
     , m_window(create_window())
     , m_renderer(create_renderer(m_window))
     , m_sprite_manager(m_renderer)
     , m_text_renderer(m_renderer)
 {
+    assert(m_level_event != (Uint32)-1 && "We shouldn't have ran out of user events before even registering one");
 }
 
 Game::~Game()
@@ -121,17 +127,17 @@ void Game::event_loop()
                     switch (result) {
                     case UI::MainMenu::ActivationResult::Tutorial:
                     case UI::MainMenu::ActivationResult::Level1:
-                        m_level = std::make_unique<Level>();
+                        m_level = std::make_unique<Level>(m_level_event);
                         m_level->load("resources/level1.txt");
                         m_level->dump();
                         break;
                     case UI::MainMenu::ActivationResult::Level2:
-                        m_level = std::make_unique<Level>();
+                        m_level = std::make_unique<Level>(m_level_event);
                         m_level->load("resources/level2.txt");
                         m_level->dump();
                         break;
                     case UI::MainMenu::ActivationResult::Level3:
-                        m_level = std::make_unique<Level>();
+                        m_level = std::make_unique<Level>(m_level_event);
                         m_level->load("resources/level3.txt");
                         m_level->dump();
                         break;
@@ -148,8 +154,20 @@ void Game::event_loop()
                     m_menu.deactivate_current_selection();
                     break;
                 }
+            } else {
+                m_level->handle_key_event(event.key);
             }
             break;
+        case SDL_USEREVENT:
+            assert(m_level && "We shouldn't be sending user events outside of a level");
+            switch (event.user.code) {
+            case LevelEvents::QuitToMenu:
+                m_level = nullptr;
+                break;
+            case LevelEvents::QuitToDesktop:
+                m_quit = true;
+                break;
+            }
         default:
             break;
         }
@@ -166,7 +184,7 @@ void Game::render(uint32_t start_ticks)
             SDL_SetRenderDrawColor(m_renderer, 0xff, 0xff, 0xff, 0xff);
             SDL_RenderClear(m_renderer);
             m_sprite_manager.render_sprite_for_id_at_position(SpriteId::Player, { 0, 0 });
-            m_level->render(m_renderer);
+            m_level->render(m_renderer, m_text_renderer);
         } else {
             m_menu.render(m_renderer, m_text_renderer);
         }

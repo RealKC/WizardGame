@@ -3,6 +3,7 @@
 #include "Enemies/Adrian.h"
 #include "Enemies/Attack.h"
 #include "Enemies/Basic.h"
+#include "UserEvents.h"
 #include "Utils.h"
 #include <assert.h>
 #include <fstream>
@@ -46,8 +47,9 @@ static Attack::Type parse_attack(char ch)
     assert(false && "Nu ar trebui sa ajunga aici.");
 }
 
-Level::Level()
-    : m_level_id(0)
+Level::Level(uint32_t m_level_event)
+    : m_level_event(m_level_event)
+    , m_level_id(0)
     , m_wave(0)
     , m_player(Collider { 300, 300, 10, 10 }, Size { 50, 50 })
 {
@@ -59,6 +61,10 @@ Level::Level()
 
 void Level::run_frame(uint32_t start_ticks)
 {
+    if (m_pause_menu) {
+        return;
+    }
+
     if (m_enemies.empty()) {
         next_wave();
         spawn_wave(m_enemies);
@@ -71,12 +77,16 @@ void Level::run_frame(uint32_t start_ticks)
     m_player.decrease_iframes();
 }
 
-void Level::render(SDL_Renderer* renderer)
+void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer)
 {
     // TODO: Level background
     
     render_entities(renderer);
     render_bullets(renderer);
+
+    if (m_pause_menu) {
+        m_pause_menu->render(renderer, text_renderer);
+    }
 }
 
 void Level::render_entities(SDL_Renderer* renderer)
@@ -296,6 +306,59 @@ void Level::spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies)
                 //                enemies.push_back(m_enemy_manager.adrian(enemy.collider, enemy.target_position, phase));
             }
         }
+    }
+}
+
+void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
+{
+    switch (keyboard_event.keysym.sym) {
+    case SDLK_ESCAPE:
+        toggle_pause_state();
+        break;
+    case SDLK_RETURN:
+        if (m_pause_menu) {
+            auto activation_result = m_pause_menu->activate_current_selection();
+            switch (activation_result) {
+            case UI::PauseMenu::Continue:
+                toggle_pause_state();
+                break;
+            case UI::PauseMenu::QuitToMenu: {
+                SDL_Event event;
+                SDL_zero(event);
+                event.type = m_level_event;
+                event.user.code = LevelEvents::QuitToMenu;
+                SDL_PushEvent(&event);
+                break;
+            }
+            case UI::PauseMenu::QuitToDesktop: {
+                SDL_Event event;
+                SDL_zero(event);
+                event.type = m_level_event;
+                event.user.code = LevelEvents::QuitToDesktop;
+                SDL_PushEvent(&event);
+                break;
+            }}
+        }
+        break;
+    case SDLK_UP:
+        if (m_pause_menu) {
+            m_pause_menu->select_previous_item();
+        }
+        break;
+    case SDLK_DOWN:
+        if (m_pause_menu) {
+            m_pause_menu->select_next_item();
+        }
+        break;
+    }
+}
+
+void Level::toggle_pause_state()
+{
+    if (m_pause_menu) {
+        m_pause_menu = nullptr;
+    } else {
+        m_pause_menu = std::make_unique<UI::PauseMenu>();
     }
 }
 

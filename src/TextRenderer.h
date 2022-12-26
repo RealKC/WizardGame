@@ -12,6 +12,10 @@ public:
     TextRenderer(SDL_Renderer*);
     ~TextRenderer();
 
+    // These return the width of the rendered text
+    int measure_regular_text(std::string const& text);
+    int measure_big_text(std::string const& text);
+
     // These return the size of the rendered text, to be used in menus and such
     Size render_regular_text_at(std::string const& text, Vec2 position, SDL_Color color);
     Size render_big_text_at(std::string const& text, Vec2 position, SDL_Color color);
@@ -20,7 +24,9 @@ public:
     // handle it for us
     void close_fonts();
 private:
-    Size render_text_at(TTF_Font* font, std::string const& text, Vec2 position, SDL_Color color);
+    int measure_text(TTF_Font*, std::string const& text);
+    Size render_text_at(TTF_Font*, std::string const& text, Vec2 position, SDL_Color color);
+
     SDL_Renderer* m_renderer;
     TTF_Font* m_regular_font;
     TTF_Font* m_big_font;

@@ -1,6 +1,7 @@
 #include "TextRenderer.h"
 
 #include "Exceptions/TTFObjectError.h"
+#include "Game.h"
 #include "Utils.h"
 
 namespace WizardGame {
@@ -72,6 +73,23 @@ Size TextRenderer::render_text_at(TTF_Font* font, std::string const& text, Vec2 
     SDL_FreeSurface(rendered_text);
 
     return Size { text_width, text_height };
+}
+
+int TextRenderer::measure_big_text(std::string const& text)
+{
+    return measure_text(m_big_font, text);
+}
+
+int TextRenderer::measure_regular_text(std::string const& text)
+{
+    return measure_text(m_regular_font, text);
+}
+
+int TextRenderer::measure_text(TTF_Font* font, std::string const& text)
+{
+    int count, width;
+    TTF_MeasureUTF8(font, text.c_str(), Game::WINDOW_WIDTH, &width, &count);
+    return width;
 }
 
 }

@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "KeyboardState.h"
 #include "Player.h"
+#include "UI/PauseMenu.h"
 #include "Vec2.h"
 #include <memory>
 #include <stdlib.h>
@@ -14,7 +15,9 @@ namespace WizardGame {
 
 class Level {
 public:
-    Level();
+    Level(uint32_t m_level_event);
+
+    void toggle_pause_state();
 
     void load(std::string const& path);
     void unload();
@@ -22,7 +25,9 @@ public:
     void dump() const;
 
     void run_frame(uint32_t current_time);
-    void render(SDL_Renderer*);
+    void render(SDL_Renderer*, TextRenderer&);
+
+    void handle_key_event(SDL_KeyboardEvent);
 
 private:
     void spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies);
@@ -49,7 +54,10 @@ private:
         bool is_basic;
     };
 
+    uint32_t const m_level_event;
+
     KeyboardState m_keyboard_state;
+    std::unique_ptr<UI::PauseMenu> m_pause_menu;
 
     int m_level_id;
     size_t m_wave;

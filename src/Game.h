@@ -24,6 +24,9 @@ public:
 
     int run();
 
+    void close_level();
+    void quit();
+
 private:
     bool is_displaying_menu() const { return m_level == nullptr; }
 
@@ -32,7 +35,9 @@ private:
 
     UI::MainMenu m_menu;
 
-    // Game state
+    Uint32 const m_level_event;
+
+        // Game state
     std::unique_ptr<Level> m_level;
 
     bool m_quit;
