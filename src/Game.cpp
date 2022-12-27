@@ -3,6 +3,7 @@
 #include "Exceptions/InitError.h"
 #include "Exceptions/SDLObjectError.h"
 #include "Levels/FileLevel.h"
+#include "Levels/TutorialLevel.h"
 #include "UserEvents.h"
 #include "Utils.h"
 #include <SDL2/SDL.h>
@@ -126,6 +127,8 @@ void Game::event_loop()
                     auto result = m_menu.activate_current_selection();
                     switch (result) {
                     case UI::MainMenu::ActivationResult::Tutorial:
+                        m_level = std::make_unique<TutorialLevel>(m_level_event);
+                        break;
                     case UI::MainMenu::ActivationResult::Level1:
                         m_level = std::make_unique<FileLevel>(m_level_event, "resources/level1.txt");
                         break;
