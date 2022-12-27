@@ -3,18 +3,9 @@
 #include "../Game.h"
 #include <algorithm>
 #include <assert.h>
-#include <cstring>
 
 namespace WizardGame {
 namespace UI {
-
-static char const* find_longest_item(char const* items[], std::size_t count) {
-    std::size_t idx = 0;
-    std::size_t max_length = 0;
-    for (std::size_t i = 0; i < count; ++i) {
-        auto curr_len = std::strlen(items[i]);
-    }
-}
 
 int PauseMenu::activate_current_selection()
 {
@@ -55,30 +46,7 @@ void PauseMenu::render(SDL_Renderer* renderer, TextRenderer& text_renderer) cons
 
     char const* items[] = { "Continue", "Quit to menu", "Quit to desktop" };
 
-    auto* longest_item = *std::max_element(items, items + std::size(items), [] (auto* lhs, auto* rhs) {
-        return std::strlen(lhs) < std::strlen(rhs);
-    });
-    auto longest_item_width = text_renderer.measure_regular_text(longest_item);
-
-    for (int i = 0; i < std::size(items); ++i) {
-        auto width = text_renderer.measure_regular_text(items[i]);
-        auto x = Game::WINDOW_WIDTH / 2 - width / 2;
-        if (m_selected_menu_item == i) {
-            SDL_Rect button_rect {Game::WINDOW_WIDTH / 2 - longest_item_width / 2 - 5, y - 5, longest_item_width + 10, 35};
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
-            SDL_RenderFillRect(renderer, &button_rect);
-
-            y += text_renderer
-                     .render_regular_text_at(items[i], { x, y }, { 0, 0, 255 })
-                     .height;
-
-        } else {
-            y += text_renderer
-                     .render_regular_text_at(items[i], { x, y }, { 255, 255, 255 })
-                     .height;
-        }
-        y += 20;
-    }
+    render_vertical_button_list(renderer, text_renderer, items, std::size(items), y);
 }
 
 }

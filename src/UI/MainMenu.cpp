@@ -1,5 +1,6 @@
 #include "MainMenu.h"
 
+#include "../Game.h"
 #include "../Utils.h"
 #include <assert.h>
 
@@ -66,19 +67,7 @@ void MainMenu::render_main_menu(SDL_Renderer* renderer, TextRenderer& text_rende
 {
     char const* items[] = { "Play", "Exit" };
 
-    int y = 20;
-    for (int i = 0; i < std::size(items); ++i) {
-        if (m_selected_menu_item == i) {
-            y += text_renderer
-                     .render_regular_text_at(items[i], { 20, y }, { 0, 0, 255 })
-                     .height;
-        } else {
-            y += text_renderer
-                     .render_regular_text_at(items[i], { 20, y }, { 255, 255, 255 })
-                     .height;
-        }
-        y += 20;
-    }
+    render_vertical_button_list(renderer, text_renderer, items, std::size(items), Game::WINDOW_HEIGHT / 3);
 }
 
 void MainMenu::render_level_selection(SDL_Renderer* renderer, TextRenderer& text_renderer) const
