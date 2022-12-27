@@ -9,7 +9,7 @@ namespace WizardGame {
 
 class TextRenderer {
 public:
-    TextRenderer(SDL_Renderer*);
+    explicit TextRenderer(SDL_Renderer*);
     ~TextRenderer();
 
     int big_text_height() const { return 40; }
