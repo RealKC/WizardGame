@@ -3,11 +3,11 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "KeyboardState.h"
-#include "Level.h"
-#include "UI/MainMenu.h"
+#include "Levels/Level.h"
 #include "Player.h"
 #include "SpriteManager.h"
 #include "TextRenderer.h"
+#include "UI/MainMenu.h"
 #include <SDL2/SDL.h>
 #include <memory>
 #include <vector>
@@ -24,9 +24,6 @@ public:
 
     int run();
 
-    void close_level();
-    void quit();
-
 private:
     bool is_displaying_menu() const { return m_level == nullptr; }
 
@@ -37,7 +34,7 @@ private:
 
     Uint32 const m_level_event;
 
-        // Game state
+    // Game state
     std::unique_ptr<Level> m_level;
 
     bool m_quit;

@@ -2,6 +2,7 @@
 
 #include "Exceptions/InitError.h"
 #include "Exceptions/SDLObjectError.h"
+#include "Levels/FileLevel.h"
 #include "UserEvents.h"
 #include "Utils.h"
 #include <SDL2/SDL.h>
@@ -126,19 +127,13 @@ void Game::event_loop()
                     switch (result) {
                     case UI::MainMenu::ActivationResult::Tutorial:
                     case UI::MainMenu::ActivationResult::Level1:
-                        m_level = std::make_unique<Level>(m_level_event);
-                        m_level->load("resources/level1.txt");
-                        m_level->dump();
+                        m_level = std::make_unique<FileLevel>(m_level_event, "resources/level1.txt");
                         break;
                     case UI::MainMenu::ActivationResult::Level2:
-                        m_level = std::make_unique<Level>(m_level_event);
-                        m_level->load("resources/level2.txt");
-                        m_level->dump();
+                        m_level = std::make_unique<FileLevel>(m_level_event, "resources/level2.txt");
                         break;
                     case UI::MainMenu::ActivationResult::Level3:
-                        m_level = std::make_unique<Level>(m_level_event);
-                        m_level->load("resources/level3.txt");
-                        m_level->dump();
+                        m_level = std::make_unique<FileLevel>(m_level_event, "resources/level3.txt");
                         break;
                     case UI::MainMenu::ActivationResult::Quit:
                         m_quit = true;

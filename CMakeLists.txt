@@ -19,7 +19,6 @@ add_executable(WizardGame
         src/Enemies/Basic.cpp src/Enemies/Basic.h
         src/Enemies/Adrian.cpp src/Enemies/Adrian.h
         src/Enemies/Attack.h
-        src/Level.h src/Level.cpp
         src/SpriteManager.cpp src/SpriteManager.h
         src/TextRenderer.cpp src/TextRenderer.h
         src/UI/Menu.cpp src/UI/Menu.h
@@ -29,7 +28,9 @@ add_executable(WizardGame
         src/Exceptions/InitError.h
         src/Exceptions/SDLObjectError.h
         src/Exceptions/TTFObjectError.cpp src/Exceptions/TTFObjectError.h
-        src/UserEvents.h)
+        src/UserEvents.h
+        src/Levels/Level.cpp src/Levels/Level.h
+        src/Levels/FileLevel.cpp src/Levels/FileLevel.h)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
