@@ -25,7 +25,7 @@ enum class BackgroundId {
 
 class SpriteManager {
 public:
-    SpriteManager(SDL_Renderer*);
+    explicit SpriteManager(SDL_Renderer*);
     ~SpriteManager();
 
     void render_sprite_for_id_at_position(SpriteId, Vec2 position);
