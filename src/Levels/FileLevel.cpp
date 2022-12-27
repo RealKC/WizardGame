@@ -32,11 +32,11 @@ FileLevel::FileLevel(uint32_t level_event, std::string const& path)
     parse_level(path);
 }
 
-void FileLevel::render_impl(SDL_Renderer* renderer, TextRenderer& text_renderer)
+void FileLevel::render_impl(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteManager& sprite_manager)
 {
     // Call render_bullets before render_entities so bullets sent by the player spawn under them.
-    render_bullets(renderer);
-    render_entities(renderer);
+    render_bullets(renderer, sprite_manager);
+    render_entities(renderer, sprite_manager);
 }
 
 void FileLevel::run_frame_impl(uint32_t current_time)

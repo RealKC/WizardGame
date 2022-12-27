@@ -48,11 +48,9 @@ void Level::run_frame(uint32_t current_time)
     }
 }
 
-void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer)
+void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteManager& sprite_manager)
 {
-    // TODO: Level background
-
-    render_impl(renderer, text_renderer);
+    render_impl(renderer, text_renderer, sprite_manager);
 
     if (is_paused()) {
         m_pause_menu->render(renderer, text_renderer);
@@ -115,16 +113,16 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
     }
 }
 
-void Level::render_entities(SDL_Renderer* renderer)
+void Level::render_entities(SDL_Renderer* renderer, SpriteManager& sprite_manager)
 {
-    m_player.render(renderer);
+    m_player.render(renderer, sprite_manager);
 
     for (auto& enemy : m_enemies) {
-        enemy->render(renderer);
+        enemy->render(renderer, sprite_manager);
     }
 }
 
-void Level::render_bullets(SDL_Renderer* renderer)
+void Level::render_bullets(SDL_Renderer* renderer, SpriteManager&)
 {
     for (auto& bullet : m_player_bullets) {
         SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };

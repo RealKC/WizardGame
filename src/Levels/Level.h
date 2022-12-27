@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../KeyboardState.h"
+#include "../SpriteManager.h"
 #include "../TextRenderer.h"
 #include "../UI/PauseMenu.h"
 #include "Bullet.h"
@@ -15,7 +16,7 @@ namespace WizardGame {
 class Level {
 public:
     void run_frame(uint32_t current_time);
-    void render(SDL_Renderer*, TextRenderer&);
+    void render(SDL_Renderer*, TextRenderer&, SpriteManager&);
 
     void toggle_pause_state();
 
@@ -25,13 +26,13 @@ protected:
     explicit Level(uint32_t level_event);
 
     virtual void run_frame_impl(uint32_t current_time) = 0;
-    virtual void render_impl(SDL_Renderer*, TextRenderer&) = 0;
+    virtual void render_impl(SDL_Renderer*, TextRenderer&, SpriteManager&) = 0;
     virtual void dismiss_dialogue_if_any() = 0;
     virtual void kill_player() = 0;
     virtual void restart_level();
 
-    void render_bullets(SDL_Renderer*);
-    void render_entities(SDL_Renderer*);
+    void render_bullets(SDL_Renderer*, SpriteManager&);
+    void render_entities(SDL_Renderer*, SpriteManager&);
 
     void update_bullet_positions();
     void check_collisions();

@@ -11,7 +11,7 @@ public:
 
 private:
     // ^Level
-    virtual void render_impl(SDL_Renderer*, TextRenderer&) override;
+    virtual void render_impl(SDL_Renderer*, TextRenderer&, SpriteManager&) override;
     virtual void run_frame_impl(uint32_t current_time) override;
     virtual void dismiss_dialogue_if_any() override;
     virtual void kill_player() override;

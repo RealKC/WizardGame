@@ -26,7 +26,8 @@ public:
     void reset_lives() { m_lives = INITIAL_LIVES; }
     void go_back_to_spawn() { move_to(m_spawn_location.x, m_spawn_location.y); }
 
-    virtual void render(SDL_Renderer*);
+    // ^Entity
+    virtual void render(SDL_Renderer*, SpriteManager&);
 
 private:
     Vec2 m_spawn_location;

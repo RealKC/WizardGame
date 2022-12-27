@@ -2,6 +2,7 @@
 
 #include "../GenericTypes.h"
 #include "../Size.h"
+#include "../SpriteManager.h"
 #include "../Vec2.h"
 #include "Collider.h"
 #include <SDL2/SDL.h>
@@ -18,7 +19,7 @@ public:
 
     void move_by(int delta_x, int delta_y);
 
-    virtual void render(SDL_Renderer*) = 0;
+    virtual void render(SDL_Renderer*, SpriteManager&) = 0;
 
     bool collides_with(Bullet const&) const;
     bool collides_with(Entity const&) const;
