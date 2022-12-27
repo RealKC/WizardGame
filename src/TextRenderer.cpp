@@ -8,7 +8,8 @@ namespace WizardGame {
 
 static constexpr auto* FONT_NAME = "/usr/share/fonts/TTF/FiraCode-Medium.ttf";
 
-static TTF_Font* open_font(const char* font_name, int ptsize) {
+static TTF_Font* open_font(char const* font_name, int ptsize)
+{
     auto* font = TTF_OpenFont(font_name, ptsize);
     if (!font) {
         throw TTFObjectError("TextRenderer", font_name, ptsize);
@@ -19,7 +20,7 @@ static TTF_Font* open_font(const char* font_name, int ptsize) {
 TextRenderer::TextRenderer(SDL_Renderer* renderer)
     : m_renderer(renderer)
     , m_regular_font(open_font(FONT_NAME, 20))
-    , m_big_font(open_font(FONT_NAME, 40))
+    , m_big_font(open_font(FONT_NAME, big_text_height()))
 {
 }
 

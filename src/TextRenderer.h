@@ -12,6 +12,8 @@ public:
     TextRenderer(SDL_Renderer*);
     ~TextRenderer();
 
+    int big_text_height() const { return 40; }
+
     // These return the width of the rendered text
     int measure_regular_text(std::string const& text);
     int measure_big_text(std::string const& text);
@@ -23,6 +25,7 @@ public:
     // We need to call this before TTF_Quit or SDL_Quit, so we can't have the destructor
     // handle it for us
     void close_fonts();
+
 private:
     int measure_text(TTF_Font*, std::string const& text);
     Size render_text_at(TTF_Font*, std::string const& text, Vec2 position, SDL_Color color);
