@@ -56,6 +56,7 @@ void MainMenu::deactivate_current_selection()
 
 void MainMenu::render(SDL_Renderer* renderer, TextRenderer& text_renderer) const
 {
+
     if (m_is_in_level_selection) {
         render_level_selection(renderer, text_renderer);
     } else {
@@ -74,19 +75,16 @@ void MainMenu::render_level_selection(SDL_Renderer* renderer, TextRenderer& text
 {
     char const* levels[] = { "Tutorial", "1", "2", "3" };
 
-    int x = 20;
-    for (int i = 0; i < 4; ++i) {
-        if (m_selected_menu_item == i) {
-            x += text_renderer
-                     .render_regular_text_at(levels[i], { x, 20 }, { 0, 0, 255 })
-                     .width;
-        } else {
-            x += text_renderer
-                     .render_regular_text_at(levels[i], { x, 20 }, { 255, 255, 255 })
-                     .width;
-        }
-        x += 20;
-    }
+    char const* choose_a_level = "Choose a level: ";
+    auto y = Game::WINDOW_HEIGHT / 2 - 150;
+    auto width = text_renderer.measure_big_text(choose_a_level);
+
+    y += text_renderer.render_big_text_at(choose_a_level, { Game::WINDOW_WIDTH / 2 - width / 2, y }, { 120, 101, 100 })
+             .height;
+
+    y += 100;
+
+    render_horizontal_button_list(renderer, text_renderer, levels, std::size(levels), { static_cast<int>(Game::WINDOW_WIDTH / 2.75), y });
 }
 
 }
