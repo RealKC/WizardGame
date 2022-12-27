@@ -7,7 +7,7 @@ namespace WizardGame {
 Player::Player(Collider collider, Size size)
     : Entity(collider)
     , m_spawn_location { collider.x(), collider.y() }
-    , m_lives(5)
+    , m_lives(INITIAL_LIVES)
     , m_render_size(size)
     , m_iframes(0)
 {
@@ -52,7 +52,7 @@ LostFinalLife Player::die()
     }
 
     m_iframes = 30;
-    move_to(m_spawn_location.x, m_spawn_location.y);
+    go_back_to_spawn();
     return LostFinalLife::No;
 }
 

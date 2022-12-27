@@ -28,6 +28,7 @@ protected:
     virtual void render_impl(SDL_Renderer*, TextRenderer&) = 0;
     virtual void dismiss_dialogue_if_any() = 0;
     virtual void kill_player() = 0;
+    virtual void restart_level();
 
     void render_bullets(SDL_Renderer*);
     void render_entities(SDL_Renderer*);

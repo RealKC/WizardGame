@@ -42,7 +42,6 @@ void FileLevel::run_frame_impl(uint32_t current_time)
 {
     if (m_enemies.empty()) {
         next_wave();
-        spawn_wave(m_enemies);
     }
 
     handle_player_keypresses(current_time);
@@ -65,10 +64,31 @@ void FileLevel::kill_player()
 
     if (lost_final_life == LostFinalLife::Yes) {
         info() << "Ha, you lost\n";
-        reset_wave();
+        restart_level();
     } else {
-        previous_wave();
+        restart_wave();
     }
+}
+
+void FileLevel::restart_level()
+{
+    Level::restart_level();
+    m_wave = 1;
+    m_enemies.clear();
+    spawn_wave(m_enemies);
+}
+
+void FileLevel::restart_wave()
+{
+    m_enemies.clear();
+    spawn_wave(m_enemies);
+}
+
+void FileLevel::next_wave()
+{
+    m_wave++;
+    assert(m_enemies.empty() && "FileLevel::next_wave should only be called when there's no more enemies on the screen");
+    spawn_wave(m_enemies);
 }
 
 void FileLevel::parse_level(std::string const& path)

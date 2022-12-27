@@ -12,6 +12,8 @@ enum class LostFinalLife {
 };
 
 class Player : public Entity {
+    static constexpr unsigned INITIAL_LIVES = 5;
+
 public:
     Player(Collider, Size render_size);
     ~Player() override;
@@ -21,6 +23,8 @@ public:
     bool has_iframes() const;
     void decrease_iframes();
     LostFinalLife die();
+    void reset_lives() { m_lives = INITIAL_LIVES; }
+    void go_back_to_spawn() { move_to(m_spawn_location.x, m_spawn_location.y); }
 
     virtual void render(SDL_Renderer*);
 

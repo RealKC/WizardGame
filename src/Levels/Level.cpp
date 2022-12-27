@@ -35,6 +35,12 @@ Level::Level(uint32_t level_event)
     m_enemy_bullets.reserve(512);
 }
 
+void Level::restart_level()
+{
+    m_player.reset_lives();
+    m_player.go_back_to_spawn();
+}
+
 void Level::run_frame(uint32_t current_time)
 {
     if (!is_paused()) {

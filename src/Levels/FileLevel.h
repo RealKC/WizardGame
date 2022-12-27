@@ -15,11 +15,11 @@ private:
     virtual void run_frame_impl(uint32_t current_time) override;
     virtual void dismiss_dialogue_if_any() override;
     virtual void kill_player() override;
+    virtual void restart_level() override;
 
     void spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies);
-    void reset_wave() { m_wave = 1; }
-    void previous_wave() { m_wave--; }
-    void next_wave() { m_wave++; }
+    void restart_wave();
+    void next_wave();
 
     void parse_level(std::string const& path);
 
@@ -30,7 +30,6 @@ private:
         Enemies::Attack::Type attack;
         bool is_basic;
     };
-    ;
 
     size_t m_wave;
     std::vector<EnemyData> m_enemy_infos;
