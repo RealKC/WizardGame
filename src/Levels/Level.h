@@ -28,6 +28,7 @@ protected:
     virtual void run_frame_impl(uint32_t current_time) = 0;
     virtual void render_impl(SDL_Renderer*, TextRenderer&, SpriteManager&) = 0;
     virtual void dismiss_dialogue_if_any() = 0;
+    virtual BackgroundId background_id() const = 0;
     virtual void kill_player() = 0;
     virtual void restart_level();
 

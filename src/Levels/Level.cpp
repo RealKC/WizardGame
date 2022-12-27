@@ -50,6 +50,8 @@ void Level::run_frame(uint32_t current_time)
 
 void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteManager& sprite_manager)
 {
+    sprite_manager.render_background(background_id());
+
     render_impl(renderer, text_renderer, sprite_manager);
 
     if (is_paused()) {

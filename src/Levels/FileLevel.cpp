@@ -124,6 +124,23 @@ void FileLevel::parse_level(std::string const& path)
                 true });
         } else if (line.find("boss") == 0) {
             // TODO: Parse adrian
+        } else if (line.find("background") == 0) {
+            auto background = atoi(line.c_str() + strlen("background"));
+            info() << background << std::endl;
+            switch (background) {
+            case 1:
+                m_background_id = BackgroundId::Level1;
+                break;
+            case 2:
+                m_background_id = BackgroundId::Level2;
+                break;
+            case 3:
+                m_background_id = BackgroundId::Level3;
+                break;
+            default:
+                error() << "Unknown background: '" << background << "'\n";
+                assert(false);
+            }
         } else {
             error() << "Cannot parse line: '" << line << "'\n";
         }

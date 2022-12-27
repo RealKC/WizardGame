@@ -179,6 +179,7 @@ void Game::render(uint32_t start_ticks)
             m_sprite_manager.render_sprite_for_id_at_position(SpriteId::Player, { 0, 0 });
             m_level->render(m_renderer, m_text_renderer, m_sprite_manager);
         } else {
+            m_sprite_manager.render_background(BackgroundId::Menu);
             m_menu.render(m_renderer, m_text_renderer);
         }
     } catch (Exception const& except) {
