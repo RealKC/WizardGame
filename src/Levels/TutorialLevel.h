@@ -7,6 +7,7 @@ namespace WizardGame {
 class TutorialLevel final : public Level {
 public:
     TutorialLevel(uint32_t level_event);
+    virtual ~TutorialLevel() {}
 
 private:
     // ^Level

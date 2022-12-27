@@ -15,6 +15,8 @@ namespace WizardGame {
 
 class Level {
 public:
+    virtual ~Level() {}
+
     void run_frame(uint32_t current_time);
     void render(SDL_Renderer*, TextRenderer&, SpriteManager&);
 
