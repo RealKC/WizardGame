@@ -10,15 +10,17 @@ add_executable(WizardGame
         src/Vec2.h src/Vec2.cpp
         src/Game.cpp src/Game.h
         src/Utils.cpp src/Utils.h
-        src/Entity.cpp src/Entity.h
-        src/Player.cpp src/Player.h
+        src/Levels/Entity.cpp src/Levels/Entity.h
+        src/Levels/Player.cpp src/Levels/Player.h
         src/KeyboardState.cpp src/KeyboardState.h
-        src/Collider.cpp src/Collider.h
-        src/Bullet.cpp src/Bullet.h
-        src/Enemy.cpp src/Enemy.h
-        src/Enemies/Basic.cpp src/Enemies/Basic.h
-        src/Enemies/Adrian.cpp src/Enemies/Adrian.h
-        src/Enemies/Attack.h
+        src/Levels/Collider.cpp src/Levels/Collider.h
+        src/Levels/Bullet.cpp src/Levels/Bullet.h
+        src/Levels/Enemy.cpp src/Levels/Enemy.h
+        src/Levels/Enemies/Basic.cpp src/Levels/Enemies/Basic.h
+        src/Levels/Enemies/Adrian.cpp src/Levels/Enemies/Adrian.h
+        src/Levels/Enemies/Attack.h
+        src/Levels/Level.cpp src/Levels/Level.h
+        src/Levels/FileLevel.cpp src/Levels/FileLevel.h
         src/SpriteManager.cpp src/SpriteManager.h
         src/TextRenderer.cpp src/TextRenderer.h
         src/UI/Menu.cpp src/UI/Menu.h
@@ -29,8 +31,7 @@ add_executable(WizardGame
         src/Exceptions/SDLObjectError.h
         src/Exceptions/TTFObjectError.cpp src/Exceptions/TTFObjectError.h
         src/UserEvents.h
-        src/Levels/Level.cpp src/Levels/Level.h
-        src/Levels/FileLevel.cpp src/Levels/FileLevel.h)
+        )
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 

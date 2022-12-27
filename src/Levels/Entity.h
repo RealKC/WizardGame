@@ -1,9 +1,9 @@
 #pragma once
 
+#include "../GenericTypes.h"
+#include "../Size.h"
+#include "../Vec2.h"
 #include "Collider.h"
-#include "GenericTypes.h"
-#include "Size.h"
-#include "Vec2.h"
 #include <SDL2/SDL.h>
 
 namespace WizardGame {

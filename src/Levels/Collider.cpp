@@ -1,6 +1,6 @@
 #include "Collider.h"
 
-#include "Game.h"
+#include "../Game.h"
 #include <sstream>
 
 namespace WizardGame {

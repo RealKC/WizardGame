@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Bullet.h"
-#include "../Enemy.h"
 #include "../KeyboardState.h"
-#include "../Player.h"
 #include "../TextRenderer.h"
 #include "../UI/PauseMenu.h"
+#include "Bullet.h"
+#include "Enemy.h"
+#include "Player.h"
 #include <SDL2/SDL.h>
 #include <memory>
 #include <vector>

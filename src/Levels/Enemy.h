@@ -1,9 +1,9 @@
 #pragma once
 
+#include "../Vec2.h"
 #include "Bullet.h"
 #include "Enemies/Attack.h"
 #include "Entity.h"
-#include "Vec2.h"
 #include <memory>
 #include <stdint.h>
 #include <vector>

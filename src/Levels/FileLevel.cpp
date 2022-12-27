@@ -1,8 +1,8 @@
 #include "FileLevel.h"
 
-#include "../Enemies/Attack.h"
-#include "../Enemies/Basic.h"
 #include "../Utils.h"
+#include "Enemies/Attack.h"
+#include "Enemies/Basic.h"
 #include <assert.h>
 #include <fstream>
 #include <sstream>

@@ -1,10 +1,7 @@
 #pragma once
 
-#include "Bullet.h"
-#include "Enemy.h"
 #include "KeyboardState.h"
 #include "Levels/Level.h"
-#include "Player.h"
 #include "SpriteManager.h"
 #include "TextRenderer.h"
 #include "UI/MainMenu.h"

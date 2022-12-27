@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-#include "Utils.h"
+#include "../Utils.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>

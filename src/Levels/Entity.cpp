@@ -1,6 +1,6 @@
 #include "Entity.h"
+#include "../Utils.h"
 #include "Bullet.h"
-#include "Utils.h"
 
 namespace WizardGame {
 
