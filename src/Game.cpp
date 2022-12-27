@@ -108,7 +108,6 @@ void Game::event_loop()
         switch (event.type) {
         case SDL_QUIT:
             info() << "Quitting..." << std::endl;
-            SDL_Quit();
             m_quit = true;
             break;
         case SDL_KEYDOWN:
