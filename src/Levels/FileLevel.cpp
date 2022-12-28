@@ -126,7 +126,6 @@ void FileLevel::parse_level(std::string const& path)
             // TODO: Parse adrian
         } else if (line.find("background") == 0) {
             auto background = atoi(line.c_str() + strlen("background"));
-            info() << background << std::endl;
             switch (background) {
             case 1:
                 m_background_id = BackgroundId::Level1;

@@ -185,7 +185,6 @@ void Level::check_collisions()
     iterate_vector_for_removing(m_player_bullets, [&](auto& bullet) {
         bool bullet_is_to_be_removed = false;
         iterate_vector_for_removing(m_enemies, [&](auto& enemy) {
-            info() << enemy->collides_with(bullet) << std::endl;
             if (enemy->collides_with(bullet)) {
                 bullet_is_to_be_removed = true;
                 return ShouldRemove::Yes;
