@@ -3,6 +3,7 @@
 #include "Exceptions/TTFObjectError.h"
 #include "Game.h"
 #include "Utils.h"
+#include <sstream>
 
 namespace WizardGame {
 
@@ -57,10 +58,46 @@ Size TextRenderer::render_text_at(TTF_Font* font, std::string const& text, Vec2 
         throw TTFObjectError("TextRenderer/render_text", "Failed to render text");
     }
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, rendered_text);
+    return render_surface(rendered_text, position, "TextRenderer/render_text+surface");
+}
+
+Size TextRenderer::render_wrapped_big_text_at(std::string const& text, Vec2 position, SDL_Color color)
+{
+    return render_wrapped_text_at(m_big_font, text, position, color);
+}
+
+Size TextRenderer::render_wrapped_text_at(TTF_Font* font, std::string const& text, Vec2 position, SDL_Color color)
+{
+    auto longest_substring = [](std::string const& text) {
+        std::stringstream stream(text);
+        std::string longest, curr;
+
+        while (stream >> curr) {
+            if (curr.length() > longest.length()) {
+                longest = curr;
+            }
+        }
+
+        return longest;
+    };
+
+    auto wrap_length = measure_text(font, longest_substring(text));
+
+    SDL_Surface* rendered_text = TTF_RenderText_Solid_Wrapped(font, text.c_str(), color, wrap_length);
+
+    if (!rendered_text) {
+        throw TTFObjectError("TextRenderer/render_wrapped_text", "Failed to render text");
+    }
+
+    return render_surface(rendered_text, position, "TextRenderer/render_wrapped_text+surface");
+}
+
+Size TextRenderer::render_surface(SDL_Surface* surface, Vec2 position, char const* error_category)
+{
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
 
     if (!texture) {
-        throw SDLObjectError("TextRenderer/render_text", FailureTo::Create, "texture from rendered text");
+        throw SDLObjectError(error_category, FailureTo::Create, "texture from surface");
     }
 
     int text_width = 0, text_height = 0;
@@ -71,7 +108,7 @@ Size TextRenderer::render_text_at(TTF_Font* font, std::string const& text, Vec2 
     SDL_RenderCopy(m_renderer, texture, nullptr, &dest);
 
     SDL_DestroyTexture(texture);
-    SDL_FreeSurface(rendered_text);
+    SDL_FreeSurface(surface);
 
     return Size { text_width, text_height };
 }
