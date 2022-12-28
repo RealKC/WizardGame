@@ -27,9 +27,10 @@ static Attack::Type parse_attack(char ch)
 
 FileLevel::FileLevel(uint32_t level_event, std::string const& path)
     : Level(level_event, { 450, 450 })
-    , m_wave(1)
+    , m_wave(0)
 {
     parse_level(path);
+    next_wave();
 }
 
 void FileLevel::render_impl(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteManager& sprite_manager)
