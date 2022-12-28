@@ -61,6 +61,11 @@ Size TextRenderer::render_text_at(TTF_Font* font, std::string const& text, Vec2 
     return render_surface(rendered_text, position, "TextRenderer/render_text+surface");
 }
 
+Size TextRenderer::render_wrapped_regular_text_at(std::string const& text, Vec2 position, SDL_Color color, std::int32_t wrap_length)
+{
+    return render_wrapped_text_at(m_regular_font, text, position, color, wrap_length);
+}
+
 Size TextRenderer::render_wrapped_big_text_at(std::string const& text, Vec2 position, SDL_Color color, std::int32_t wrap_length)
 {
     return render_wrapped_text_at(m_big_font, text, position, color, wrap_length);

@@ -23,6 +23,7 @@ public:
     Size render_big_text_at(std::string const& text, Vec2 position, SDL_Color color);
 
     // Pass negative wrap_length for an automatically chosen wrap point
+    Size render_wrapped_regular_text_at(std::string const& text, Vec2 position, SDL_Color color, std::int32_t wrap_length = -1);
     Size render_wrapped_big_text_at(std::string const& text, Vec2 position, SDL_Color color, std::int32_t wrap_length = -1);
 
     // We need to call this before TTF_Quit or SDL_Quit, so we can't have the destructor
