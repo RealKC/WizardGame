@@ -52,6 +52,16 @@ void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteMa
 {
     sprite_manager.render_background(background_id());
 
+    // Dimmen the playing area so it's clear to the player where they can move
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
+    SDL_Rect playing_area_rect {
+        PLAYING_AREA_LEFT_LIMIT,
+        PLAYING_AREA_TOP_LIMIT,
+        PLAYING_AREA_RIGHT_LIMIT - PLAYING_AREA_LEFT_LIMIT,
+        PLAYING_AREA_BOTTOM_LIMIT - PLAYING_AREA_TOP_LIMIT
+    };
+    SDL_RenderFillRect(renderer, &playing_area_rect);
+
     render_impl(renderer, text_renderer, sprite_manager);
 
     if (is_paused()) {

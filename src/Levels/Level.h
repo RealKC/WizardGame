@@ -15,7 +15,13 @@ namespace WizardGame {
 
 class Level {
 public:
-    virtual ~Level() {}
+    static constexpr int PLAYING_AREA_BOTTOM_LIMIT = 940;
+    static constexpr int PLAYING_AREA_RIGHT_LIMIT = 940;
+    static constexpr int PLAYING_AREA_TOP_LIMIT = 20;
+    static constexpr int PLAYING_AREA_LEFT_LIMIT = 20;
+
+
+    virtual ~Level() { }
 
     void run_frame(uint32_t current_time);
     void render(SDL_Renderer*, TextRenderer&, SpriteManager&);

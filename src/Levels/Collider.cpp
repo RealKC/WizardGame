@@ -1,6 +1,6 @@
 #include "Collider.h"
 
-#include "../Game.h"
+#include "Level.h"
 #include <sstream>
 
 namespace WizardGame {
@@ -63,11 +63,11 @@ HasHitWall Collider::apply_position_delta(int delta_x, int delta_y)
     int new_x = m_x + delta_x;
     int new_y = m_y + delta_y;
 
-    if (new_x >= 0 && new_x + m_w <= Game::WINDOW_WIDTH)
+    if (new_x >= Level::PLAYING_AREA_LEFT_LIMIT && new_x + m_w <= Level::PLAYING_AREA_RIGHT_LIMIT)
         m_x += delta_x;
     else
         has_hit_wall = HasHitWall::Yes;
-    if (new_y >= 0 && new_y + m_h <= Game::WINDOW_HEIGHT)
+    if (new_y >= Level::PLAYING_AREA_TOP_LIMIT && new_y + m_h <= Level::PLAYING_AREA_BOTTOM_LIMIT)
         m_y += delta_y;
     else
         has_hit_wall = HasHitWall::Yes;
@@ -80,7 +80,8 @@ HasHitWall Collider::move_to(int x, int y)
     return apply_position_delta(x - m_x, y - m_y);
 }
 
-std::string Collider::to_string() const  {
+std::string Collider::to_string() const
+{
     std::stringstream str;
     str << "[ " << x() << ", " << y() << "; " << w() << ", " << h() << " ]";
     return str.str();
