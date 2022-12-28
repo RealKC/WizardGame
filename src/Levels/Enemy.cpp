@@ -48,27 +48,33 @@ void Enemy::move_to_target_position()
 
 void Enemy::fire_attacks(uint32_t current_time, std::vector<Bullet>& bullets)
 {
+    constexpr Size BULLET_SIZE { 10, 10 };
     for (auto& attack : m_attacks) {
         if (current_time - attack.last_fired_at >= attack.cooldown) {
             attack.last_fired_at = current_time;
             using Enemies::Attack;
             switch (attack.type) {
             case Attack::Type::Circle: {
-                float angle = M_PI / 5;
-                for (int i = 1; i < 6; ++i) {
-                    bullets.push_back(Bullet::radial(position_for_bullet({ 20, 20 }, Direction::Left), { 20, 20 }, 10, angle * i, 2));
+                float angle = 0;
+                for (int i = 1; i <= 6; ++i) {
+                    auto direction = i < 3 ? Direction::Right : (i < 5 ? Direction::Down : Direction::Left);
+                    bullets.push_back(Bullet::radial(position_for_bullet(BULLET_SIZE, direction), BULLET_SIZE, 10, angle, 2));
+                    angle += M_PI / 5;
                 }
                 break;
             }
             case Attack::Type::Line:
-                bullets.push_back(Bullet::liniar(position_for_bullet({ 10, 10 }, Direction::Down), { 10, 10 }, Direction::Down, 2));
+                bullets.push_back(Bullet::liniar(position_for_bullet(BULLET_SIZE, Direction::Down), BULLET_SIZE, Direction::Down, 2));
                 break;
-            case Attack::Type::ThreeAtOnce:
-                bullets.push_back(Bullet::liniar(position_for_bullet({ 10, 10 }, Direction::Down) - Vec2 { 10, 0 }, { 10, 10 }, Direction::Down, 2));
-                bullets.push_back(Bullet::liniar(position_for_bullet({ 10, 10 }, Direction::Down), { 10, 10 }, Direction::Down, 2));
-                bullets.push_back(Bullet::liniar(position_for_bullet({ 10, 10 }, Direction::Down) + Vec2 { 10, 0 }, { 10, 10 }, Direction::Down, 2));
+            case Attack::Type::ThreeAtOnce: {
+                auto position = position_for_bullet(BULLET_SIZE, Direction::Down);
+
+                bullets.push_back(Bullet::liniar(position - Vec2 { 50, 0 }, BULLET_SIZE, Direction::Down, 2));
+                bullets.push_back(Bullet::liniar(position, { 10, 10 }, Direction::Down, 2));
+                bullets.push_back(Bullet::liniar(position + Vec2 { 50, 0 }, BULLET_SIZE, Direction::Down, 2));
 
                 break;
+            }
             }
         }
     }
