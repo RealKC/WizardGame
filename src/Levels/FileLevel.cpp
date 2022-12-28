@@ -58,7 +58,6 @@ void FileLevel::dismiss_dialogue_if_any() { }
 void FileLevel::kill_player()
 {
     if (m_player.has_iframes()) {
-        info() << "Player has iframes\n";
         return;
     }
 
