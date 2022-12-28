@@ -17,6 +17,13 @@ static void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
     int i = 0;
     while (i < items.size()) {
         auto should_remove = cb(items[i]);
+
+        if (items.empty() || i > items.size()) {
+            // If the callback mutates our vector, we should try to tolerate it, we'll also make some noise about it though!
+            error() << "SUS: items vector was mutated while iterating through it in " << __FUNCTION__ << std::endl;
+            return;
+        }
+
         if (should_remove == ShouldRemove::Yes) {
             std::swap(items[i], items.back());
             items.pop_back();
