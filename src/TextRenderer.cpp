@@ -52,7 +52,7 @@ Size TextRenderer::render_big_text_at(std::string const& text, Vec2 position, SD
 
 Size TextRenderer::render_text_at(TTF_Font* font, std::string const& text, Vec2 position, SDL_Color color)
 {
-    SDL_Surface* rendered_text = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Surface* rendered_text = TTF_RenderText_Blended(font, text.c_str(), color);
 
     if (!rendered_text) {
         throw TTFObjectError("TextRenderer/render_text", "Failed to render text");
@@ -83,7 +83,7 @@ Size TextRenderer::render_wrapped_text_at(TTF_Font* font, std::string const& tex
 
     auto wrap_length = measure_text(font, longest_substring(text));
 
-    SDL_Surface* rendered_text = TTF_RenderText_Solid_Wrapped(font, text.c_str(), color, wrap_length);
+    SDL_Surface* rendered_text = TTF_RenderText_Blended_Wrapped(font, text.c_str(), color, wrap_length);
 
     if (!rendered_text) {
         throw TTFObjectError("TextRenderer/render_wrapped_text", "Failed to render text");
