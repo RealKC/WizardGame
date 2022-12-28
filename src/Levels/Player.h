@@ -27,10 +27,11 @@ public:
     void go_back_to_spawn() { move_to(m_spawn_location.x, m_spawn_location.y); }
 
     void reset_lives() { m_lives = INITIAL_LIVES; }
+    unsigned lives() const { return m_lives; }
 
     // ^Entity
     virtual void render(SDL_Renderer*, SpriteManager&);
-    virtual std::int64_t score_value() const { return m_lives; }
+    virtual std::int64_t score_value() const override { return lives(); }
 
 private:
     Vec2 m_spawn_location;

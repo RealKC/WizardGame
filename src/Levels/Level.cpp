@@ -84,6 +84,8 @@ void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteMa
     }
     text_renderer.render_regular_text_at("Score: " + score_string, { x, y }, { 0, 0, 0 });
 
+    text_renderer.render_big_text_at("Lives x" + std::to_string(m_player.lives()), { x, Game::WINDOW_HEIGHT - Game::WINDOW_HEIGHT / 10 }, { 255, 0, 0 });
+
     render_impl(renderer, text_renderer, sprite_manager);
 
     if (is_paused()) {
