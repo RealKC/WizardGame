@@ -6,6 +6,7 @@ TutorialLevel::TutorialLevel(uint32_t level_event)
     : Level(level_event)
     , m_tutorial_point(0)
 {
+    set_title("Home");
 }
 
 void TutorialLevel::run_frame_impl(uint32_t current_time)

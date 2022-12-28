@@ -20,7 +20,6 @@ public:
     static constexpr int PLAYING_AREA_TOP_LIMIT = 20;
     static constexpr int PLAYING_AREA_LEFT_LIMIT = 20;
 
-
     virtual ~Level() { }
 
     void run_frame(uint32_t current_time);
@@ -49,6 +48,8 @@ protected:
 
     void handle_player_keypresses(uint32_t current_time);
 
+    void set_title(std::string const& title) { m_title = title; }
+
     uint32_t const m_level_event;
 
     KeyboardState m_keyboard_state;
@@ -63,6 +64,7 @@ protected:
 private:
     bool is_paused() const { return m_pause_menu != nullptr; }
 
+    std::string m_title;
     std::unique_ptr<UI::PauseMenu> m_pause_menu;
 };
 } // WizardGame

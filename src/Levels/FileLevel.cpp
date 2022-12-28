@@ -140,6 +140,8 @@ void FileLevel::parse_level(std::string const& path)
                 error() << "Unknown background: '" << background << "'\n";
                 assert(false);
             }
+        } else if (line.find("title") == 0) {
+            set_title(line.substr(line.find(' ') + 1));
         } else {
             error() << "Cannot parse line: '" << line << "'\n";
         }

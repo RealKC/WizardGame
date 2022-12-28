@@ -1,4 +1,5 @@
 background 2
+title Carpatii medii
 wave 1
 basic l 40 40 50 50 400 80
 basic l 30 80 50 50 300 40

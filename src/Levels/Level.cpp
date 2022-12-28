@@ -1,5 +1,6 @@
 #include "Level.h"
 
+#include "../Game.h"
 #include "../UserEvents.h"
 #include "../Utils.h"
 
@@ -61,6 +62,8 @@ void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteMa
         PLAYING_AREA_BOTTOM_LIMIT - PLAYING_AREA_TOP_LIMIT
     };
     SDL_RenderFillRect(renderer, &playing_area_rect);
+
+    text_renderer.render_wrapped_big_text_at(m_title, { PLAYING_AREA_RIGHT_LIMIT + 20, 20 }, { 0, 0, 0 });
 
     render_impl(renderer, text_renderer, sprite_manager);
 
