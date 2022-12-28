@@ -94,6 +94,10 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
             case UI::PauseMenu::Continue:
                 toggle_pause_state();
                 break;
+            case UI::PauseMenu::Restart:
+                restart_level();
+                toggle_pause_state();
+                break;
             case UI::PauseMenu::QuitToMenu: {
                 SDL_Event event;
                 SDL_zero(event);

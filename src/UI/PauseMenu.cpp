@@ -13,8 +13,10 @@ int PauseMenu::activate_current_selection()
     case 0:
         return ActivationResult::Continue;
     case 1:
-        return ActivationResult::QuitToMenu;
+        return ActivationResult::Restart;
     case 2:
+        return ActivationResult::QuitToMenu;
+    case 3:
         return ActivationResult::QuitToDesktop;
     }
 
@@ -44,7 +46,7 @@ void PauseMenu::render(SDL_Renderer* renderer, TextRenderer& text_renderer) cons
 
     y += 35;
 
-    char const* items[] = { "Continue", "Quit to menu", "Quit to desktop" };
+    char const* items[] = { "Continue", "Restart", "Quit to menu", "Quit to desktop" };
 
     render_vertical_button_list(renderer, text_renderer, items, std::size(items), y);
 }
