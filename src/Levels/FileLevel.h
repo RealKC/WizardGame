@@ -8,7 +8,7 @@ namespace WizardGame {
 class FileLevel final : public Level {
 public:
     FileLevel(uint32_t level_event, std::string const& path);
-    virtual ~FileLevel() {}
+    virtual ~FileLevel() { }
 
 private:
     // ^Level

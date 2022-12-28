@@ -16,6 +16,7 @@ public:
         : SDLObjectError(category, FailureTo::Create, message, TTF_GetError())
     {
     }
+
 private:
     static std::string format_name_and_size(char const* font_name, int ptsize);
 };

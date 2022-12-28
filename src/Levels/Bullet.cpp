@@ -20,7 +20,7 @@ Bullet::~Bullet()
 
 Bullet Bullet::radial(Vec2 starting_position, Size size, int distance, float angle, float speed)
 {
-    auto bullet = Bullet { Collider { starting_position.x, starting_position.y, size.width, size.height }, speed};
+    auto bullet = Bullet { Collider { starting_position.x, starting_position.y, size.width, size.height }, speed };
     bullet.m_distance = distance;
     bullet.m_angle = angle;
     bullet.m_origin = starting_position;

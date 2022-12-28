@@ -4,7 +4,8 @@
 
 namespace WizardGame {
 
-std::string Vec2::to_string() const {
+std::string Vec2::to_string() const
+{
     std::stringstream str;
     str << "{ " << x << ", " << y << " }";
     return str.str();
@@ -34,7 +35,8 @@ Vec2 operator-(Vec2 lhs, Vec2 rhs)
     };
 }
 
-bool operator==(Vec2 lhs, Vec2 rhs) {
+bool operator==(Vec2 lhs, Vec2 rhs)
+{
     return lhs.x == rhs.x && lhs.y == rhs.y;
 }
 

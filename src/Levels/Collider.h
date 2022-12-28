@@ -25,6 +25,7 @@ public:
     int h() const { return m_h; }
 
     std::string to_string() const;
+
 private:
     int m_x;
     int m_y;
