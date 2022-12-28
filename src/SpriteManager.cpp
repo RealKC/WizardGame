@@ -81,6 +81,12 @@ SpriteManager::~SpriteManager()
         }
     }
 
+    for (std::size_t i = 0; i < PORTRAIT_COUNT; ++i) {
+        if (m_portraits[i]) {
+            SDL_DestroyTexture(m_portraits[i]);
+        }
+    }
+
     // We MUST NOT destroy the renderer here as we do not own it!!
 }
 
