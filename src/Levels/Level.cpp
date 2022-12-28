@@ -26,9 +26,9 @@ static void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
     }
 }
 
-Level::Level(uint32_t level_event)
+Level::Level(uint32_t level_event, Vec2 spawn)
     : m_level_event(level_event)
-    , m_player(Collider { 300, 300, 10, 10 }, Size { 50, 50 })
+    , m_player(Collider { spawn.x, spawn.y, 10, 10 }, Size { 50, 50 })
 {
     // Reserve some memory to hopefully avoid some allocations during frame code
     m_enemies.reserve(128);
@@ -255,24 +255,29 @@ void Level::handle_player_keypresses(uint32_t current_time)
     int delta_y = 0;
 
     if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_W) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_UP)) {
+        scancode_hook(SDL_SCANCODE_UP);
         delta_y -= STEP;
     }
 
     if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_S) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_DOWN)) {
+        scancode_hook(SDL_SCANCODE_DOWN);
         delta_y += STEP;
     }
 
     if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_A) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_LEFT)) {
+        scancode_hook(SDL_SCANCODE_LEFT);
         delta_x -= STEP;
     }
 
     if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_D) || m_keyboard_state.is_key_pressed(SDL_SCANCODE_RIGHT)) {
+        scancode_hook(SDL_SCANCODE_RIGHT);
         delta_x += STEP;
     }
 
     m_player.move_by(delta_x, delta_y);
 
     if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_X)) {
+        scancode_hook(SDL_SCANCODE_X);
         constexpr uint32_t ATTACK_COOLDOWN = 150;
         if (current_time - m_last_bullet_shot_time >= ATTACK_COOLDOWN) {
             // Allow the player to shoot a bullet

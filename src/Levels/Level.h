@@ -30,7 +30,7 @@ public:
     void handle_key_event(SDL_KeyboardEvent);
 
 protected:
-    explicit Level(uint32_t level_event);
+    Level(uint32_t level_event, Vec2 spawn);
 
     virtual void run_frame_impl(uint32_t current_time) = 0;
     virtual void render_impl(SDL_Renderer*, TextRenderer&, SpriteManager&) = 0;
@@ -38,6 +38,7 @@ protected:
     virtual BackgroundId background_id() const = 0;
     virtual void kill_player() = 0;
     virtual void restart_level();
+    virtual void scancode_hook(SDL_Scancode) { }
 
     void render_bullets(SDL_Renderer*, SpriteManager&);
     void render_entities(SDL_Renderer*, SpriteManager&);
@@ -54,6 +55,8 @@ protected:
     Player m_player;
 
     std::vector<std::unique_ptr<Enemy>> m_enemies;
+    std::vector<Bullet> m_player_bullets;
+    std::vector<Bullet> m_enemy_bullets;
 
 private:
     bool is_paused() const { return m_pause_menu != nullptr; }
@@ -61,9 +64,6 @@ private:
     uint32_t const m_level_event;
 
     KeyboardState m_keyboard_state;
-
-    std::vector<Bullet> m_player_bullets;
-    std::vector<Bullet> m_enemy_bullets;
 
     uint32_t m_last_bullet_shot_time;
 

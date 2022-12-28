@@ -26,7 +26,7 @@ static Attack::Type parse_attack(char ch)
 }
 
 FileLevel::FileLevel(uint32_t level_event, std::string const& path)
-    : Level(level_event)
+    : Level(level_event, { 450, 450 })
     , m_wave(1)
 {
     parse_level(path);

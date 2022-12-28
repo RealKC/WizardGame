@@ -6,8 +6,8 @@ namespace WizardGame {
 
 class TutorialLevel final : public Level {
 public:
-    TutorialLevel(uint32_t level_event);
-    virtual ~TutorialLevel() {}
+    explicit TutorialLevel(uint32_t level_event);
+    virtual ~TutorialLevel() { }
 
 private:
     // ^Level
@@ -17,10 +17,20 @@ private:
     virtual BackgroundId background_id() const override { return BackgroundId::Tutorial; };
     virtual void kill_player() override;
     virtual void restart_level() override;
+    virtual void scancode_hook(SDL_Scancode) override;
 
-    static constexpr int DIALOGUE_COUNT = 3;
+    bool can_progress_tutorial() const;
 
-    int m_tutorial_point;
+    enum Stage {
+        Intro = 0,
+        Keyboard = 3,
+        Shooting,
+        GoodLuck,
+    };
+
+    Stage m_tutorial_stage;
+    int m_keys_pressed;
+    std::size_t m_dialog_index;
 };
 
 }
