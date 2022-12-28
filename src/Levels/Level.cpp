@@ -3,6 +3,7 @@
 #include "../Game.h"
 #include "../UserEvents.h"
 #include "../Utils.h"
+#include <assert.h>
 
 namespace WizardGame {
 
@@ -47,6 +48,9 @@ Level::Level(uint32_t level_event, Vec2 spawn)
 
 void Level::restart_level()
 {
+    if (m_player.is_dead()) {
+        m_game_over_menu = std::make_unique<UI::GameOverMenu>();
+    }
     m_player.reset_lives();
     m_player.go_back_to_spawn();
     m_score = 0;
@@ -54,7 +58,7 @@ void Level::restart_level()
 
 void Level::run_frame(uint32_t current_time)
 {
-    if (!is_paused()) {
+    if (!is_paused() && !m_game_over_menu) {
         run_frame_impl(current_time);
     }
 }
@@ -88,7 +92,9 @@ void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteMa
 
     render_impl(renderer, text_renderer, sprite_manager);
 
-    if (is_paused()) {
+    if (m_game_over_menu) {
+        m_game_over_menu->render(renderer, text_renderer);
+    } else if (is_paused()) {
         m_pause_menu->render(renderer, text_renderer);
     }
 }
@@ -108,7 +114,23 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
     case SDLK_ESCAPE:
         toggle_pause_state();
         break;
-    case SDLK_RETURN:
+    case SDLK_RETURN: {
+        auto quit_to_menu = [&] {
+            SDL_Event event;
+            SDL_zero(event);
+            event.type = m_level_event;
+            event.user.code = LevelEvents::QuitToMenu;
+            SDL_PushEvent(&event);
+        };
+
+        auto quit_to_desktop = [&] {
+            SDL_Event event;
+            SDL_zero(event);
+            event.type = m_level_event;
+            event.user.code = LevelEvents::QuitToDesktop;
+            SDL_PushEvent(&event);
+        };
+
         if (is_paused()) {
             auto activation_result = m_pause_menu->activate_current_selection();
             switch (activation_result) {
@@ -119,34 +141,42 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
                 restart_level();
                 toggle_pause_state();
                 break;
-            case UI::PauseMenu::QuitToMenu: {
-                SDL_Event event;
-                SDL_zero(event);
-                event.type = m_level_event;
-                event.user.code = LevelEvents::QuitToMenu;
-                SDL_PushEvent(&event);
+            case UI::PauseMenu::QuitToMenu:
+                quit_to_menu();
+                break;
+            case UI::PauseMenu::QuitToDesktop:
+                quit_to_desktop();
                 break;
             }
-            case UI::PauseMenu::QuitToDesktop: {
-                SDL_Event event;
-                SDL_zero(event);
-                event.type = m_level_event;
-                event.user.code = LevelEvents::QuitToDesktop;
-                SDL_PushEvent(&event);
+        } else if (m_game_over_menu) {
+            auto activation_result = m_game_over_menu->activate_current_selection();
+            switch (activation_result) {
+            case UI::GameOverMenu::Restart:
+                m_game_over_menu = nullptr;
                 break;
-            }
+            case UI::GameOverMenu::QuitToMenu:
+                quit_to_menu();
+                break;
+            case UI::GameOverMenu::QuitToDesktop:
+                quit_to_desktop();
+                break;
             }
         } else {
             dismiss_dialogue_if_any();
         }
         break;
+    }
     case SDLK_UP:
-        if (is_paused()) {
+        if (m_game_over_menu) {
+            m_game_over_menu->select_previous_item();
+        } else if (is_paused()) {
             m_pause_menu->select_previous_item();
         }
         break;
     case SDLK_DOWN:
-        if (is_paused()) {
+        if (m_game_over_menu) {
+            m_game_over_menu->select_next_item();
+        } else if (is_paused()) {
             m_pause_menu->select_next_item();
         }
         break;

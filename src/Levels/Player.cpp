@@ -38,7 +38,6 @@ bool Player::has_iframes() const
 void Player::decrease_iframes()
 {
     if (m_iframes) {
-        info() << "Decreased iframes" << std::endl;
         // Avoid unsigned overflow
         --m_iframes;
     }

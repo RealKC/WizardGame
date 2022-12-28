@@ -3,6 +3,7 @@
 #include "../KeyboardState.h"
 #include "../SpriteManager.h"
 #include "../TextRenderer.h"
+#include "../UI/GameOverMenu.h"
 #include "../UI/PauseMenu.h"
 #include "Bullet.h"
 #include "Enemy.h"
@@ -72,5 +73,6 @@ private:
     std::string m_title;
     std::int64_t m_score;
     std::unique_ptr<UI::PauseMenu> m_pause_menu;
+    std::unique_ptr<UI::GameOverMenu> m_game_over_menu;
 };
 } // WizardGame

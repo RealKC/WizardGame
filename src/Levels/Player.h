@@ -28,6 +28,7 @@ public:
 
     void reset_lives() { m_lives = INITIAL_LIVES; }
     unsigned lives() const { return m_lives; }
+    bool is_dead() const { return lives() == 0; }
 
     // ^Entity
     virtual void render(SDL_Renderer*, SpriteManager&);
