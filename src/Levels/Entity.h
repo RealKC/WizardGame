@@ -20,6 +20,7 @@ public:
     void move_by(int delta_x, int delta_y);
 
     virtual void render(SDL_Renderer*, SpriteManager&) = 0;
+    virtual std::int64_t score_value() const = 0;
 
     bool collides_with(Bullet const&) const;
     bool collides_with(Entity const&) const;

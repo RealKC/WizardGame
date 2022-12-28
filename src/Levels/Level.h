@@ -61,6 +61,8 @@ protected:
 private:
     bool is_paused() const { return m_pause_menu != nullptr; }
 
+    void increase_score_by(std::int64_t units, std::int64_t enemy_modifier, std::int64_t player_modifier) { m_score += units * enemy_modifier * player_modifier; }
+
     uint32_t const m_level_event;
 
     KeyboardState m_keyboard_state;
@@ -68,6 +70,7 @@ private:
     uint32_t m_last_bullet_shot_time;
 
     std::string m_title;
+    std::int64_t m_score;
     std::unique_ptr<UI::PauseMenu> m_pause_menu;
 };
 } // WizardGame

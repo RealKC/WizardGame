@@ -22,12 +22,15 @@ public:
 
     bool has_iframes() const;
     void decrease_iframes();
+
     LostFinalLife die();
-    void reset_lives() { m_lives = INITIAL_LIVES; }
     void go_back_to_spawn() { move_to(m_spawn_location.x, m_spawn_location.y); }
+
+    void reset_lives() { m_lives = INITIAL_LIVES; }
 
     // ^Entity
     virtual void render(SDL_Renderer*, SpriteManager&);
+    virtual std::int64_t score_value() const { return m_lives; }
 
 private:
     Vec2 m_spawn_location;

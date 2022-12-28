@@ -18,6 +18,7 @@ public:
 
     // ^Entity
     virtual void render(SDL_Renderer*, SpriteManager&) override { }
+    virtual std::int64_t score_value() const override { return 80; }
 
 private:
     int m_phase;

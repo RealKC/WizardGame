@@ -36,6 +36,8 @@ static void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
 Level::Level(uint32_t level_event, Vec2 spawn)
     : m_level_event(level_event)
     , m_player(Collider { spawn.x, spawn.y, 10, 10 }, Size { 50, 50 })
+    , m_last_bullet_shot_time(0)
+    , m_score(0)
 {
     // Reserve some memory to hopefully avoid some allocations during frame code
     m_enemies.reserve(128);
@@ -47,6 +49,7 @@ void Level::restart_level()
 {
     m_player.reset_lives();
     m_player.go_back_to_spawn();
+    m_score = 0;
 }
 
 void Level::run_frame(uint32_t current_time)
@@ -70,7 +73,16 @@ void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteMa
     };
     SDL_RenderFillRect(renderer, &playing_area_rect);
 
-    text_renderer.render_wrapped_big_text_at(m_title, { PLAYING_AREA_RIGHT_LIMIT + 20, 20 }, { 0, 0, 0 });
+    int x = PLAYING_AREA_RIGHT_LIMIT + 20;
+    int y = text_renderer
+                .render_wrapped_big_text_at(m_title, { x, 20 }, { 0, 0, 0 })
+                .height;
+    y += 20;
+    auto score_string = std::to_string(m_score);
+    if (score_string.length() < 8) {
+        score_string = std::string(8 - score_string.length(), '0') + score_string;
+    }
+    text_renderer.render_regular_text_at("Score: " + score_string, { x, y }, { 0, 0, 0 });
 
     render_impl(renderer, text_renderer, sprite_manager);
 
@@ -214,11 +226,11 @@ void Level::update_bullet_positions()
 void Level::check_collisions()
 {
     // Check if the player hit an enemy
-    bool should_clear_all_bullets = false;
+    bool player_died = false;
     for (std::size_t i = 0; i < m_enemies.size(); ++i) {
         if (m_player.collides_with(*m_enemies[i])) {
             kill_player();
-            should_clear_all_bullets = true;
+            player_died = true;
             break;
         }
     }
@@ -229,6 +241,7 @@ void Level::check_collisions()
         iterate_vector_for_removing(m_enemies, [&](auto& enemy) {
             if (enemy->collides_with(bullet)) {
                 bullet_is_to_be_removed = true;
+                increase_score_by(1, enemy->score_value() - m_player.has_iframes(), m_player.score_value());
                 return ShouldRemove::Yes;
             }
             return ShouldRemove::No;
@@ -245,14 +258,15 @@ void Level::check_collisions()
     iterate_vector_for_removing(m_enemy_bullets, [&](auto& bullet) {
         if (m_player.collides_with(bullet)) {
             kill_player();
-            should_clear_all_bullets = true;
+            player_died = true;
             return ShouldRemove::Yes;
         }
 
         return ShouldRemove::No;
     });
 
-    if (should_clear_all_bullets) {
+    if (player_died) {
+        m_score /= 2;
         m_player_bullets.clear();
         m_enemy_bullets.clear();
     }
