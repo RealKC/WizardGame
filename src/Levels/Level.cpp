@@ -206,11 +206,12 @@ void Level::update_bullet_positions()
 
 void Level::check_collisions()
 {
-
     // Check if the player hit an enemy
-    for (auto& enemy : m_enemies) {
-        if (m_player.collides_with(*enemy)) {
+    bool should_clear_all_bullets = false;
+    for (std::size_t i = 0; i < m_enemies.size(); ++i) {
+        if (m_player.collides_with(*m_enemies[i])) {
             kill_player();
+            should_clear_all_bullets = true;
             break;
         }
     }
@@ -237,11 +238,17 @@ void Level::check_collisions()
     iterate_vector_for_removing(m_enemy_bullets, [&](auto& bullet) {
         if (m_player.collides_with(bullet)) {
             kill_player();
+            should_clear_all_bullets = true;
             return ShouldRemove::Yes;
         }
 
         return ShouldRemove::No;
     });
+
+    if (should_clear_all_bullets) {
+        m_player_bullets.clear();
+        m_enemy_bullets.clear();
+    }
 }
 
 void Level::tick_enemies(uint32_t current_time)
