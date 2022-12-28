@@ -41,6 +41,7 @@ protected:
 
     void render_bullets(SDL_Renderer*, SpriteManager&);
     void render_entities(SDL_Renderer*, SpriteManager&);
+    void render_dialog(SDL_Renderer*, TextRenderer&, SpriteManager&, PortraitId, std::string const& speaker, std::string const& speech);
 
     void update_bullet_positions();
     void check_collisions();
@@ -60,7 +61,7 @@ private:
     uint32_t const m_level_event;
 
     KeyboardState m_keyboard_state;
-    
+
     std::vector<Bullet> m_player_bullets;
     std::vector<Bullet> m_enemy_bullets;
 

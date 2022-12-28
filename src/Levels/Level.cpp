@@ -152,6 +152,33 @@ void Level::render_bullets(SDL_Renderer* renderer, SpriteManager&)
     }
 }
 
+void Level::render_dialog(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteManager& sprite_manager, PortraitId portrait_id, std::string const& speaker, std::string const& speech)
+{
+    int x = 20;
+    int y = 3 * Game::WINDOW_HEIGHT / 5;
+
+    auto portrait_size = size_for_portrait_id(portrait_id);
+
+    int dialog_height = portrait_size.height + 20;
+    int dialog_width = Level::PLAYING_AREA_RIGHT_LIMIT - 100;
+
+    if (text_renderer.measure_big_text(speaker) > dialog_width) {
+        dialog_width = Game::WINDOW_WIDTH;
+    }
+
+    int dialog_text_width = dialog_width - portrait_size.width - 100;
+
+    SDL_SetRenderDrawColor(renderer, 245, 245, 220, 75);
+    SDL_Rect dialog_rect { x - 10, y - 10, dialog_width, dialog_height };
+    SDL_RenderFillRect(renderer, &dialog_rect);
+
+    sprite_manager.render_portrait_at(portrait_id, { x, y });
+    x += 20 + portrait_size.width;
+    y += text_renderer.render_big_text_at(speaker, { x, y }, { 0, 0, 0 }).height;
+    y += 20;
+    text_renderer.render_wrapped_regular_text_at(speech, { x, y }, { 0, 0, 0 }, dialog_text_width);
+}
+
 void Level::update_bullet_positions()
 {
     iterate_vector_for_removing(m_player_bullets, [](auto& bullet) {
