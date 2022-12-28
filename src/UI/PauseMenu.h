@@ -19,7 +19,7 @@ public:
     virtual void render(SDL_Renderer* renderer, TextRenderer& text_renderer) const override;
 
 protected:
-    virtual int max_menu_item() const override { return 2; }
+    virtual int max_menu_item() const override { return ActivationResult::QuitToDesktop; }
 
 private:
 };
