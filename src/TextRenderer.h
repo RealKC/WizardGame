@@ -22,7 +22,8 @@ public:
     Size render_regular_text_at(std::string const& text, Vec2 position, SDL_Color color);
     Size render_big_text_at(std::string const& text, Vec2 position, SDL_Color color);
 
-    Size render_wrapped_big_text_at(std::string const& text, Vec2 position, SDL_Color color);
+    // Pass negative wrap_length for an automatically chosen wrap point
+    Size render_wrapped_big_text_at(std::string const& text, Vec2 position, SDL_Color color, std::int32_t wrap_length = -1);
 
     // We need to call this before TTF_Quit or SDL_Quit, so we can't have the destructor
     // handle it for us
@@ -31,7 +32,7 @@ public:
 private:
     int measure_text(TTF_Font*, std::string const& text);
     Size render_text_at(TTF_Font*, std::string const& text, Vec2 position, SDL_Color color);
-    Size render_wrapped_text_at(TTF_Font*, std::string const& text, Vec2 position, SDL_Color color);
+    Size render_wrapped_text_at(TTF_Font*, std::string const& text, Vec2 position, SDL_Color color, std::int32_t wrap_length);
 
     Size render_surface(SDL_Surface*, Vec2 position, char const* error_category);
 
