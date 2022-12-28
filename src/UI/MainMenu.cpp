@@ -36,10 +36,9 @@ int MainMenu::activate_current_selection()
         }
     } else {
         m_is_in_level_selection = (m_selected_menu_item == 0);
-        int old_selected_menu_item = m_selected_menu_item;
-        m_selected_menu_item = 0;
-        switch (old_selected_menu_item) {
+        switch (m_selected_menu_item) {
         case 0:
+            m_selected_menu_item = 0;
             return ActivationResult::None;
         case 1:
             return ActivationResult::Quit;
@@ -51,6 +50,7 @@ int MainMenu::activate_current_selection()
 
 void MainMenu::deactivate_current_selection()
 {
+    m_selected_menu_item = 0;
     m_is_in_level_selection = false;
 }
 
