@@ -15,9 +15,26 @@ SpriteManager::SpriteManager(SDL_Renderer* renderer)
         throw SDLObjectError("SpriteManager/spritesheet", FailureTo::Load, "image surface");
     }
 
+    char const* backgrounds[] = {
+        "resources/backgrounds/menu.jpg",
+        "resources/backgrounds/tutorial.jpg",
+        "resources/backgrounds/1.jpg",
+        "resources/backgrounds/2.jpg",
+        "resources/backgrounds/3.jpg",
+    };
+
     for (std::size_t i = 0; i < BACKGROUND_COUNT; ++i) {
-        // TODO: Load a background
-        m_backgrounds[i] = nullptr;
+        auto* background = IMG_Load(backgrounds[i]);
+
+        if (!background) {
+            throw SDLObjectError("SpriteManager/background", FailureTo::Load, backgrounds[i]);
+        }
+
+        m_backgrounds[i] = SDL_CreateTextureFromSurface(renderer, background);
+
+        if (!m_backgrounds[i]) {
+            throw SDLObjectError("SpriteManager/background", FailureTo::Create, "background texture");
+        }
     }
 
     char const* portraits[] = {
@@ -84,11 +101,9 @@ void SpriteManager::render_portrait_at(PortraitId portrait_id, Vec2 position) co
     SDL_RenderCopy(m_renderer, portrait, nullptr, &destination_rect);
 }
 
-void SpriteManager::render_background(BackgroundId) const
+void SpriteManager::render_background(BackgroundId background_id) const
 {
-    // FIXME: Actually implement this!
-    // FIXME: SDL_RenderCopy(m_renderer, m_backgrounds[static_cast<std::size_t>(background_id), nullptr, nullptr);
-    SDL_RenderCopy(m_renderer, m_texture, nullptr, nullptr);
+     SDL_RenderCopy(m_renderer, m_backgrounds[static_cast<std::size_t>(background_id)], nullptr, nullptr);
 }
 
 SDL_Rect SpriteManager::sprite_id_to_source_rect(SpriteId)
