@@ -50,19 +50,21 @@ protected:
 
     void set_title(std::string const& title) { m_title = title; }
 
-    uint32_t const m_level_event;
-
-    KeyboardState m_keyboard_state;
-
     Player m_player;
-    uint32_t m_last_bullet_shot_time;
 
-    std::vector<Bullet> m_player_bullets;
-    std::vector<Bullet> m_enemy_bullets;
     std::vector<std::unique_ptr<Enemy>> m_enemies;
 
 private:
     bool is_paused() const { return m_pause_menu != nullptr; }
+
+    uint32_t const m_level_event;
+
+    KeyboardState m_keyboard_state;
+    
+    std::vector<Bullet> m_player_bullets;
+    std::vector<Bullet> m_enemy_bullets;
+
+    uint32_t m_last_bullet_shot_time;
 
     std::string m_title;
     std::unique_ptr<UI::PauseMenu> m_pause_menu;
