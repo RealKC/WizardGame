@@ -20,6 +20,7 @@ protected:
 
     virtual int max_menu_item() const = 0;
 
+    int render_title(TextRenderer&, std::string const& title, int y) const;
     void render_vertical_button_list(SDL_Renderer* renderer, TextRenderer& text_renderer, char const* items[], std::size_t item_count, int y) const;
     void render_horizontal_button_list(SDL_Renderer* renderer, TextRenderer& text_renderer, char const* items[], std::size_t item_count, Vec2 position) const;
 

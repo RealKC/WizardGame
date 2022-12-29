@@ -35,14 +35,7 @@ void PauseMenu::render(SDL_Renderer* renderer, TextRenderer& text_renderer) cons
     SDL_Rect rect { 0, 0, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT };
     SDL_RenderFillRect(renderer, &rect);
 
-    int y = Game::WINDOW_HEIGHT / 3;
-
-    char const* pause = "-- Paused --";
-    auto width = text_renderer.measure_big_text(pause);
-
-    y += text_renderer
-             .render_big_text_at(pause, { Game::WINDOW_WIDTH / 2 - width / 2, y }, { 140, 10, 100 })
-             .height;
+    auto y = render_title(text_renderer, "-- Paused --", Game::WINDOW_HEIGHT / 3);
 
     y += 35;
 

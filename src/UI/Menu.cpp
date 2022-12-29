@@ -29,6 +29,17 @@ void Menu::select_previous_item()
     }
 }
 
+int Menu::render_title(TextRenderer& text_renderer, std::string const& title, int y) const
+{
+    auto width = text_renderer.measure_big_text(title);
+
+    y += text_renderer
+             .render_big_text_at(title, { Game::WINDOW_WIDTH / 2 - width / 2, y }, { 140, 10, 100 })
+             .height;
+
+    return y;
+}
+
 void Menu::render_vertical_button_list(SDL_Renderer* renderer, TextRenderer& text_renderer, char const* items[], std::size_t item_count, int y) const
 {
     auto* longest_item = *std::max_element(items, items + item_count, [](auto* lhs, auto* rhs) {
