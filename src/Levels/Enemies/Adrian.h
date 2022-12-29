@@ -10,10 +10,13 @@ class Adrian : public Enemy {
 public:
     Adrian(Collider collider, Vec2 target_position, std::vector<Attack> attacks, int health, int score)
         : Enemy(collider, target_position, attacks)
+        , m_max_health(health)
         , m_health(health)
         , m_score(score)
     {
     }
+
+    float health_percentage() const { return (float)m_health / m_max_health; }
 
     // ^Enemy
     virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) override;
@@ -24,6 +27,7 @@ public:
     virtual std::int64_t score_value() const override { return m_score * m_health / (100 + m_score); }
 
 private:
+    int m_max_health;
     int m_health;
     int m_score;
 };

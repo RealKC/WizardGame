@@ -64,6 +64,8 @@ private:
     bool is_paused() const { return m_menu != nullptr && m_menu->can_be_toggled(); }
     bool has_next_level() const { return next_level() > 0; }
 
+    float boss_health() const;
+
     void increase_score_by(std::int64_t units, std::int64_t enemy_modifier, std::int64_t player_modifier) { m_score += units * enemy_modifier * player_modifier; }
 
     uint32_t const m_level_event;

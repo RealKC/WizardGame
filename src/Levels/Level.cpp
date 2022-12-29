@@ -6,6 +6,7 @@
 #include "../UI/PauseMenu.h"
 #include "../UserEvents.h"
 #include "../Utils.h"
+#include "Enemies/Adrian.h"
 #include <assert.h>
 
 namespace WizardGame {
@@ -94,6 +95,20 @@ void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteMa
         score_string = std::string(8 - score_string.length(), '0') + score_string;
     }
     text_renderer.render_regular_text_at("Score: " + score_string, { x, y }, { 0, 0, 0 });
+
+    if (auto boss_health = this->boss_health(); boss_health != -1) {
+        int width = 150;
+        int red_width = width * boss_health;
+        int height = 40;
+
+        SDL_Rect black_rect { x, Game::WINDOW_HEIGHT / 2, width, height };
+        SDL_Rect red_rect { x, Game::WINDOW_HEIGHT / 2, red_width, height };
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
+        SDL_RenderFillRect(renderer, &black_rect);
+        SDL_SetRenderDrawColor(renderer, 0xff, 0, 0, 0xff);
+        SDL_RenderFillRect(renderer, &red_rect);
+    }
 
     text_renderer.render_big_text_at("Lives x" + std::to_string(m_player.lives()), { x, Game::WINDOW_HEIGHT - Game::WINDOW_HEIGHT / 10 }, { 255, 0, 0 });
 
@@ -366,6 +381,19 @@ void Level::handle_player_keypresses(uint32_t current_time)
             m_last_bullet_shot_time = current_time;
         }
     }
+}
+
+float Level::boss_health() const
+{
+    if (m_enemies.size() != 1) {
+        return -1;
+    }
+
+    if (auto* adrian = dynamic_cast<Enemies::Adrian*>(m_enemies[0].get()); adrian != nullptr) {
+        return adrian->health_percentage();
+    }
+
+    return -1;
 }
 
 }
