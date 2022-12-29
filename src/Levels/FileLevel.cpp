@@ -25,6 +25,12 @@ static Attack::Type parse_attack(char ch)
     assert(false && "Nu ar trebui sa ajunga aici.");
 }
 
+static int parse_number_from_directive(std::string const& s)
+{
+    auto first_ws = s.find_first_of(' ');
+    return atoi(s.c_str() + first_ws + 1);
+}
+
 FileLevel::FileLevel(uint32_t level_event, std::string const& path)
     : Level(level_event, { 450, 450 })
     , m_wave(0)
@@ -115,7 +121,7 @@ void FileLevel::parse_level(std::string const& path)
     size_t wave = 0;
     while (std::getline(level, line)) {
         if (line.find("wave") == 0) {
-            wave = atoi(line.c_str() + 4);
+            wave = parse_number_from_directive(line);
         } else if (line.find("basic") == 0) {
             std::stringstream stream(line.substr(strlen("basic")));
 
@@ -129,7 +135,6 @@ void FileLevel::parse_level(std::string const& path)
 
             stream >> x >> y;
             Vec2 target_position { x, y };
-            info() << "Target position is: " << target_position.to_string() << std::endl;
 
             m_enemy_infos.push_back(EnemyData {
                 wave,
@@ -140,7 +145,7 @@ void FileLevel::parse_level(std::string const& path)
         } else if (line.find("boss") == 0) {
             // TODO: Parse adrian
         } else if (line.find("background") == 0) {
-            auto background = atoi(line.c_str() + strlen("background"));
+            auto background = parse_number_from_directive(line);
             switch (background) {
             case 1:
                 m_background_id = BackgroundId::Level1;
