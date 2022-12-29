@@ -40,6 +40,7 @@ TutorialLevel::TutorialLevel(uint32_t level_event)
             (Level::PLAYING_AREA_BOTTOM_LIMIT - Level::PLAYING_AREA_TOP_LIMIT) / 2 })
     , m_tutorial_stage(Stage::Intro)
     , m_keys_pressed(0)
+    , m_has_been_won(false)
     , m_dialog_index(0)
 {
     set_title("Home");
@@ -76,6 +77,10 @@ void TutorialLevel::dismiss_dialogue_if_any()
 {
     if (!can_progress_tutorial()) {
         return;
+    }
+
+    if ((m_dialog_index + 1) == DIALOGUE_COUNT) {
+        m_has_been_won = true;
     }
 
     if (m_dialog_index + 1 < DIALOGUE_COUNT) {
@@ -140,6 +145,12 @@ void TutorialLevel::scancode_hook(SDL_Scancode scancode)
         break;
     }
 }
+
+bool TutorialLevel::has_been_won() const
+{
+    return m_has_been_won;
+}
+
 bool TutorialLevel::can_progress_tutorial() const
 {
     if (m_tutorial_stage < Stage::Keyboard) {

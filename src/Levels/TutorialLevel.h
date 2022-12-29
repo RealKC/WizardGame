@@ -18,6 +18,8 @@ private:
     virtual void kill_player() override;
     virtual void restart_level() override;
     virtual void scancode_hook(SDL_Scancode) override;
+    virtual int next_level() const override { return 1; }
+    virtual bool has_been_won() const override;
 
     bool can_progress_tutorial() const;
 
@@ -30,6 +32,7 @@ private:
 
     Stage m_tutorial_stage;
     int m_keys_pressed;
+    bool m_has_been_won;
     std::size_t m_dialog_index;
 };
 

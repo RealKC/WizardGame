@@ -164,6 +164,23 @@ void Game::event_loop()
             case LevelEvents::QuitToDesktop:
                 m_quit = true;
                 break;
+            case LevelEvents::NextLevel: {
+                auto next_level = reinterpret_cast<std::intptr_t>(event.user.data1);
+                switch (next_level) {
+                case 1:
+                    m_level = std::make_unique<FileLevel>(m_level_event, "resources/level1.txt");
+                    break;
+                case 2:
+                    m_level = std::make_unique<FileLevel>(m_level_event, "resources/level2.txt");
+                    break;
+                case 3:
+                    m_level = std::make_unique<FileLevel>(m_level_event, "resources/level3.txt");
+                    break;
+                default:
+                    info() << "Unexpected next_level value: " << next_level << std::endl;
+                }
+                break;
+            }
             }
         default:
             break;
@@ -179,7 +196,6 @@ void Game::render(uint32_t start_ticks)
         if (m_level) {
             m_level->run_frame(start_ticks);
 
-            m_sprite_manager.render_sprite_for_id_at_position(SpriteId::Player, { 0, 0 });
             m_level->render(m_renderer, m_text_renderer, m_sprite_manager);
         } else {
             m_sprite_manager.render_background(BackgroundId::Menu);

@@ -79,6 +79,21 @@ void FileLevel::restart_level()
     spawn_wave(m_enemies);
 }
 
+int FileLevel::next_level() const
+{
+    switch (m_background_id) {
+    case BackgroundId::Level1:
+        return 2;
+    case BackgroundId::Level2:
+        return 3;
+    case BackgroundId::Level3:
+        return -1;
+    default:
+        error() << "Unexpected m_background_id: " << static_cast<int>(m_background_id) << std::endl;
+        assert(false);
+    }
+}
+
 void FileLevel::restart_wave()
 {
     m_enemies.clear();
@@ -146,6 +161,7 @@ void FileLevel::parse_level(std::string const& path)
             error() << "Cannot parse line: '" << line << "'\n";
         }
     }
+    m_final_wave = wave + 1;
 }
 
 void FileLevel::spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies)

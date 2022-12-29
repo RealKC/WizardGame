@@ -39,6 +39,8 @@ protected:
     virtual void kill_player() = 0;
     virtual void restart_level();
     virtual void scancode_hook(SDL_Scancode) { }
+    virtual int next_level() const = 0;
+    virtual bool has_been_won() const = 0;
 
     void render_bullets(SDL_Renderer*, SpriteManager&);
     void render_entities(SDL_Renderer*, SpriteManager&);
@@ -60,6 +62,7 @@ protected:
 
 private:
     bool is_paused() const { return m_menu != nullptr && m_menu->can_be_toggled(); }
+    bool has_next_level() const { return next_level() > 0; }
 
     void increase_score_by(std::int64_t units, std::int64_t enemy_modifier, std::int64_t player_modifier) { m_score += units * enemy_modifier * player_modifier; }
 

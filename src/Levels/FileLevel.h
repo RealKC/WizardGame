@@ -18,6 +18,8 @@ private:
     virtual BackgroundId background_id() const override { return m_background_id; }
     virtual void kill_player() override;
     virtual void restart_level() override;
+    virtual int next_level() const override;
+    virtual bool has_been_won() const override { return m_wave == m_final_wave; };
 
     void spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies);
     void restart_wave();
@@ -34,7 +36,9 @@ private:
     };
 
     BackgroundId m_background_id;
+    bool m_has_been_won;
     size_t m_wave;
+    size_t m_final_wave;
     std::vector<EnemyData> m_enemy_infos;
 };
 

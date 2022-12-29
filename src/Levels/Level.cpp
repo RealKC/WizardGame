@@ -2,9 +2,11 @@
 
 #include "../Game.h"
 #include "../UI/GameOverMenu.h"
+#include "../UI/LevelCompletedMenu.h"
 #include "../UI/PauseMenu.h"
 #include "../UserEvents.h"
 #include "../Utils.h"
+#include <assert.h>
 
 namespace WizardGame {
 
@@ -61,6 +63,10 @@ void Level::run_frame(uint32_t current_time)
 {
     if (!m_menu) {
         run_frame_impl(current_time);
+    }
+
+    if (has_been_won() && !m_menu) {
+        m_menu = std::make_unique<UI::LevelCompletedMenu>(has_next_level());
     }
 }
 
@@ -130,6 +136,15 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
             SDL_PushEvent(&event);
         };
 
+        auto next_level = [&](std::intptr_t level) {
+            SDL_Event event;
+            SDL_zero(event);
+            event.type = m_level_event;
+            event.user.code = LevelEvents::NextLevel;
+            event.user.data1 = (void*)level;
+            SDL_PushEvent(&event);
+        };
+
         if (m_menu) {
             switch (m_menu->activate_current_selection()) {
             case UI::PauseMenu::Continue:
@@ -141,6 +156,11 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
                 break;
             case UI::GameOverMenu::Restart:
                 m_menu = nullptr;
+                break;
+            case UI::LevelCompletedMenu::NextLevel:
+                info() << "hello fellow ableists (i'm a canist)\n";
+                assert(has_next_level());
+                next_level(this->next_level());
                 break;
             case UI::AbstractLevelMenu::QuitToMenu:
                 quit_to_menu();

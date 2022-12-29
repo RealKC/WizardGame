@@ -28,6 +28,7 @@ add_executable(WizardGame
         src/UI/MainMenu.cpp src/UI/MainMenu.h
         src/UI/AbstractLevelMenu.cpp src/UI/AbstractLevelMenu.h
         src/UI/PauseMenu.h src/UI/GameOverMenu.h
+        src/UI/LevelCompletedMenu.h src/UI/LevelCompletedMenu.cpp
         src/Exceptions/Exception.cpp src/Exceptions/Exception.h
         src/Exceptions/InitError.h
         src/Exceptions/SDLObjectError.h

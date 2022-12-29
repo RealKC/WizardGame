@@ -1,6 +1,7 @@
 #include "AbstractLevelMenu.h"
 
 #include "../Game.h"
+#include "../Utils.h"
 #include <algorithm>
 #include <assert.h>
 
@@ -27,6 +28,7 @@ int AbstractLevelMenu::activate_current_selection()
         return ActivationResult::QuitToDesktop;
     }
 
+    error() << "Unexpected m_selected_menu_item: " << m_selected_menu_item << std::endl;
     assert(false);
 }
 
