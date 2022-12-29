@@ -35,11 +35,12 @@ add_executable(WizardGame
         src/Exceptions/TTFObjectError.cpp src/Exceptions/TTFObjectError.h
         src/UserEvents.h)
 
+target_compile_definitions(WizardGame PUBLIC DEBUG_GAME_MENUS)
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
-
 
 target_link_libraries(WizardGame SDL2::Core SDL2::Image SDL2::TTF)

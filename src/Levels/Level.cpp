@@ -184,6 +184,17 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
             m_menu->select_next_item();
         }
         break;
+#ifdef DEBUG_GAME_MENUS
+    case SDLK_j:
+        m_menu = std::make_unique<UI::LevelCompletedMenu>(has_next_level());
+        break;
+    case SDLK_k:
+        m_menu = std::make_unique<UI::PauseMenu>();
+        break;
+    case SDLK_l:
+        m_menu = std::make_unique<UI::GameOverMenu>();
+        break;
+#endif
     }
 }
 
