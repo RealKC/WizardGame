@@ -12,7 +12,13 @@ namespace WizardGame {
 
 class Enemy : public Entity {
 public:
+    enum class Died {
+        Yes,
+        No,
+    };
+
     virtual void tick(std::vector<Bullet>& bullets, uint32_t current_time) = 0;
+    virtual Died hit() = 0;
 
 protected:
     Enemy(Collider collider, Vec2 target_position, std::vector<Enemies::Attack> attacks);
@@ -27,7 +33,7 @@ protected:
 private:
     std::vector<Enemies::Attack> m_attacks;
     std::size_t m_current_attack;
-    
+
     Vec2 m_target_position;
     int m_movement_cooldown;
 };

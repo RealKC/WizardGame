@@ -1,6 +1,7 @@
 #include "FileLevel.h"
 
 #include "../Utils.h"
+#include "Enemies/Adrian.h"
 #include "Enemies/Attack.h"
 #include "Enemies/Basic.h"
 #include <assert.h>
@@ -34,6 +35,7 @@ static int parse_number_from_directive(std::string const& s)
 FileLevel::FileLevel(uint32_t level_event, std::string const& path)
     : Level(level_event, { 450, 450 })
     , m_wave(0)
+    , m_adrian_wave(0)
 {
     parse_level(path);
     next_wave();
@@ -141,9 +143,13 @@ void FileLevel::parse_level(std::string const& path)
                 collider,
                 target_position,
                 attack,
-                true });
-        } else if (line.find("boss") == 0) {
-            // TODO: Parse adrian
+            });
+        } else if (line.find("adrian") == 0) {
+            // Once we've reached an adrian directive, there's no going back, the rest of the file
+            // details what things adrian will do
+            parse_adrian(level);
+            m_adrian_wave = wave;
+            break;
         } else if (line.find("background") == 0) {
             auto background = parse_number_from_directive(line);
             switch (background) {
@@ -157,30 +163,98 @@ void FileLevel::parse_level(std::string const& path)
                 m_background_id = BackgroundId::Level3;
                 break;
             default:
-                error() << "Unknown background: '" << background << "'\n";
+                error() << "[GENERIC PARSE] Unknown background: '" << background << "'\n";
                 assert(false);
             }
         } else if (line.find("title") == 0) {
             set_title(line.substr(line.find(' ') + 1));
         } else {
-            error() << "Cannot parse line: '" << line << "'\n";
+            error() << "[GENERIC PARSE] Cannot parse line: '" << line << "'\n";
         }
     }
+
     m_final_wave = wave + 1;
+
+    if (m_adrian_wave == 0) {
+        m_adrian_wave = m_final_wave + 10;
+    }
+}
+
+void FileLevel::parse_adrian(std::istream& in)
+{
+    std::string line;
+
+    Collider collider { 450, 50, 200, 200 };
+    Vec2 target_position;
+    int health;
+    int score;
+    std::vector<Enemies::Attack> attacks;
+    // I doubt we'll have more attacks than this
+    attacks.reserve(128);
+    while (std::getline(in, line)) {
+        if (line.find("line") == 0) {
+            auto cooldown = parse_number_from_directive(line);
+            attacks.push_back(Attack {
+                Attack::Type::Line,
+                cooldown,
+                0 });
+        } else if (line.find("three") == 0) {
+            auto cooldown = parse_number_from_directive(line);
+            attacks.push_back(Attack {
+                Attack::Type::ThreeAtOnce,
+                cooldown,
+                0 });
+        } else if (line.find("circle") == 0) {
+            auto cooldown = parse_number_from_directive(line);
+            attacks.push_back(Attack {
+                Attack::Type::Circle,
+                cooldown,
+                0 });
+        } else if (line.find("health") == 0) {
+            health = parse_number_from_directive(line);
+        } else if (line.find("collider") == 0) {
+            std::stringstream stream(line.substr(strlen("collider")));
+            int x, y, w, h;
+            stream >> x >> y >> w >> h;
+            collider = Collider { x, y, w, h };
+        } else if (line.find("target") == 0) {
+            std::stringstream stream(line.substr(strlen("target")));
+            int x, y;
+            stream >> x >> y;
+            target_position = Vec2 { x, y };
+        } else if (line.find("score") == 0) {
+            score = parse_number_from_directive(line);
+        } else {
+            error() << "[ADRIAN PARSE] Cannot parse line: '" << line << "'\n";
+        }
+    }
+
+    m_adrian_data = AdrianData {
+        collider,
+        target_position,
+        health,
+        score,
+        attacks,
+    };
 }
 
 void FileLevel::spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies)
 {
+    if (m_wave == m_adrian_wave) {
+        enemies.push_back(std::make_unique<Enemies::Adrian>(
+            m_adrian_data->collider,
+            m_adrian_data->target_position,
+            m_adrian_data->attacks,
+            m_adrian_data->health,
+            m_adrian_data->score));
+        return;
+    }
+
     for (auto& enemy : m_enemy_infos) {
         if (m_wave == enemy.wave) {
-            if (enemy.is_basic) {
-                Attack attack { enemy.attack, 1200, 0 };
-                enemies.push_back(std::make_unique<Enemies::Basic>(enemy.collider, enemy.target_position, std::vector { attack }));
-            } else {
-                // TODO: Adrian!
-            }
+            Attack attack { enemy.attack, 1200, 0 };
+            enemies.push_back(std::make_unique<Enemies::Basic>(enemy.collider, enemy.target_position, std::vector { attack }));
         }
     }
 }
-
 }

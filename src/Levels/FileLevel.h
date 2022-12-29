@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Level.h"
+#include <istream>
+#include <optional>
 #include <stdint.h>
 
 namespace WizardGame {
@@ -26,20 +28,29 @@ private:
     void next_wave();
 
     void parse_level(std::string const& path);
+    void parse_adrian(std::istream&);
+
+    struct AdrianData {
+        Collider collider;
+        Vec2 target_position;
+        int health;
+        int score;
+        std::vector<Enemies::Attack> attacks;
+    };
 
     struct EnemyData {
         size_t wave;
         Collider collider;
         Vec2 target_position;
         Enemies::Attack::Type attack;
-        bool is_basic;
     };
 
     BackgroundId m_background_id;
-    bool m_has_been_won;
     size_t m_wave;
+    size_t m_adrian_wave;
     size_t m_final_wave;
     std::vector<EnemyData> m_enemy_infos;
+    std::optional<AdrianData> m_adrian_data;
 };
 
 }

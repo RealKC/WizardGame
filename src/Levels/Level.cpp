@@ -288,8 +288,10 @@ void Level::check_collisions()
         iterate_vector_for_removing(m_enemies, [&](auto& enemy) {
             if (enemy->collides_with(bullet)) {
                 bullet_is_to_be_removed = true;
-                increase_score_by(1, enemy->score_value() - m_player.has_iframes(), m_player.score_value());
-                return ShouldRemove::Yes;
+                if (enemy->hit() == Enemy::Died::Yes) {
+                    increase_score_by(1, enemy->score_value() - m_player.has_iframes(), m_player.score_value());
+                    return ShouldRemove::Yes;
+                }
             }
             return ShouldRemove::No;
         });
