@@ -1,6 +1,7 @@
 #include "Menu.h"
 
 #include "../Game.h"
+#include "../Utils.h"
 #include <algorithm>
 #include <cstring>
 
@@ -40,7 +41,7 @@ int Menu::render_title(TextRenderer& text_renderer, std::string const& title, in
     return y;
 }
 
-void Menu::render_vertical_button_list(SDL_Renderer* renderer, TextRenderer& text_renderer, char const* items[], std::size_t item_count, int y) const
+void Menu::render_vertical_button_list(SDL_Renderer* renderer, TextRenderer& text_renderer, char const* const* items, std::size_t item_count, int y) const
 {
     auto* longest_item = *std::max_element(items, items + item_count, [](auto* lhs, auto* rhs) {
         return std::strlen(lhs) < std::strlen(rhs);

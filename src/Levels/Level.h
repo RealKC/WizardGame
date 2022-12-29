@@ -3,8 +3,7 @@
 #include "../KeyboardState.h"
 #include "../SpriteManager.h"
 #include "../TextRenderer.h"
-#include "../UI/GameOverMenu.h"
-#include "../UI/PauseMenu.h"
+#include "../UI/AbstractLevelMenu.h"
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -60,7 +59,7 @@ protected:
     std::vector<Bullet> m_enemy_bullets;
 
 private:
-    bool is_paused() const { return m_pause_menu != nullptr; }
+    bool is_paused() const { return m_menu != nullptr && m_menu->can_be_toggled(); }
 
     void increase_score_by(std::int64_t units, std::int64_t enemy_modifier, std::int64_t player_modifier) { m_score += units * enemy_modifier * player_modifier; }
 
@@ -72,7 +71,6 @@ private:
 
     std::string m_title;
     std::int64_t m_score;
-    std::unique_ptr<UI::PauseMenu> m_pause_menu;
-    std::unique_ptr<UI::GameOverMenu> m_game_over_menu;
+    std::unique_ptr<UI::AbstractLevelMenu> m_menu;
 };
 } // WizardGame

@@ -1,27 +1,23 @@
 #pragma once
 
-#include "Menu.h"
+#include "AbstractLevelMenu.h"
 
 namespace WizardGame {
 namespace UI {
 
-class PauseMenu : public Menu {
+class PauseMenu final : public AbstractLevelMenu {
 public:
     enum ActivationResult {
-        Continue,
-        Restart,
-        QuitToMenu,
-        QuitToDesktop,
+        Continue = 5,
+        Restart = 6,
     };
 
-    virtual int activate_current_selection() override;
-    virtual void deactivate_current_selection() override;
-    virtual void render(SDL_Renderer* renderer, TextRenderer& text_renderer) const override;
+    PauseMenu()
+        : AbstractLevelMenu({ ActivationResult::Continue, ActivationResult::Restart }, "-- Paused --", { "Continue", "Restart", "Quit to menu", "Quit to desktop" })
+    {
+    }
 
-protected:
-    virtual int max_menu_item() const override { return ActivationResult::QuitToDesktop; }
-
-private:
+    virtual bool can_be_toggled() const override { return true; }
 };
 
 }
