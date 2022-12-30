@@ -110,7 +110,11 @@ void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteMa
         SDL_RenderFillRect(renderer, &red_rect);
     }
 
-    text_renderer.render_big_text_at("Lives x" + std::to_string(m_player.lives()), { x, Game::WINDOW_HEIGHT - Game::WINDOW_HEIGHT / 10 }, { 255, 0, 0 });
+    y = Game::WINDOW_HEIGHT - Game::WINDOW_HEIGHT / 10;
+    auto heart_size =  sprite_manager.render_sprite_for_id_at_position(SpriteId::Heart, {x, y}, 2);
+    x += heart_size.width;
+
+    text_renderer.render_big_text_at("x" + std::to_string(m_player.lives()), { x, y }, { 255, 0, 0 });
 
     render_impl(renderer, text_renderer, sprite_manager);
 
