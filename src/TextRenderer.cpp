@@ -7,7 +7,7 @@
 
 namespace WizardGame {
 
-static constexpr auto* FONT_NAME = "/usr/share/fonts/TTF/FiraCode-Medium.ttf";
+static constexpr auto* FONT_NAME = "resources/FiraCode-Medium.ttf";
 
 static TTF_Font* open_font(char const* font_name, int ptsize)
 {

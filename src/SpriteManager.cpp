@@ -10,7 +10,7 @@ namespace WizardGame {
 SpriteManager::SpriteManager(SDL_Renderer* renderer)
     : m_renderer(renderer)
 {
-    SDL_Surface* surface = IMG_Load("resources/sprites/spritesheet.jpg");
+    SDL_Surface* surface = IMG_Load("resources/sprites/spritesheet.png");
 
     if (!surface) {
         throw SDLObjectError("SpriteManager/spritesheet", FailureTo::Load, "image surface");
