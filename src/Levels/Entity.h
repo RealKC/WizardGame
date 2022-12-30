@@ -26,7 +26,9 @@ public:
     bool collides_with(Entity const&) const;
 
 protected:
-    Entity(Collider);
+    explicit Entity(Collider);
+
+    virtual SpriteId sprite_id() const = 0;
 
     Size size() const { return Size { m_collider.w(), m_collider.h() }; }
 

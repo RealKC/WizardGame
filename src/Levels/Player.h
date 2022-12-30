@@ -34,6 +34,10 @@ public:
     virtual void render(SDL_Renderer*, SpriteManager&);
     virtual std::int64_t score_value() const override { return lives(); }
 
+protected:
+    // ^Entity
+    virtual SpriteId sprite_id() const override { return SpriteId::Player; }
+
 private:
     Vec2 m_spawn_location;
     Size m_render_size;

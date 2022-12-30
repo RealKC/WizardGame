@@ -30,6 +30,10 @@ public:
     virtual void render(SDL_Renderer*, SpriteManager&) override;
     virtual std::int64_t score_value() const override { return m_score * m_health / (100 + m_score); }
 
+protected:
+    // ^Entity
+    virtual SpriteId sprite_id() const override { return SpriteId::Adrian; }
+
 private:
     int m_max_health;
     int m_health;
