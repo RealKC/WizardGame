@@ -15,6 +15,7 @@ public:
     explicit TextRenderer(SDL_Renderer*);
     ~TextRenderer();
 
+    int regular_text_height() const { return 20; }
     int big_text_height() const { return 40; }
 
     // These return the width of the rendered text

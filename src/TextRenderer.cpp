@@ -20,7 +20,7 @@ static TTF_Font* open_font(char const* font_name, int ptsize)
 
 TextRenderer::TextRenderer(SDL_Renderer* renderer)
     : m_renderer(renderer)
-    , m_regular_font(open_font(FONT_NAME, 20))
+    , m_regular_font(open_font(FONT_NAME, regular_text_height()))
     , m_big_font(open_font(FONT_NAME, big_text_height()))
 {
 }
