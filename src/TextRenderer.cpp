@@ -27,6 +27,7 @@ TextRenderer::TextRenderer(SDL_Renderer* renderer)
 
 TextRenderer::~TextRenderer()
 {
+    // We can't close fonts here because this destructor is ran after TTF_Quit is called
 }
 
 void TextRenderer::close_fonts()
