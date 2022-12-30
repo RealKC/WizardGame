@@ -18,7 +18,10 @@ public:
     virtual void render(SDL_Renderer* renderer, TextRenderer& text_renderer) const = 0;
 
 protected:
-    Menu();
+    static constexpr SDL_Color SELECTED_TEXT_COLOR { 159, 43, 104 };
+    static constexpr SDL_Color NORMAL_TEXT_COLOR { 255, 255, 255 };
+
+    Menu(SDL_Color normal = NORMAL_TEXT_COLOR, SDL_Color selected = SELECTED_TEXT_COLOR);
 
     virtual int max_menu_item() const = 0;
 
@@ -29,6 +32,8 @@ protected:
     int m_selected_menu_item;
 
 private:
+    SDL_Color m_selected_text_color;
+    SDL_Color m_normal_text_color;
 };
 
 }

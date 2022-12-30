@@ -8,11 +8,10 @@
 namespace WizardGame {
 namespace UI {
 
-static constexpr SDL_Color SELECTED_TEXT_COLOR { 0, 0, 255 };
-static constexpr SDL_Color NORMAL_TEXT_COLOR { 255, 255, 255 };
-
-Menu::Menu()
+Menu::Menu(SDL_Color normal, SDL_Color selected)
     : m_selected_menu_item(0)
+    , m_selected_text_color(selected)
+    , m_normal_text_color(normal)
 {
 }
 
@@ -60,27 +59,27 @@ void Menu::render_vertical_button_list(SDL_Renderer* renderer, TextRenderer& tex
         auto x = Game::WINDOW_WIDTH / 2 - width / 2;
         if (m_selected_menu_item == i) {
             SDL_Rect button_rect { Game::WINDOW_WIDTH / 2 - longest_item_width / 2 - 5, y - 5, longest_item_width + 10, height + 15 };
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 160);
             SDL_RenderFillRect(renderer, &button_rect);
 
             if (big_text) {
                 y += text_renderer
-                         .render_big_text_at(items[i], { x, y }, SELECTED_TEXT_COLOR)
+                         .render_big_text_at(items[i], { x, y }, m_selected_text_color)
                          .height;
 
             } else {
                 y += text_renderer
-                         .render_regular_text_at(items[i], { x, y }, SELECTED_TEXT_COLOR)
+                         .render_regular_text_at(items[i], { x, y }, m_selected_text_color)
                          .height;
             }
         } else {
             if (big_text) {
                 y += text_renderer
-                         .render_big_text_at(items[i], { x, y }, NORMAL_TEXT_COLOR)
+                         .render_big_text_at(items[i], { x, y }, m_normal_text_color)
                          .height;
             } else {
                 y += text_renderer
-                         .render_regular_text_at(items[i], { x, y }, NORMAL_TEXT_COLOR)
+                         .render_regular_text_at(items[i], { x, y }, m_normal_text_color)
                          .height;
             }
         }
@@ -95,15 +94,15 @@ void Menu::render_horizontal_button_list(SDL_Renderer* renderer, TextRenderer& t
         if (m_selected_menu_item == i) {
             auto width = text_renderer.measure_big_text(items[i]);
             SDL_Rect button_rect { x - 5, position.y - 5, width + 5, text_renderer.big_text_height() + 15 };
-            SDL_SetRenderDrawColor(renderer, 126, 0, 126, 255);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 160);
             SDL_RenderFillRect(renderer, &button_rect);
 
             x += text_renderer
-                     .render_big_text_at(items[i], { x, position.y }, SELECTED_TEXT_COLOR)
+                     .render_big_text_at(items[i], { x, position.y }, m_selected_text_color)
                      .width;
         } else {
             x += text_renderer
-                     .render_big_text_at(items[i], { x, position.y }, NORMAL_TEXT_COLOR)
+                     .render_big_text_at(items[i], { x, position.y }, m_normal_text_color)
                      .width;
         }
         x += 20;
