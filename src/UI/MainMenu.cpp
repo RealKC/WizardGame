@@ -8,7 +8,8 @@ namespace WizardGame {
 namespace UI {
 
 MainMenu::MainMenu()
-    : m_is_in_level_selection(false)
+    : Menu({ 0x00, 0x42, 0x25 }, { 0, 0, 0xff })
+    , m_is_in_level_selection(false)
 {
 }
 
@@ -76,13 +77,13 @@ void MainMenu::render_level_selection(SDL_Renderer* renderer, TextRenderer& text
     char const* levels[] = { "Tutorial", "1", "2", "3" };
 
     char const* choose_a_level = "Choose a level: ";
-    auto y = Game::WINDOW_HEIGHT / 2 - 150;
+    auto y = Game::WINDOW_HEIGHT / 2 - 200;
     auto width = text_renderer.measure_big_text(choose_a_level);
 
-    y += text_renderer.render_big_text_at(choose_a_level, { Game::WINDOW_WIDTH / 2 - width / 2, y }, { 120, 101, 100 })
+    y += text_renderer.render_big_text_at(choose_a_level, { Game::WINDOW_WIDTH / 2 - width / 2 + 25, y }, { 0, 0, 0 })
              .height;
 
-    y += 100;
+    y += 30;
 
     render_horizontal_button_list(renderer, text_renderer, levels, std::size(levels), { static_cast<int>(Game::WINDOW_WIDTH / 2.75), y });
 }
