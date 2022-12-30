@@ -45,8 +45,8 @@ FileLevel::FileLevel(uint32_t level_event, std::string const& path)
     : Level(level_event, { 450, 450 })
     , m_wave(0)
     , m_adrian_wave(0)
-    , m_has_shown_mid_boss_dialog(false)
-    , m_has_shown_end_dialog(false)
+    , m_has_shown_mid_boss_dialog(true)
+    , m_has_shown_end_dialog(true)
 {
     parse_level(path);
     next_wave();
@@ -186,6 +186,7 @@ void FileLevel::parse_level(std::string const& path)
             // Once we've reached an adrian directive, there's no going back, the rest of the file
             // details what things adrian will do
             parse_adrian(level);
+            m_has_shown_mid_boss_dialog = false;
             m_adrian_wave = wave;
             break;
         } else if (line.find("background") == 0) {
@@ -207,6 +208,7 @@ void FileLevel::parse_level(std::string const& path)
         } else if (line.find("title") == 0) {
             set_title(line.substr(line.find(' ') + 1));
         } else if (line.find("dialog") == 0) {
+            m_has_shown_end_dialog = false;
             if (line.find_first_of('0') != std::string::npos) {
                 m_end_dialog_text = line.substr(line.find_first_of('0') + 2);
                 m_speaker = "Adrian";
@@ -215,6 +217,8 @@ void FileLevel::parse_level(std::string const& path)
                 m_end_dialog_text = line.substr(line.find_first_of('1') + 2);
                 m_speaker = "Mircea";
                 m_portrait_id = PortraitId::Mircea;
+            } else {
+                error() << "[GENERIC PARSE] Unknown dialog directive: '" << line << "'\n";
             }
         } else {
             error() << "[GENERIC PARSE] Cannot parse line: '" << line << "'\n";
