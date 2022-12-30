@@ -6,8 +6,9 @@
 
 namespace WizardGame {
 
-Bullet::Bullet(Collider collider, float speed)
+Bullet::Bullet(Collider collider, float speed, SpriteId sprite_id)
     : m_collider(collider)
+    , m_sprite_id(sprite_id)
     , m_distance(0)
     , m_angle(0.0f)
     , m_speed(speed)
@@ -18,9 +19,9 @@ Bullet::~Bullet()
 {
 }
 
-Bullet Bullet::radial(Vec2 starting_position, Size size, int distance, float angle, float speed)
+Bullet Bullet::radial(Vec2 starting_position, Size size, int distance, float angle, float speed, SpriteId sprite_id)
 {
-    auto bullet = Bullet { Collider { starting_position.x, starting_position.y, size.width, size.height }, speed };
+    auto bullet = Bullet { Collider { starting_position.x, starting_position.y, size.width, size.height }, speed, sprite_id };
     bullet.m_distance = distance;
     bullet.m_angle = angle;
     bullet.m_origin = starting_position;
@@ -28,7 +29,7 @@ Bullet Bullet::radial(Vec2 starting_position, Size size, int distance, float ang
     return bullet;
 }
 
-Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction, float speed)
+Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction, float speed, SpriteId sprite_id)
 {
     float angle = 0;
     switch (direction) {
@@ -45,7 +46,7 @@ Bullet Bullet::liniar(Vec2 starting_position, Size size, Direction direction, fl
         angle = 0;
         break;
     }
-    return radial(starting_position, size, 3, angle, speed);
+    return radial(starting_position, size, 3, angle, speed, sprite_id);
 }
 
 HasHitWall Bullet::move()
@@ -67,6 +68,11 @@ Vec2 Bullet::position() const
 Size Bullet::size() const
 {
     return Size { m_collider.w(), m_collider.h() };
+}
+
+void Bullet::render(SpriteManager& sprite_manager)
+{
+    sprite_manager.render_sprite_for_id_at_position(m_sprite_id, position());
 }
 
 }

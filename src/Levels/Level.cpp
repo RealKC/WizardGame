@@ -225,12 +225,14 @@ void Level::render_entities(SDL_Renderer* renderer, SpriteManager& sprite_manage
 void Level::render_bullets(SDL_Renderer* renderer, SpriteManager&)
 {
     for (auto& bullet : m_player_bullets) {
+        // FIXME: bullet.render();
         SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
         SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0x00, 0xff);
         SDL_RenderFillRect(renderer, &rect);
     }
 
     for (auto& bullet : m_enemy_bullets) {
+        // FIXME: bullet.render();
         SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
         SDL_SetRenderDrawColor(renderer, 0x80, 0xff, 0x00, 0xff);
         SDL_RenderFillRect(renderer, &rect);
