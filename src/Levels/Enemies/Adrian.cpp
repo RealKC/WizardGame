@@ -3,6 +3,11 @@
 namespace WizardGame {
 namespace Enemies {
 
+bool Adrian::has_pending_dialog() const
+{
+    return !m_dialog.empty() && health_percentage() == 0.5;
+}
+
 Enemy::Died Adrian::hit()
 {
     if (m_health - 10 == 0) {

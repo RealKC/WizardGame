@@ -36,6 +36,7 @@ private:
         int health;
         int score;
         std::vector<Enemies::Attack> attacks;
+        std::string text;
     };
 
     struct EnemyData {
@@ -55,6 +56,7 @@ private:
     std::string m_speaker;
     std::string m_end_dialog_text;
     PortraitId m_portrait_id;
+    bool m_has_shown_mid_boss_dialog;
     bool m_has_shown_end_dialog;
 };
 

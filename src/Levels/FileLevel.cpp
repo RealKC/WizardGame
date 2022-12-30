@@ -32,10 +32,20 @@ static int parse_number_from_directive(std::string const& s)
     return atoi(s.c_str() + first_ws + 1);
 }
 
+static Enemies::Adrian const* get_adrian(std::vector<std::unique_ptr<Enemy>> const& enemies)
+{
+    if (enemies.size() != 1) {
+        return nullptr;
+    }
+
+    return dynamic_cast<Enemies::Adrian const*>(enemies[0].get());
+}
+
 FileLevel::FileLevel(uint32_t level_event, std::string const& path)
     : Level(level_event, { 450, 450 })
     , m_wave(0)
     , m_adrian_wave(0)
+    , m_has_shown_mid_boss_dialog(false)
     , m_has_shown_end_dialog(false)
 {
     parse_level(path);
@@ -48,13 +58,25 @@ void FileLevel::render_impl(SDL_Renderer* renderer, TextRenderer& text_renderer,
     render_bullets(renderer, sprite_manager);
     render_entities(renderer, sprite_manager);
 
-    if (m_speaker.length() != 0 && m_wave == m_final_wave && !m_has_shown_end_dialog) {
+    if (!m_has_shown_mid_boss_dialog) {
+        auto* adrian = get_adrian(m_enemies);
+        if (adrian && adrian->has_pending_dialog()) {
+            render_dialog(renderer, text_renderer, sprite_manager, PortraitId::Adrian, "Adrian", adrian->dialog_text());
+        }
+    } else if (m_speaker.length() != 0 && m_wave == m_final_wave && !m_has_shown_end_dialog) {
         render_dialog(renderer, text_renderer, sprite_manager, m_portrait_id, m_speaker, m_end_dialog_text);
     }
 }
 
 void FileLevel::run_frame_impl(uint32_t current_time)
 {
+    if (!m_has_shown_mid_boss_dialog) {
+        auto* adrian = get_adrian(m_enemies);
+        if (adrian && adrian->has_pending_dialog()) {
+            return;
+        }
+    }
+
     if (m_enemies.empty()) {
         next_wave();
     }
@@ -68,7 +90,11 @@ void FileLevel::run_frame_impl(uint32_t current_time)
 
 void FileLevel::dismiss_dialogue_if_any()
 {
-    m_has_shown_end_dialog = true;
+    if (m_has_shown_mid_boss_dialog && m_wave == m_final_wave) {
+        m_has_shown_end_dialog = true;
+    } else if (auto* adrian = get_adrian(m_enemies); adrian && adrian->has_pending_dialog()) {
+        m_has_shown_mid_boss_dialog = true;
+    }
 }
 
 void FileLevel::kill_player()
@@ -211,6 +237,7 @@ void FileLevel::parse_adrian(std::istream& in)
     int health;
     int score;
     std::vector<Enemies::Attack> attacks;
+    std::string text;
     // I doubt we'll have more attacks than this
     attacks.reserve(128);
     while (std::getline(in, line)) {
@@ -246,6 +273,8 @@ void FileLevel::parse_adrian(std::istream& in)
             target_position = Vec2 { x, y };
         } else if (line.find("score") == 0) {
             score = parse_number_from_directive(line);
+        } else if (line.find("dialog") == 0) {
+            text = line.substr(strlen("dialog") + 1);
         } else {
             error() << "[ADRIAN PARSE] Cannot parse line: '" << line << "'\n";
         }
@@ -257,6 +286,7 @@ void FileLevel::parse_adrian(std::istream& in)
         health,
         score,
         attacks,
+        text
     };
 }
 
@@ -268,7 +298,8 @@ void FileLevel::spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies)
             m_adrian_data->target_position,
             m_adrian_data->attacks,
             m_adrian_data->health,
-            m_adrian_data->score));
+            m_adrian_data->score,
+            m_adrian_data->text));
         return;
     }
 
