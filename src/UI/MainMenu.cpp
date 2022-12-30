@@ -68,7 +68,7 @@ void MainMenu::render_main_menu(SDL_Renderer* renderer, TextRenderer& text_rende
 {
     char const* items[] = { "Play", "Exit" };
 
-    render_vertical_button_list(renderer, text_renderer, items, std::size(items), Game::WINDOW_HEIGHT / 3);
+    render_vertical_button_list(renderer, text_renderer, items, std::size(items), Game::WINDOW_HEIGHT / 3, true);
 }
 
 void MainMenu::render_level_selection(SDL_Renderer* renderer, TextRenderer& text_renderer) const
