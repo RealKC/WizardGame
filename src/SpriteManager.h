@@ -8,12 +8,17 @@ namespace WizardGame {
 
 enum class SpriteId {
     Player,
-    Matei,
-    Mihai,
     Adrian,
     Basic1,
     Basic2,
     Basic3,
+    Heart,
+    Star,
+    Fireball,
+    Projectile1,
+    Projectile2,
+    Projectile3,
+    Projectile4,
 };
 
 enum class BackgroundId {
