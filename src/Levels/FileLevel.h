@@ -21,7 +21,7 @@ private:
     virtual void kill_player() override;
     virtual void restart_level() override;
     virtual int next_level() const override;
-    virtual bool has_been_won() const override { return m_wave == m_final_wave; };
+    virtual bool has_been_won() const override { return m_wave == m_final_wave && m_has_shown_end_dialog; };
 
     void spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies);
     void restart_wave();
@@ -51,6 +51,11 @@ private:
     size_t m_final_wave;
     std::vector<EnemyData> m_enemy_infos;
     std::optional<AdrianData> m_adrian_data;
+
+    std::string m_speaker;
+    std::string m_end_dialog_text;
+    PortraitId m_portrait_id;
+    bool m_has_shown_end_dialog;
 };
 
 }

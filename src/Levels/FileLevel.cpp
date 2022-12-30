@@ -36,6 +36,7 @@ FileLevel::FileLevel(uint32_t level_event, std::string const& path)
     : Level(level_event, { 450, 450 })
     , m_wave(0)
     , m_adrian_wave(0)
+    , m_has_shown_end_dialog(false)
 {
     parse_level(path);
     next_wave();
@@ -46,6 +47,10 @@ void FileLevel::render_impl(SDL_Renderer* renderer, TextRenderer& text_renderer,
     // Call render_bullets before render_entities so bullets sent by the player spawn under them.
     render_bullets(renderer, sprite_manager);
     render_entities(renderer, sprite_manager);
+
+    if (m_speaker.length() != 0 && m_wave == m_final_wave && !m_has_shown_end_dialog) {
+        render_dialog(renderer, text_renderer, sprite_manager, m_portrait_id, m_speaker, m_end_dialog_text);
+    }
 }
 
 void FileLevel::run_frame_impl(uint32_t current_time)
@@ -61,7 +66,10 @@ void FileLevel::run_frame_impl(uint32_t current_time)
     m_player.decrease_iframes();
 }
 
-void FileLevel::dismiss_dialogue_if_any() { }
+void FileLevel::dismiss_dialogue_if_any()
+{
+    m_has_shown_end_dialog = true;
+}
 
 void FileLevel::kill_player()
 {
@@ -110,6 +118,10 @@ void FileLevel::restart_wave()
 
 void FileLevel::next_wave()
 {
+    if (m_wave == m_final_wave) {
+        return;
+    }
+
     m_wave++;
     assert(m_enemies.empty() && "FileLevel::next_wave should only be called when there's no more enemies on the screen");
     spawn_wave(m_enemies);
@@ -168,6 +180,16 @@ void FileLevel::parse_level(std::string const& path)
             }
         } else if (line.find("title") == 0) {
             set_title(line.substr(line.find(' ') + 1));
+        } else if (line.find("dialog") == 0) {
+            if (line.find_first_of('0') != std::string::npos) {
+                m_end_dialog_text = line.substr(line.find_first_of('0') + 2);
+                m_speaker = "Adrian";
+                m_portrait_id = PortraitId::Adrian;
+            } else if (line.find_first_of('1') != std::string::npos) {
+                m_end_dialog_text = line.substr(line.find_first_of('1') + 2);
+                m_speaker = "Mircea";
+                m_portrait_id = PortraitId::Mircea;
+            }
         } else {
             error() << "[GENERIC PARSE] Cannot parse line: '" << line << "'\n";
         }
