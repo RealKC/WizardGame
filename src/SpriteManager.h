@@ -46,7 +46,7 @@ public:
     explicit SpriteManager(SDL_Renderer*);
     ~SpriteManager();
 
-    Size render_sprite_for_id_at_position(SpriteId, Vec2 position);
+    Size render_sprite_for_id_at_position(SpriteId, Vec2 position, int scale = 1);
 
     void render_portrait_at(PortraitId, Vec2 position) const;
     void render_background(BackgroundId) const;

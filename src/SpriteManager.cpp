@@ -91,10 +91,10 @@ SpriteManager::~SpriteManager()
     // We MUST NOT destroy the renderer here as we do not own it!!
 }
 
-Size SpriteManager::render_sprite_for_id_at_position(SpriteId sprite_id, Vec2 position)
+Size SpriteManager::render_sprite_for_id_at_position(SpriteId sprite_id, Vec2 position, int scale)
 {
     auto source_rect = sprite_id_to_source_rect(sprite_id);
-    SDL_Rect destination_rect { position.x, position.y, source_rect.w, source_rect.h };
+    SDL_Rect destination_rect { position.x, position.y, source_rect.w * scale, source_rect.h * scale };
     SDL_RenderCopy(m_renderer, m_texture, &source_rect, &destination_rect);
 
     return Size { destination_rect.w, destination_rect.h };
