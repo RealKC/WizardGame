@@ -17,3 +17,4 @@ These are the files under the `backgrounds` directory
 These are the files under the `sprites` directory:
 
 - `spritesheet.png` - own work
+- `frame.png` - Original CC0 via <https://www.rawpixel.com/image/5927217/carved-white-picture-frame-white-background>, scaled and modified by me to include "Adrian" text generated using <https://cooltext.com>, published under CC0 terms

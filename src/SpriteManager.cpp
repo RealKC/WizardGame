@@ -16,6 +16,26 @@ SpriteManager::SpriteManager(SDL_Renderer* renderer)
         throw SDLObjectError("SpriteManager/spritesheet", FailureTo::Load, "image surface");
     }
 
+    m_texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    if (!m_texture) {
+        error() << "Failed to create texture from surface " << SDL_GetError() << std::endl;
+        throw SDLObjectError("SpriteManager/texture", FailureTo::Create, "image texture");
+    }
+
+    surface = IMG_Load("resources/sprites/frame.png");
+
+    if (!surface) {
+        throw SDLObjectError("SpriteManager/frame", FailureTo::Load, "frame surface");
+    }
+
+    m_frame = SDL_CreateTextureFromSurface(renderer, surface);
+
+    if (!m_frame) {
+        throw SDLObjectError("SpriteManager/frame", FailureTo::Create, "frame texture");
+    }
+
     char const* backgrounds[] = {
         "resources/backgrounds/menu.jpg",
         "resources/backgrounds/tutorial.jpg",
@@ -59,14 +79,6 @@ SpriteManager::SpriteManager(SDL_Renderer* renderer)
         }
     }
 
-    m_texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    if (!m_texture) {
-        error() << "Failed to create texture from surface " << SDL_GetError() << std::endl;
-        throw SDLObjectError("SpriteManager/texture", FailureTo::Create, "image texture");
-    }
-
     info() << "Succesfully loaded 'sprites'!\n";
 }
 
@@ -98,6 +110,14 @@ Size SpriteManager::render_sprite_for_id_at_position(SpriteId sprite_id, Vec2 po
     SDL_RenderCopy(m_renderer, m_texture, &source_rect, &destination_rect);
 
     return Size { destination_rect.w, destination_rect.h };
+}
+
+void SpriteManager::render_frame_at(Vec2 position) const
+{
+    int width, height;
+    SDL_QueryTexture(m_frame, nullptr, nullptr, &width, &height);
+    SDL_Rect rect { position.x, position.y, width, height };
+    SDL_RenderCopy(m_renderer, m_frame, nullptr, &rect);
 }
 
 void SpriteManager::render_portrait_at(PortraitId portrait_id, Vec2 position) const
