@@ -20,10 +20,9 @@ void Entity::move_by(int delta_x, int delta_y)
     m_collider.apply_position_delta(delta_x, delta_y);
 }
 
-void Entity::render(SDL_Renderer*, SpriteManager& sprite_manager)
+void Entity::render(SpriteManager& sprite_manager)
 {
     sprite_manager.render_sprite_for_id_at_position(sprite_id(), position());
-    assert(false && "This isn't yet ready to be used");
 }
 
 Vec2 Entity::position_for_bullet(Size bullet_size, Direction direction) const

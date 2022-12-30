@@ -3,6 +3,7 @@
 #include "Exceptions/SDLObjectError.h"
 #include "Utils.h"
 #include <SDL2/SDL_image.h>
+#include <assert.h>
 
 namespace WizardGame {
 
@@ -90,13 +91,11 @@ SpriteManager::~SpriteManager()
     // We MUST NOT destroy the renderer here as we do not own it!!
 }
 
-void SpriteManager::render_sprite_for_id_at_position(SpriteId, Vec2)
+void SpriteManager::render_sprite_for_id_at_position(SpriteId sprite_id, Vec2 position)
 {
-    // FIXME: Actually implement this!
-    // FIXME: auto source_rect = sprite_id_to_source_rect(id);
-    // FIXME: SDL_Rect destination_rect { pos.x, pos.y, source_rect.w, source_rect.h };
-    // FIXME: SDL_RenderCopy(m_renderer, m_texture, &source_rect, &destination_rect);
-    SDL_RenderCopy(m_renderer, m_texture, nullptr, nullptr);
+    auto source_rect = sprite_id_to_source_rect(sprite_id);
+    SDL_Rect destination_rect { position.x, position.y, source_rect.w, source_rect.h };
+    SDL_RenderCopy(m_renderer, m_texture, &source_rect, &destination_rect);
 }
 
 void SpriteManager::render_portrait_at(PortraitId portrait_id, Vec2 position) const
@@ -109,13 +108,39 @@ void SpriteManager::render_portrait_at(PortraitId portrait_id, Vec2 position) co
 
 void SpriteManager::render_background(BackgroundId background_id) const
 {
-     SDL_RenderCopy(m_renderer, m_backgrounds[static_cast<std::size_t>(background_id)], nullptr, nullptr);
+    SDL_RenderCopy(m_renderer, m_backgrounds[static_cast<std::size_t>(background_id)], nullptr, nullptr);
 }
 
-SDL_Rect SpriteManager::sprite_id_to_source_rect(SpriteId)
+SDL_Rect SpriteManager::sprite_id_to_source_rect(SpriteId sprite_id)
 {
-    // FIXME: Actually implement this!
-    return SDL_Rect();
+    switch (sprite_id) {
+    case SpriteId::Player:
+        return { 37, 48, 35, 60 };
+    case SpriteId::Adrian:
+        return { 0, 48, 35, 60 };
+    case SpriteId::Basic1:
+        return { 73, 0, 41, 41 };
+    case SpriteId::Basic2:
+        return { 73, 41, 41, 41 };
+    case SpriteId::Basic3:
+        return { 73, 82, 41, 41 };
+    case SpriteId::Heart:
+        return { 0, 15, 28, 25 };
+    case SpriteId::Star:
+        return { 28, 15, 28, 29 };
+    case SpriteId::Fireball:
+        return { 62, 1, 11, 20 };
+    case SpriteId::Projectile1:
+        return { 0, 0, 15, 15 };
+    case SpriteId::Projectile2:
+        return { 15, 0, 15, 15 };
+    case SpriteId::Projectile3:
+        return { 30, 0, 15, 15 };
+    case SpriteId::Projectile4:
+        return { 45, 0, 15, 15 };
+    }
+
+    assert(false && "Invalid sprite id supplied");
 }
 
 }

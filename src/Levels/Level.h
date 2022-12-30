@@ -42,8 +42,8 @@ protected:
     virtual int next_level() const = 0;
     virtual bool has_been_won() const = 0;
 
-    void render_bullets(SDL_Renderer*, SpriteManager&);
-    void render_entities(SDL_Renderer*, SpriteManager&);
+    void render_bullets(SpriteManager&);
+    void render_entities(SpriteManager&);
     void render_dialog(SDL_Renderer*, TextRenderer&, SpriteManager&, PortraitId, std::string const& speaker, std::string const& speech);
 
     void update_bullet_positions();

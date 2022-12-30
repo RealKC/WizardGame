@@ -213,29 +213,23 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
     }
 }
 
-void Level::render_entities(SDL_Renderer* renderer, SpriteManager& sprite_manager)
+void Level::render_entities(SpriteManager& sprite_manager)
 {
-    m_player.render(renderer, sprite_manager);
+    m_player.render(sprite_manager);
 
     for (auto& enemy : m_enemies) {
-        enemy->render(renderer, sprite_manager);
+        enemy->render(sprite_manager);
     }
 }
 
-void Level::render_bullets(SDL_Renderer* renderer, SpriteManager&)
+void Level::render_bullets(SpriteManager& sprite_manager)
 {
     for (auto& bullet : m_player_bullets) {
-        // FIXME: bullet.render();
-        SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
-        SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0x00, 0xff);
-        SDL_RenderFillRect(renderer, &rect);
+        bullet.render(sprite_manager);
     }
 
     for (auto& bullet : m_enemy_bullets) {
-        // FIXME: bullet.render();
-        SDL_Rect rect { bullet.position().x, bullet.position().y, bullet.size().width, bullet.size().height };
-        SDL_SetRenderDrawColor(renderer, 0x80, 0xff, 0x00, 0xff);
-        SDL_RenderFillRect(renderer, &rect);
+        bullet.render(sprite_manager);
     }
 }
 

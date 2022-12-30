@@ -55,8 +55,8 @@ FileLevel::FileLevel(uint32_t level_event, std::string const& path)
 void FileLevel::render_impl(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteManager& sprite_manager)
 {
     // Call render_bullets before render_entities so bullets sent by the player spawn under them.
-    render_bullets(renderer, sprite_manager);
-    render_entities(renderer, sprite_manager);
+    render_bullets(sprite_manager);
+    render_entities(sprite_manager);
 
     if (!m_has_shown_mid_boss_dialog) {
         auto* adrian = get_adrian(m_enemies);

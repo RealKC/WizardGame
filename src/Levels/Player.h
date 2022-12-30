@@ -31,7 +31,6 @@ public:
     bool is_dead() const { return lives() == 0; }
 
     // ^Entity
-    virtual void render(SDL_Renderer*, SpriteManager&);
     virtual std::int64_t score_value() const override { return lives(); }
 
 protected:

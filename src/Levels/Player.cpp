@@ -55,11 +55,4 @@ LostFinalLife Player::die()
     return LostFinalLife::No;
 }
 
-void Player::render(SDL_Renderer* renderer, SpriteManager&)
-{
-    SDL_SetRenderDrawColor(renderer, 0xff, 0x00, 0x00, 0xff);
-    SDL_Rect player_rect { position().x - m_render_size.width / 2, position().y - m_render_size.height / 2, m_render_size.width, m_render_size.height };
-    SDL_RenderFillRect(renderer, &player_rect);
-}
-
 }
