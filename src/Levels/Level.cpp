@@ -97,21 +97,25 @@ void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteMa
     text_renderer.render_regular_text_at("Score: " + score_string, { x, y }, { 0, 0, 0 });
 
     if (auto boss_health = this->boss_health(); boss_health != -1) {
+        int health_x = x + (Game::WINDOW_WIDTH - (PLAYING_AREA_RIGHT_LIMIT - PLAYING_AREA_LEFT_LIMIT)) / 2 - 100;
+        int health_y = y + 100;
         int width = 150;
         int red_width = width * boss_health;
-        int height = 40;
+        int height = 60;
 
-        SDL_Rect black_rect { x, Game::WINDOW_HEIGHT / 2, width, height };
-        SDL_Rect red_rect { x, Game::WINDOW_HEIGHT / 2, red_width, height };
+        SDL_Rect black_rect { health_x, health_y, width, height };
+        SDL_Rect red_rect { health_x, health_y, red_width, height };
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
         SDL_RenderFillRect(renderer, &black_rect);
         SDL_SetRenderDrawColor(renderer, 0xff, 0, 0, 0xff);
         SDL_RenderFillRect(renderer, &red_rect);
+
+        sprite_manager.render_frame_at({ health_x - 25, health_y - 60 });
     }
 
     y = Game::WINDOW_HEIGHT - Game::WINDOW_HEIGHT / 10;
-    auto heart_size =  sprite_manager.render_sprite_for_id_at_position(SpriteId::Heart, {x, y}, 2);
+    auto heart_size = sprite_manager.render_sprite_for_id_at_position(SpriteId::Heart, { x, y }, 2);
     x += heart_size.width;
 
     text_renderer.render_big_text_at("x" + std::to_string(m_player.lives()), { x, y }, { 255, 0, 0 });
