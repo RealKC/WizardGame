@@ -8,12 +8,13 @@ namespace Enemies {
 
 class Adrian : public Enemy {
 public:
-    Adrian(Collider collider, Vec2 target_position, std::vector<Attack> attacks, int health, int score, std::string const& dialog)
+    Adrian(Collider collider, Vec2 target_position, std::vector<Attack> attacks, int health, int score, std::string const& dialog, int phase)
         : Enemy(collider, target_position, attacks)
         , m_max_health(health)
         , m_health(health)
         , m_score(score)
-    , m_dialog(dialog)
+        , m_insert_pentagram(phase == 2)
+        , m_dialog(dialog)
     {
     }
 
@@ -37,6 +38,7 @@ private:
     int m_max_health;
     int m_health;
     int m_score;
+    bool m_insert_pentagram;
 
     std::string m_dialog;
 };

@@ -246,6 +246,7 @@ void FileLevel::parse_adrian(std::istream& in)
     Vec2 target_position;
     int health;
     int score;
+    int phase = 1;
     std::vector<Enemies::Attack> attacks;
     std::string text;
     // I doubt we'll have more attacks than this
@@ -285,6 +286,8 @@ void FileLevel::parse_adrian(std::istream& in)
             score = parse_number_from_directive(line);
         } else if (line.find("dialog") == 0) {
             text = line.substr(strlen("dialog") + 1);
+        } else if (line.find("phase") == 0) {
+            phase = parse_number_from_directive(line);
         } else {
             error() << "[ADRIAN PARSE] Cannot parse line: '" << line << "'\n";
         }
@@ -295,6 +298,7 @@ void FileLevel::parse_adrian(std::istream& in)
         target_position,
         health,
         score,
+        phase,
         attacks,
         text
     };
@@ -309,7 +313,8 @@ void FileLevel::spawn_wave(std::vector<std::unique_ptr<Enemy>>& enemies)
             m_adrian_data->attacks,
             m_adrian_data->health,
             m_adrian_data->score,
-            m_adrian_data->text));
+            m_adrian_data->text,
+            m_adrian_data->phase));
         return;
     }
 

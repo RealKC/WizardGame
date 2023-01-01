@@ -10,6 +10,7 @@ struct Attack {
         Circle,
         Line,
         ThreeAtOnce,
+        Pentagram,
     };
 
     Type type;

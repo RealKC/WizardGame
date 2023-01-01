@@ -35,6 +35,7 @@ private:
         Vec2 target_position;
         int health;
         int score;
+        int phase;
         std::vector<Enemies::Attack> attacks;
         std::string text;
     };

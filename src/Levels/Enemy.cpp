@@ -85,6 +85,15 @@ void Enemy::fire_attacks(uint32_t current_time, std::vector<Bullet>& bullets)
 
             break;
         }
+        case Attack::Type::Pentagram: {
+            auto position = this->position();
+
+            bullets.push_back(Bullet::liniar(position - Vec2 { 100, 0 }, BULLET_SIZE, Direction::Left, 4, SpriteId::Star));
+            bullets.push_back(Bullet::liniar(position + Vec2 { 100, 0 }, BULLET_SIZE, Direction::Right, 4, SpriteId::Star));
+            bullets.push_back(Bullet::liniar(position - Vec2 { 0, 50 }, BULLET_SIZE, Direction::Up, 4, SpriteId::Star));
+            bullets.push_back(Bullet::liniar(position - Vec2 { 80, -60 }, BULLET_SIZE, Direction::Down, 4, SpriteId::Star));
+            bullets.push_back(Bullet::liniar(position + Vec2 { 80, 60 }, BULLET_SIZE, Direction::Down, 4, SpriteId::Star));
+        }
         }
     }
 

@@ -30,8 +30,9 @@ protected:
 
     void fire_attacks(uint32_t current_time, std::vector<Bullet>& bullets);
 
-private:
     std::vector<Enemies::Attack> m_attacks;
+
+private:
     std::size_t m_current_attack;
 
     Vec2 m_target_position;
