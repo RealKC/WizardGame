@@ -4,6 +4,7 @@
 #include "../SpriteManager.h"
 #include "../TextRenderer.h"
 #include "../UI/AbstractLevelMenu.h"
+#include "../Save.h"
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -20,7 +21,7 @@ public:
     static constexpr int PLAYING_AREA_TOP_LIMIT = 20;
     static constexpr int PLAYING_AREA_LEFT_LIMIT = 20;
 
-    virtual ~Level() { }
+    virtual ~Level();
 
     void run_frame(uint32_t current_time);
     void render(SDL_Renderer*, TextRenderer&, SpriteManager&);
@@ -30,6 +31,13 @@ public:
     void handle_key_event(SDL_KeyboardEvent);
 
 protected:
+    struct HighScore {
+        std::int64_t value;
+        std::string string;
+
+        static HighScore fetch(Save::Level);
+    };
+
     Level(uint32_t level_event, Vec2 spawn);
 
     virtual void run_frame_impl(uint32_t current_time) = 0;
@@ -52,7 +60,11 @@ protected:
 
     void handle_player_keypresses(uint32_t current_time);
 
+    bool has_high_score() const { return m_score > m_high_score.value;}
+
     void set_title(std::string const& title) { m_title = title; }
+    void set_save_level_id(Save::Level lvl) { m_save_level_id = lvl; }
+    void set_high_score(HighScore hs) { m_high_score = hs; }
 
     Player m_player;
 
@@ -74,6 +86,8 @@ private:
 
     uint32_t m_last_bullet_shot_time;
 
+    HighScore m_high_score;
+    Save::Level m_save_level_id;
     std::string m_title;
     std::int64_t m_score;
     std::unique_ptr<UI::AbstractLevelMenu> m_menu;

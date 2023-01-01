@@ -38,6 +38,17 @@ static void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
     }
 }
 
+Level::HighScore Level::HighScore::fetch(Save::Level level)
+{
+    auto value = Save::get_high_score_for(level);
+    auto string = std::to_string(value);
+    if (string.length() < 8) {
+        string = std::string(8 - string.length(), '0') + string;
+    }
+
+    return { value, string };
+}
+
 Level::Level(uint32_t level_event, Vec2 spawn)
     : m_level_event(level_event)
     , m_player(Collider { spawn.x, spawn.y, 10, 10 }, Size { 50, 50 })
@@ -48,6 +59,17 @@ Level::Level(uint32_t level_event, Vec2 spawn)
     m_enemies.reserve(128);
     m_player_bullets.reserve(512);
     m_enemy_bullets.reserve(512);
+}
+
+Level::~Level() {
+    if (has_high_score()) {
+        Save::set_high_score_for(m_save_level_id, m_score);
+    }
+
+    auto last_beat_level = Save::get_last_beat_level();
+    if ((int)last_beat_level < (int)m_save_level_id) {
+        Save::set_last_beat_level(m_save_level_id);
+    }
 }
 
 void Level::restart_level()
@@ -67,7 +89,7 @@ void Level::run_frame(uint32_t current_time)
     }
 
     if (has_been_won() && !m_menu) {
-        m_menu = std::make_unique<UI::LevelCompletedMenu>(has_next_level());
+        m_menu = std::make_unique<UI::LevelCompletedMenu>(has_next_level(), has_high_score());
     }
 }
 
@@ -94,7 +116,9 @@ void Level::render(SDL_Renderer* renderer, TextRenderer& text_renderer, SpriteMa
     if (score_string.length() < 8) {
         score_string = std::string(8 - score_string.length(), '0') + score_string;
     }
-    text_renderer.render_regular_text_at("Score: " + score_string, { x, y }, { 0, 0, 0 });
+    y += text_renderer.render_regular_text_at("     Score: " + score_string, { x, y }, { 0, 0, 0 }).height;
+    y += 20;
+    text_renderer.render_regular_text_at("High Score: " + m_high_score.string, { x, y }, { 0, 0, 0 });
 
     if (auto boss_health = this->boss_health(); boss_health != -1) {
         int health_x = x + (Game::WINDOW_WIDTH - (PLAYING_AREA_RIGHT_LIMIT - PLAYING_AREA_LEFT_LIMIT)) / 2 - 100;
@@ -209,7 +233,7 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
         break;
 #ifdef DEBUG_GAME_MENUS
     case SDLK_j:
-        m_menu = std::make_unique<UI::LevelCompletedMenu>(has_next_level());
+        m_menu = std::make_unique<UI::LevelCompletedMenu>(has_next_level(), has_high_score());
         break;
     case SDLK_k:
         m_menu = std::make_unique<UI::PauseMenu>();

@@ -46,7 +46,16 @@ void AbstractLevelMenu::render(SDL_Renderer* renderer, TextRenderer& text_render
 
     auto y = render_title(text_renderer, m_title, Game::WINDOW_HEIGHT / 3);
 
-    y += 35;
+    y += 20;
+
+    if (has_subtitle()) {
+        auto width = text_renderer.measure_regular_text(subtitle());
+        y += text_renderer
+                 .render_regular_text_at(subtitle(), { Game::WINDOW_WIDTH / 2 - width / 2, y }, { 140, 10, 100 })
+                 .height;
+
+        y += 35;
+    }
 
     render_vertical_button_list(renderer, text_renderer, m_items.data(), m_items.size(), y);
 }

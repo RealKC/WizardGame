@@ -15,7 +15,22 @@ MainMenu::MainMenu()
 
 int MainMenu::max_menu_item() const
 {
-    return m_is_in_level_selection ? 3 : 1;
+    if (m_is_in_level_selection) {
+        auto last_beat_level = Save::get_last_beat_level();
+        switch (last_beat_level) {
+        case Save::Level::None:
+            return 0;
+        case Save::Level::Tutorial:
+            return 1;
+        case Save::Level::One:
+            return 2;
+        case Save::Level::Two:
+        case Save::Level::Three:
+            return 3;
+        }
+    }
+
+    return 1;
 }
 
 int MainMenu::activate_current_selection()

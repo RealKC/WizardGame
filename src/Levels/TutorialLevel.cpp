@@ -43,6 +43,8 @@ TutorialLevel::TutorialLevel(uint32_t level_event)
     , m_has_been_won(false)
     , m_dialog_index(0)
 {
+    set_high_score(HighScore::fetch(Save::Level::Tutorial));
+    set_save_level_id(Save::Level::Tutorial);
     set_title("Home");
 }
 

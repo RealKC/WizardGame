@@ -1,4 +1,5 @@
 cmake-build-debug
+saves/
 
 report/*.aux
 report/*.fdb_latexmk

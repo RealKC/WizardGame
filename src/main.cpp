@@ -2,9 +2,15 @@
 #include "Game.h"
 #include "Utils.h"
 #include <cstdlib>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 int main()
 {
+    // Ensure the "saves/" directory exists so opening files like "saves/level" works...
+    fs::create_directory("saves");
+
     try {
         WizardGame::Game game;
 

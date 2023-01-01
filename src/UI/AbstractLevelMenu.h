@@ -26,6 +26,8 @@ protected:
     AbstractLevelMenu(std::vector<int> custom_activation_results, std::string title, std::vector<char const*> items);
 
     virtual int selection_offset() const { return 0; }
+    virtual bool has_subtitle() const { return false; }
+    virtual std::string subtitle() const { return ""; }
 
     // ^Menu
     virtual int max_menu_item() const final { return ActivationResult::QuitToDesktop - selection_offset(); }

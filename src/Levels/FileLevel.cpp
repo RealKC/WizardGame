@@ -194,12 +194,18 @@ void FileLevel::parse_level(std::string const& path)
             switch (background) {
             case 1:
                 m_background_id = BackgroundId::Level1;
+                set_high_score(HighScore::fetch(Save::Level::One));
+                set_save_level_id(Save::Level::One);
                 break;
             case 2:
                 m_background_id = BackgroundId::Level2;
+                set_high_score(HighScore::fetch(Save::Level::Two));
+                set_save_level_id(Save::Level::Two);
                 break;
             case 3:
                 m_background_id = BackgroundId::Level3;
+                set_high_score(HighScore::fetch(Save::Level::Three));
+                set_save_level_id(Save::Level::Three);
                 break;
             default:
                 error() << "[GENERIC PARSE] Unknown background: '" << background << "'\n";

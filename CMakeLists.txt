@@ -10,6 +10,7 @@ add_executable(WizardGame
         src/Vec2.h src/Vec2.cpp
         src/Game.cpp src/Game.h
         src/Utils.cpp src/Utils.h
+        src/Save.cpp src/Save.h
         src/Levels/Entity.cpp src/Levels/Entity.h
         src/Levels/Player.cpp src/Levels/Player.h
         src/KeyboardState.cpp src/KeyboardState.h
