@@ -17,7 +17,7 @@ static Dialog dialogs[] = {
     { PortraitId::Matei, "Matei", "Mircea este timpul să mergem după Adrian, nu-l putem lăsa să distruga Carpații!" },
     { PortraitId::Matei, "Matei", "Folosește tastele cu săgeți pentru a te mișca și tasta X pentru a trage bile de foc" },
     { PortraitId::Matei, "Matei (gândindu-se)", "Nu mă așteptam să ne pice de folos obsesia lui Mircea cu bilele de foc. Chiar a făcut bine că a memorizat vraja aceea, considerând că Adrian ne-a furat cărțile cu vrăji..." },
-    { PortraitId::Matei, "Matei", "Hai" },
+    { PortraitId::Matei, "Matei", "Testează contolurile înainte să continui." },
     { PortraitId::Matei, "Matei", "Ai grijă! Au apărut minionii lui Adrian! Arată-le focul tău!!!" },
     { PortraitId::Matei, "Matei", "Agghh!! Unul din minioni m-a nimerit! Nu mai există salvare pentru mine..." },
     { PortraitId::Mihai, "Mihai (panicat)", "Sensei!" },
@@ -45,7 +45,7 @@ TutorialLevel::TutorialLevel(uint32_t level_event)
 {
     set_high_score(HighScore::fetch(Save::Level::Tutorial));
     set_save_level_id(Save::Level::Tutorial);
-    set_title("Home");
+    set_title("Acasă");
 }
 
 void TutorialLevel::run_frame_impl(uint32_t current_time)
