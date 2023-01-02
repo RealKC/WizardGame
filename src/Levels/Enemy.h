@@ -31,6 +31,7 @@ protected:
     void fire_attacks(uint32_t current_time, std::vector<Bullet>& bullets);
 
     std::vector<Enemies::Attack> m_attacks;
+    void reset_current_attack() { m_current_attack = 0; }
 
 private:
     std::size_t m_current_attack;

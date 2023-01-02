@@ -28,6 +28,7 @@ void Adrian::tick(std::vector<Bullet>& bullets, uint32_t current_time)
         for (int i = 0; i < 3; ++i) {
             m_attacks.insert(m_attacks.begin(), Attack { Attack::Type::Pentagram, 500, 0 });
         }
+        reset_current_attack();
     }
 }
 
