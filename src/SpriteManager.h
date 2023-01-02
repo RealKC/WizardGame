@@ -52,11 +52,18 @@ public:
     void render_portrait_at(PortraitId, Vec2 position) const;
     void render_background(BackgroundId) const;
 
+    static Size size_for_sprite_id(SpriteId sprite_id)
+    {
+        auto rect = sprite_id_to_source_rect(sprite_id);
+
+        return { rect.w, rect.h };
+    }
+
 private:
     static constexpr std::size_t BACKGROUND_COUNT = static_cast<std::size_t>(BackgroundId::Level3) + 1;
     static constexpr std::size_t PORTRAIT_COUNT = static_cast<std::size_t>(PortraitId::Mircea) + 1;
 
-    SDL_Rect sprite_id_to_source_rect(SpriteId);
+    static SDL_Rect sprite_id_to_source_rect(SpriteId);
 
     SDL_Texture* m_texture;
     SDL_Texture* m_backgrounds[BACKGROUND_COUNT];
