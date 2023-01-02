@@ -20,7 +20,6 @@ SpriteManager::SpriteManager(SDL_Renderer* renderer)
     SDL_FreeSurface(surface);
 
     if (!m_texture) {
-        error() << "Failed to create texture from surface " << SDL_GetError() << std::endl;
         throw SDLObjectError("SpriteManager/texture", FailureTo::Create, "image texture");
     }
 

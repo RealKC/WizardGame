@@ -27,7 +27,6 @@ Bullet Player::make_bullet() const
 
 bool Player::has_iframes() const
 {
-    info() << "Has " << m_iframes << " iframes left.\n";
     if (m_iframes == 0) {
         return false;
     }

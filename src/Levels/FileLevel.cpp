@@ -106,7 +106,6 @@ void FileLevel::kill_player()
     auto lost_final_life = m_player.die();
 
     if (lost_final_life == LostFinalLife::Yes) {
-        info() << "Ha, you lost\n";
         restart_level();
     } else {
         restart_wave();

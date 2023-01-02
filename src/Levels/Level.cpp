@@ -25,7 +25,7 @@ static void iterate_vector_for_removing(std::vector<Item>& items, Callback cb)
 
         if (items.empty() || i > items.size()) {
             // If the callback mutates our vector, we should try to tolerate it, we'll also make some noise about it though!
-            error() << "SUS: items vector was mutated while iterating through it in " << __FUNCTION__ << std::endl;
+            error() << "[SUS] `items` mutated while iterating through it in " << __FUNCTION__ << std::endl;
             return;
         }
 
@@ -205,7 +205,6 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
                 m_menu = nullptr;
                 break;
             case UI::LevelCompletedMenu::NextLevel:
-                info() << "hello fellow ableists (i'm a canist)\n";
                 assert(has_next_level());
                 next_level(this->next_level());
                 break;

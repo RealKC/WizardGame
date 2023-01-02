@@ -93,7 +93,6 @@ int Game::run()
         uint32_t passed_time = end_ticks - start_ticks;
         if (passed_time > 16) {
             // we're lagging, don't do anything
-            error() << "WE'RE LAGGING!!!!\n";
         } else {
             // Lock the framerate to 60fps
             SDL_Delay(16 - passed_time);
