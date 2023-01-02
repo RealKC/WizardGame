@@ -57,10 +57,6 @@ void Enemy::fire_attacks(uint32_t current_time, std::vector<Bullet>& bullets)
     if (current_time - current_attack.last_fired_at >= current_attack.cooldown) {
         using Enemies::Attack;
 
-        // This relies on the sprites for projectiles having consecutive values
-        auto sprite = static_cast<int>(SpriteId::Projectile1) + rand() % 4;
-        auto sprite_id = static_cast<SpriteId>(sprite);
-
         fired_attack = true;
 
         switch (current_attack.type) {
@@ -68,20 +64,20 @@ void Enemy::fire_attacks(uint32_t current_time, std::vector<Bullet>& bullets)
             float angle = 0;
             for (int i = 1; i <= 6; ++i) {
                 auto direction = i < 3 ? Direction::Right : (i < 5 ? Direction::Down : Direction::Left);
-                bullets.push_back(Bullet::radial(position_for_bullet(BULLET_SIZE, direction), BULLET_SIZE, 10, angle, 2, sprite_id));
+                bullets.push_back(Bullet::radial(position_for_bullet(BULLET_SIZE, direction), BULLET_SIZE, 10, angle, 2, SpriteId::Projectile2));
                 angle += M_PI / 5;
             }
             break;
         }
         case Attack::Type::Line:
-            bullets.push_back(Bullet::liniar(position_for_bullet(BULLET_SIZE, Direction::Down), BULLET_SIZE, Direction::Down, 2, sprite_id));
+            bullets.push_back(Bullet::liniar(position_for_bullet(BULLET_SIZE, Direction::Down), BULLET_SIZE, Direction::Down, 2, SpriteId::Projectile1));
             break;
         case Attack::Type::ThreeAtOnce: {
             auto position = position_for_bullet(BULLET_SIZE, Direction::Down);
 
-            bullets.push_back(Bullet::liniar(position - Vec2 { 50, 0 }, BULLET_SIZE, Direction::Down, 2, sprite_id));
-            bullets.push_back(Bullet::liniar(position, { 10, 10 }, Direction::Down, 2, sprite_id));
-            bullets.push_back(Bullet::liniar(position + Vec2 { 50, 0 }, BULLET_SIZE, Direction::Down, 2, sprite_id));
+            bullets.push_back(Bullet::liniar(position - Vec2 { 50, 0 }, BULLET_SIZE, Direction::Down, 2, SpriteId::Projectile4));
+            bullets.push_back(Bullet::liniar(position, { 10, 10 }, Direction::Down, 2, SpriteId::Projectile3));
+            bullets.push_back(Bullet::liniar(position + Vec2 { 50, 0 }, BULLET_SIZE, Direction::Down, 2, SpriteId::Projectile4));
 
             break;
         }

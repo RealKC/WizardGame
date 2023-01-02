@@ -10,7 +10,6 @@
 #include <SDL2/SDL_ttf.h>
 #include <assert.h>
 #include <iostream>
-#include <stdlib.h>
 
 namespace WizardGame {
 
@@ -80,8 +79,6 @@ Game::~Game()
 
 int Game::run()
 {
-    srand((unsigned int)(uintptr_t)m_renderer);
-
     while (!m_quit) {
         uint32_t start_ticks = SDL_GetTicks();
 
