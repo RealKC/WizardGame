@@ -36,7 +36,7 @@ add_executable(WizardGame
         src/Exceptions/TTFObjectError.cpp src/Exceptions/TTFObjectError.h
         src/UserEvents.h)
 
-target_compile_definitions(WizardGame PUBLIC DEBUG_GAME_MENUS)
+target_compile_definitions(WizardGame PUBLIC DEBUG_GAME_MENUS=1 DEBUG_HITBOX=1)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 

@@ -67,7 +67,7 @@ void TutorialLevel::render_impl(SDL_Renderer* renderer, TextRenderer& text_rende
 {
     if (m_tutorial_stage >= Stage::Keyboard) {
         render_bullets(sprite_manager);
-        render_entities(sprite_manager);
+        render_entities(renderer, sprite_manager);
     }
 
     auto& dialog = dialogs[m_dialog_index];

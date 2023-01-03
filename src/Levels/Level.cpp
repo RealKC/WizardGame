@@ -61,7 +61,8 @@ Level::Level(uint32_t level_event, Vec2 spawn)
     m_enemy_bullets.reserve(512);
 }
 
-Level::~Level() {
+Level::~Level()
+{
     if (has_high_score()) {
         Save::set_high_score_for(m_save_level_id, m_score);
     }
@@ -244,12 +245,12 @@ void Level::handle_key_event(SDL_KeyboardEvent keyboard_event)
     }
 }
 
-void Level::render_entities(SpriteManager& sprite_manager)
+void Level::render_entities(SDL_Renderer* renderer, SpriteManager& sprite_manager)
 {
-    m_player.render(sprite_manager);
+    m_player.render(renderer, sprite_manager);
 
     for (auto& enemy : m_enemies) {
-        enemy->render(sprite_manager);
+        enemy->render(renderer, sprite_manager);
     }
 }
 
@@ -401,7 +402,7 @@ void Level::handle_player_keypresses(uint32_t current_time)
 
     if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_X)) {
         scancode_hook(SDL_SCANCODE_X);
-        constexpr uint32_t ATTACK_COOLDOWN = 150;
+        constexpr uint32_t ATTACK_COOLDOWN = 50;
         if (current_time - m_last_bullet_shot_time >= ATTACK_COOLDOWN) {
             // Allow the player to shoot a bullet
             m_player_bullets.push_back(m_player.make_bullet());

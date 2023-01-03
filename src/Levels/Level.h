@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../KeyboardState.h"
+#include "../Save.h"
 #include "../SpriteManager.h"
 #include "../TextRenderer.h"
 #include "../UI/AbstractLevelMenu.h"
-#include "../Save.h"
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -51,7 +51,7 @@ protected:
     virtual bool has_been_won() const = 0;
 
     void render_bullets(SpriteManager&);
-    void render_entities(SpriteManager&);
+    void render_entities(SDL_Renderer*, SpriteManager&);
     void render_dialog(SDL_Renderer*, TextRenderer&, SpriteManager&, PortraitId, std::string const& speaker, std::string const& speech);
 
     void update_bullet_positions();
@@ -60,7 +60,7 @@ protected:
 
     void handle_player_keypresses(uint32_t current_time);
 
-    bool has_high_score() const { return m_score > m_high_score.value;}
+    bool has_high_score() const { return m_score > m_high_score.value; }
 
     void set_title(std::string const& title) { m_title = title; }
     void set_save_level_id(Save::Level lvl) { m_save_level_id = lvl; }

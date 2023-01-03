@@ -42,7 +42,7 @@ static Enemies::Adrian const* get_adrian(std::vector<std::unique_ptr<Enemy>> con
 }
 
 FileLevel::FileLevel(uint32_t level_event, std::string const& path)
-    : Level(level_event, { 450, 450 })
+    : Level(level_event, { 450, 800 })
     , m_wave(0)
     , m_adrian_wave(0)
     , m_has_shown_mid_boss_dialog(true)
@@ -56,7 +56,7 @@ void FileLevel::render_impl(SDL_Renderer* renderer, TextRenderer& text_renderer,
 {
     // Call render_bullets before render_entities so bullets sent by the player spawn under them.
     render_bullets(sprite_manager);
-    render_entities(sprite_manager);
+    render_entities(renderer, sprite_manager);
 
     if (!m_has_shown_mid_boss_dialog) {
         auto* adrian = get_adrian(m_enemies);
