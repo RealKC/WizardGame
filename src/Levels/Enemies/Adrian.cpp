@@ -5,7 +5,7 @@ namespace Enemies {
 
 bool Adrian::has_pending_dialog() const
 {
-    return !m_dialog.empty() && health_percentage() == 0.5;
+    return !m_dialog.empty() && health_percentage() <= 0.5;
 }
 
 Enemy::Died Adrian::hit()
@@ -27,6 +27,10 @@ void Adrian::tick(std::vector<Bullet>& bullets, uint32_t current_time)
         m_insert_pentagram = false;
         for (int i = 0; i < 3; ++i) {
             m_attacks.insert(m_attacks.begin(), Attack { Attack::Type::Pentagram, 500, 0 });
+        }
+
+        for (int i = 4; i < m_attacks.size(); i += 2) {
+            m_attacks[i] = Attack { Attack::Type::Pentagram, m_attacks[i].cooldown, m_attacks[i].last_fired_at };
         }
         reset_current_attack();
     }
