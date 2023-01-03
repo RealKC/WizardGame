@@ -117,6 +117,8 @@ void FileLevel::restart_level()
     Level::restart_level();
     m_wave = 1;
     m_enemies.clear();
+    m_has_shown_mid_boss_dialog = false;
+    m_has_shown_end_dialog = false;
     spawn_wave(m_enemies);
 }
 
