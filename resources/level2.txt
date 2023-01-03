@@ -1,17 +1,52 @@
 background 2
-title Carpatii medii
+title Brașov
+dialog 0 Nu mă omori aici Mircea... Să savurezi "priveliștea", azi e ultima zi în care o vei vedea.
 wave 1
-basic l 40 40 50 50 400 80
-basic l 30 80 50 50 300 40
-basic l 20 120 50 50 200 200
-basic l 10 160 50 50 500 500
-basic l 50 180 50 50 700 700
+basic t 450 200 39 39 450 200
+basic l 300 400 39 39 300 400
+basic t 150 200 39 39 150 200
+basic l 600 400 39 39 600 400
+basic t 750 200 39 39 750 200
 wave 2
-basic l 50 180 50 50 50 200
-basic l 40 40 50 50 400 80
-basic c 30 80 50 50 300 40
-basic c 20 120 50 50 200 200
-basic t 10 160 50 50 500 500
-basic t 50 180 50 50 700 700
+basic t 120 20 37 37 320 200
+basic t 220 20 37 37 120 220
+basic t 320 20 37 37 450 240
+basic t 450 20 37 37 550 250
+basic t 550 20 37 37 700 240
+basic t 650 20 37 37 650 220
 wave 3
-basic l 50 180 50 50 50 200
+basic l 150 30 37 37 160 200
+basic t 250 30 37 37 260 200
+basic l 350 30 37 37 360 200
+basic t 450 30 37 37 570 200
+basic l 550 30 37 37 580 200
+basic t 650 30 37 37 690 200
+wave 4
+basic t 200 20 37 37 200 200
+basic t 220 30 37 37 220 220
+basic t 450 20 37 37 450 200
+basic t 800 20 37 37 800 220
+basic t 820 30 37 37 800 200
+basic t 450 20 37 37 450 220
+wave 5
+basic c 250 20 37 37 245 200
+basic c 450 20 37 37 445 200
+basic c 650 20 37 37 655 200
+wave 6
+adrian
+phase 1
+dialog Nu regret să mă lupt cu tine, dar îmi pare rău că nu îmi întelegi cauza. Am fi fost aliați feroce.
+score 240
+collider 350 250 35 35
+target 350 250
+health 850
+line 950
+three 1000
+line 1000
+three 1000
+three 1000
+three 1000
+circle 500
+circle 500
+line 800
+three 950

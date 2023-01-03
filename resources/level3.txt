@@ -1,17 +1,54 @@
 background 3
 title Varful Moldoveanu
+dialog 1 Am reușit să-l răzbun pe Matei... Am salvat Carpații... Dar oare câți oameni au murit din cauza acțiunilor lui Adrian?
 wave 1
-basic t 40 40 50 50 400 80
-basic t 30 80 50 50 300 40
-basic t 20 120 50 50 200 200
-basic t 10 160 50 50 500 500
-basic t 50 180 50 50 700 700
+basic t 150 280 35 35 150 300
+basic t 500 280 35 35 500 300
+basic t 800 280 35 35 800 300
+basic c 650 180 35 35 650 200
+basic c 350 180 35 35 350 200
 wave 2
-basic l 50 180 50 50 50 200
-basic l 40 40 50 50 400 80
-basic c 30 80 50 50 300 40
-basic c 20 120 50 50 200 200
-basic t 10 160 50 50 500 500
-basic t 50 180 50 50 700 700
+basic t 150 50 35 35 150 250
+basic t 250 50 35 35 250 250
+basic t 350 50 35 35 350 250
+basic t 450 50 35 35 450 250
+basic t 550 50 35 35 550 250
+basic t 650 50 35 35 650 250
 wave 3
-basic l 50 180 50 50 50 200
+basic l 155 45 35 35 155 200
+basic c 255 65 35 35 255 265
+basic l 355 45 35 35 355 200
+basic c 455 65 35 35 455 265
+basic l 555 45 35 35 555 200
+basic c 655 65 35 35 655 265
+wave 4
+basic c 144 20 35 35 188 200
+basic l 244 60 35 35 288 260
+basic c 344 20 35 35 388 200
+basic c 488 20 35 35 444 200
+basic l 588 60 35 35 544 260
+basic c 688 20 35 35 644 200
+wave 5
+basic c 150 20 35 35 150 260
+basic c 350 60 35 35 350 200
+basic c 550 20 35 35 550 260
+basic c 750 60 35 35 750 200
+basic c 450 20 35 35 450 260
+wave 6
+adrian
+phase 2
+dialog Te-am subestimat Mircea... Cu adevărat îți meriți renumele, dar azi vei afla de ce eu sunt Shamanaul Neamțului! Pentagrama Stacojie!
+score 400
+collider 350 250 40 40
+target 350 250
+health 100
+line 800
+three 800
+circle 900
+line 800
+three 800
+circle 800
+line 500
+three 800
+circle 700
+circle 700
