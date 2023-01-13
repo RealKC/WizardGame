@@ -402,7 +402,7 @@ void Level::handle_player_keypresses(uint32_t current_time)
 
     if (m_keyboard_state.is_key_pressed(SDL_SCANCODE_X)) {
         scancode_hook(SDL_SCANCODE_X);
-        constexpr uint32_t ATTACK_COOLDOWN = 50;
+        constexpr uint32_t ATTACK_COOLDOWN = 200;
         if (current_time - m_last_bullet_shot_time >= ATTACK_COOLDOWN) {
             // Allow the player to shoot a bullet
             m_player_bullets.push_back(m_player.make_bullet());
