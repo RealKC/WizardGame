@@ -5,7 +5,7 @@
 #include "SpriteManager.h"
 #include "TextRenderer.h"
 #include "UI/MainMenu.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <memory>
 #include <vector>
 

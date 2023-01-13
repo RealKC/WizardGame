@@ -30,6 +30,7 @@ int AbstractLevelMenu::activate_current_selection()
 
     error() << "Unexpected m_selected_menu_item: " << m_selected_menu_item << std::endl;
     assert(false);
+    return -1;
 }
 
 void AbstractLevelMenu::deactivate_current_selection()

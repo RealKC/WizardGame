@@ -5,7 +5,7 @@
 #include "../SpriteManager.h"
 #include "../Vec2.h"
 #include "Collider.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 namespace WizardGame {
 

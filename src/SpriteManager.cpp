@@ -2,7 +2,7 @@
 
 #include "Exceptions/SDLObjectError.h"
 #include "Utils.h"
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 #include <assert.h>
 
 namespace WizardGame {
@@ -162,6 +162,7 @@ SDL_Rect SpriteManager::sprite_id_to_source_rect(SpriteId sprite_id)
     }
 
     assert(false && "Invalid sprite id supplied");
+    return {};
 }
 
 }

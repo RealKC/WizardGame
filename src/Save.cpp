@@ -24,6 +24,7 @@ static std::string get_score_file_for(Level level)
     }
 
     assert(false && "Invalid level");
+    return "";
 }
 
 std::int64_t get_high_score_for(Level level)

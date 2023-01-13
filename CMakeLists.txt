@@ -44,4 +44,4 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
-target_link_libraries(WizardGame SDL2::Core SDL2::Image SDL2::TTF)
+target_link_libraries(WizardGame SDL2::Main SDL2::Image SDL2::TTF)

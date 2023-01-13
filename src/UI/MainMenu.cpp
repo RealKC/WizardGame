@@ -49,6 +49,7 @@ int MainMenu::activate_current_selection()
             return ActivationResult::Level3;
         default:
             assert(false);
+            return -1;
         }
     } else {
         m_is_in_level_selection = (m_selected_menu_item == 0);
@@ -60,6 +61,7 @@ int MainMenu::activate_current_selection()
             return ActivationResult::Quit;
         default:
             assert(false);
+            return -1;
         }
     }
 }

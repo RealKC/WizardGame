@@ -2,7 +2,7 @@
 
 #include "Size.h"
 #include "Vec2.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 namespace WizardGame {
 

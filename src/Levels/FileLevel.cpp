@@ -24,6 +24,7 @@ static Attack::Type parse_attack(char ch)
     }
 
     assert(false && "Nu ar trebui sa ajunga aici.");
+    return {};
 }
 
 static int parse_number_from_directive(std::string const& s)
@@ -134,6 +135,7 @@ int FileLevel::next_level() const
     default:
         error() << "Unexpected m_background_id: " << static_cast<int>(m_background_id) << std::endl;
         assert(false);
+        return -1;
     }
 }
 
@@ -245,8 +247,8 @@ void FileLevel::parse_adrian(std::istream& in)
 
     Collider collider { 450, 50, 200, 200 };
     Vec2 target_position;
-    int health;
-    int score;
+    int health = 0;
+    int score = 0;
     int phase = 1;
     std::vector<Enemies::Attack> attacks;
     std::string text;

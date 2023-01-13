@@ -6,8 +6,8 @@
 #include "Levels/TutorialLevel.h"
 #include "UserEvents.h"
 #include "Utils.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
 #include <assert.h>
 #include <iostream>
 

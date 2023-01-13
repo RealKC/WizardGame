@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SDLObjectError.h"
-#include <SDL2/SDL_ttf.h>
+#include <SDL_ttf.h>
 
 namespace WizardGame {
 

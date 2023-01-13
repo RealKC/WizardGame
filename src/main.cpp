@@ -6,7 +6,7 @@
 
 namespace fs = std::filesystem;
 
-int main()
+int main(int, char**)
 {
     // Ensure the "saves/" directory exists so opening files like "saves/level" works...
     fs::create_directory("saves");

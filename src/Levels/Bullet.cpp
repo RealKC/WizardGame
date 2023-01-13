@@ -1,8 +1,9 @@
-#include "Bullet.h"
-#include "../Utils.h"
-
+// Has to be up here so M_PI_2 (pi/2) is defined
 #define _USE_MATH_DEFINES // For constants like M_PI etc
 #include <cmath>
+
+#include "Bullet.h"
+#include "../Utils.h"
 
 namespace WizardGame {
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../TextRenderer.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 namespace WizardGame {
 namespace UI {

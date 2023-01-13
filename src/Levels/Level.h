@@ -8,7 +8,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Player.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <memory>
 #include <vector>
 
