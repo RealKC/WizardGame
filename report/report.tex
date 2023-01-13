@@ -1,7 +1,12 @@
 \documentclass{article}
 
 \usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage[utf8]{inputenc}
+\usepackage{subcaption}
+
+\graphicspath{{./images/}}
 
 \title{\textbf{WizardGame}}
 \author{
@@ -13,10 +18,30 @@
 \begin{document}
     \maketitle
 
-    baga niste imagini jmek aici cand arata bine jocul
+    \begin{figure}[h]
+        \begin{subfigure}{0.5\linewidth}
+            \includegraphics[width=\linewidth]{main-menu}
+            \caption{The main menu}
+        \end{subfigure}
+        \begin{subfigure}{0.5\linewidth}
+            \includegraphics[width=\linewidth]{level}
+            \caption{Fighting Adrian}
+        \end{subfigure}
+    \end{figure}
+
+    The source code of the game can be found at \url{https://github.com/RealKC/WizardGame}.
 
     \section{Gameplay}
-    Aici pun gameplayul
+
+    The game consists of a single player campaign composed of a tutorial and 3 levels of increasing
+    difficulty in which the player must kill various enemies in order to win the game.
+
+    The gameplay consists of the player shooting projectiles at (mostly stationary) enemies and having
+    to dodge the projectiles shot by the enemies. Enemies can shoot projectiles in various patterns
+    (one at a time, three at once, semicircle, and a special star shaped attack for the boss), however
+    the player is limited to a simple one at a time attack pattern, but can do so at an increased rate
+    compared to enemies. Though simple, this gameplay can have a high skill ceiling, as demonstrated
+    by other games in this genre.
 
     \section{Plot}
 
@@ -39,5 +64,14 @@
     \end{itemize}
 
     \section{Mechanics}
-    pew pew
+    \begin{itemize}
+        \item \emph{Lives} --- the player has a limited number of lives (5), which are decreased when
+        the player is hit by a projectile; once it reaches zero, the player loses all progress in the
+        current level and must try again.
+        \item \emph{Score} --- the game tracks your score as you kill enemies, but halves it for every
+        recorded death.
+        \item \emph{Waves} --- each level is split in multiple waves, a wave contains enemies that must
+        be defeated in order to progress, and you must beat all waves of a level to progress further in
+        the game.
+    \end{itemize}
 \end{document}
