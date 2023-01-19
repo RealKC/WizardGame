@@ -1,171 +1,171 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\main.cpp">
+    <ClCompile Include="$(ProjectDir)\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Vec2.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Vec2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Game.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Utils.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Save.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Save.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\Entity.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\Player.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\KeyboardState.cpp">
+    <ClCompile Include="$(ProjectDir)\src\KeyboardState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\Collider.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\Bullet.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\Enemy.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\Enemies\Basic.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\Enemies\Basic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\Enemies\Adrian.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\Enemies\Adrian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\Level.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\FileLevel.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\FileLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Levels\TutorialLevel.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Levels\TutorialLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\SpriteManager.cpp">
+    <ClCompile Include="$(ProjectDir)\src\SpriteManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\TextRenderer.cpp">
+    <ClCompile Include="$(ProjectDir)\src\TextRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\UI\Menu.cpp">
+    <ClCompile Include="$(ProjectDir)\src\UI\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\UI\MainMenu.cpp">
+    <ClCompile Include="$(ProjectDir)\src\UI\MainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\UI\AbstractLevelMenu.cpp">
+    <ClCompile Include="$(ProjectDir)\src\UI\AbstractLevelMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\UI\LevelCompletedMenu.cpp">
+    <ClCompile Include="$(ProjectDir)\src\UI\LevelCompletedMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Exceptions\Exception.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Exceptions\Exception.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mihal\WizardGame\src\Exceptions\TTFObjectError.cpp">
+    <ClCompile Include="$(ProjectDir)\src\Exceptions\TTFObjectError.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\GenericTypes.h">
+    <ClInclude Include="$(ProjectDir)\src\GenericTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Size.h">
+    <ClInclude Include="$(ProjectDir)\src\Size.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Vec2.h">
+    <ClInclude Include="$(ProjectDir)\src\Vec2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Game.h">
+    <ClInclude Include="$(ProjectDir)\src\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Utils.h">
+    <ClInclude Include="$(ProjectDir)\src\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Save.h">
+    <ClInclude Include="$(ProjectDir)\src\Save.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\Entity.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\Player.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\KeyboardState.h">
+    <ClInclude Include="$(ProjectDir)\src\KeyboardState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\Collider.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\Collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\Bullet.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\Bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\Enemy.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\Enemies\Basic.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\Enemies\Basic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\Enemies\Adrian.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\Enemies\Adrian.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\Enemies\Attack.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\Enemies\Attack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\Level.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\FileLevel.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\FileLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Levels\TutorialLevel.h">
+    <ClInclude Include="$(ProjectDir)\src\Levels\TutorialLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\SpriteManager.h">
+    <ClInclude Include="$(ProjectDir)\src\SpriteManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\TextRenderer.h">
+    <ClInclude Include="$(ProjectDir)\src\TextRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\UI\Menu.h">
+    <ClInclude Include="$(ProjectDir)\src\UI\Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\UI\MainMenu.h">
+    <ClInclude Include="$(ProjectDir)\src\UI\MainMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\UI\AbstractLevelMenu.h">
+    <ClInclude Include="$(ProjectDir)\src\UI\AbstractLevelMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\UI\PauseMenu.h">
+    <ClInclude Include="$(ProjectDir)\src\UI\PauseMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\UI\GameOverMenu.h">
+    <ClInclude Include="$(ProjectDir)\src\UI\GameOverMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\UI\LevelCompletedMenu.h">
+    <ClInclude Include="$(ProjectDir)\src\UI\LevelCompletedMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Exceptions\Exception.h">
+    <ClInclude Include="$(ProjectDir)\src\Exceptions\Exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Exceptions\InitError.h">
+    <ClInclude Include="$(ProjectDir)\src\Exceptions\InitError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Exceptions\SDLObjectError.h">
+    <ClInclude Include="$(ProjectDir)\src\Exceptions\SDLObjectError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\Exceptions\TTFObjectError.h">
+    <ClInclude Include="$(ProjectDir)\src\Exceptions\TTFObjectError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mihal\WizardGame\src\UserEvents.h">
+    <ClInclude Include="$(ProjectDir)\src\UserEvents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
