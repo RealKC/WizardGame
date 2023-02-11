@@ -5,6 +5,10 @@
 This repository contains source code and assets for WizardGame, my project for
 my university Object Oriented Programming course.
 
+If you wish to easily build this on Windows using Visual Studio, use the 
+[visual-studio](https://github.com/RealKC/WizardGame/tree/visual-studio)
+branch.
+
 ## Licensing
 
 For assets, see the [README](resources/README.md) in the resources folder.
